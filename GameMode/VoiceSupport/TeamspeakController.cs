@@ -78,7 +78,7 @@ namespace GTMPGameMode
         // LipSync
         private void _voiceServer_VoiceClientTalking(long connectionId, bool isTalking)
         {
-
+            
         }
 
         private Client GetPlayerBySessionId(string clientGUID)
@@ -176,7 +176,7 @@ namespace GTMPGameMode
             if (targetId == 0)
                 return;
 
-            if (player.dead)
+            if (player.IsDead())
             {
                 _voiceServer.SendUpdate(targetId, new List<VoiceLocationInformation>());
                 return;

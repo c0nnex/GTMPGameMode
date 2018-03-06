@@ -73,7 +73,7 @@
     <Compile Include="VoiceSupport\TeamspeakController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GT-MP\" />
+    <Folder Include="GT-MP\typescripts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Client\meta.xml" />

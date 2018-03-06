@@ -286,4 +286,5 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
-/GameMode/GT-MP
+/GameMode/GT-MP/GrandTheftMultiplayer.Server.exe
+/GameMode/GT-MP/GrandTheftMultiplayer.Shared.dll
