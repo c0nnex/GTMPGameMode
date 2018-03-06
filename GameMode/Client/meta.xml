@@ -1,0 +1,37 @@
+﻿<meta>
+  <info name="GameMode" description="GameMode" author="c0nnex" version="0.0.1" type="gamemode" async="true"/>
+
+  <!-- Server -->
+  <script src="../../Server.dll" type="server" lang="compiled" />
+
+  <!-- Assembly -->
+
+  <assembly ref="Newtonsoft.Json.dll" />
+  <assembly ref="NLog.dll" />
+  <assembly ref="System.Data.dll" />
+  <assembly ref="System.Xml.dll" />
+
+
+
+  <settings>
+    <!-- Voice Support -->
+    <setting name="voice_server" value="game.cherryrp.de" />
+    <setting name="voice_port" value="4498" />
+    <setting name="voice_secret" value="allemalache" />
+    <setting name="voice_serverguid" value="raArhXj6HPEn8SvZYNlK85qoxl0=" />
+    <setting name="voice_defaultchannel" value="1" />
+    <setting name="voice_ingamechannel" value="115" />
+    <setting name="voice_ingamechannelpassword" value="egal" />
+    <setting name="voice_useridentificationmethod" value="1" />
+    <setting name="voice_clientport" value="4239" />
+    <!-- Minimum Version required-->
+    <setting name="voice_minpluginversion" value="0.2.794.523" />
+    <setting name="enablelipsync" value="false" />
+
+    <!-- OpenWeatherMap -->
+    <setting name="owm_appId" value="" default="" description="Your OpenWeatherMap.org AppId" />
+    <setting name="owm_locationId" value="5368381" default="5368381" description="The LocationId from the OWM documentation. Default is Los Angeles." />
+    <setting name="owm_updateInterval" value="60" default="60" description="How often should the weather be updated in seconds. Free account has max 60 requests per minute. I chose a weird number so the players wont feel the interval that easy. In the price list it says: Weather API data update in less than 2h, so I assume you could set a higher value." />
+    <setting name="owm_units" value="metric" default="metric" description="Set to metric for celsius or imperial for fahrenheit" />
+  </settings>
+</meta>
