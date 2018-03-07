@@ -80,7 +80,10 @@ namespace GTMPGameMode
         {
             var p = GetPlayerByConnectionId(connectionId);
             if (p != null)
-                API.triggerClientEventForAll("LIPSYNC", p, "mp_facial", "mic_chatter");
+            {
+                // No need to check if a player can see the target. The Client-API will take care of it
+                API.triggerClientEventForAll("LIPSYNC", p, "mp_facial", isTalking ? "mic_chatter" : "mic_chatter1");
+            }
         }
 
         private Client GetPlayerBySessionId(string clientGUID)
