@@ -58,13 +58,14 @@ namespace GTMPGameMode.Base
 
         public static int GetCharacterId(this Client player)
         {
-            return player.handle.Value;
+            return player.GetData("PLAYER_ID",player.handle.Value);
         }
 
         public static string GetTeamspeakID(this Client player)
         {
             return player.GetData("PLAYER_TEAMSPEAK_IDENT", "NothingAtAll");
         }
+
         public static ushort GetTeamspeakClientID(this Client player)
         {
             return player.GetData("VOICE_TS_ID", (ushort)0);
@@ -77,7 +78,7 @@ namespace GTMPGameMode.Base
 
         public static string GetCharacterName(this Client player)
         {
-            return player.GetData("PLAYER_CHARCTER_NAME", player.name);
+            return player.GetData("PLAYER_CHARACTER_NAME", player.name);
         }
     }
 }

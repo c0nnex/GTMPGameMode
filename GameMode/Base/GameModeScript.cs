@@ -14,9 +14,9 @@ namespace GTMPGameMode.Base
     /// </summary>
     public abstract class GameModeScript 
     {
-        protected Logger logger;
         protected static Logger sharedLogger = LogManager.GetLogger("GameModeScript");
-        protected static API API => GameMode.sharedAPI;
+        protected Logger logger;
+        protected API API => GameMode.sharedAPI;
 
         static GameModeScript()
         {
