@@ -31,6 +31,7 @@ namespace GTMPGameMode.Base
         /// Override. Replaces API.OnResourceStart
         /// </summary>
         public virtual void OnScriptStart() { }
+
         /// <summary>
         /// Override. Replaces API.OnResourceStop
         /// </summary>

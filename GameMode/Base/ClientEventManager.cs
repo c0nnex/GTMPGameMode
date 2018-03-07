@@ -33,6 +33,7 @@ namespace Server.Base
                 try
                 {
                     handler.Invoke(player, eventName, arguments);
+                    return;
                 }
                 catch (Exception ex)
                 {
