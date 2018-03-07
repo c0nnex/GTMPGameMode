@@ -5,5 +5,9 @@ API.onServerEventTrigger.connect(function (eventName, args) {
         API.voiceEnable(args[0], args[1], args[2], args[3], args[4], args[5]);
         return;
     }
+    if (eventName === "LIPSYNC") {
+        API.playPlayerFacialAnimation(args[0], args[1], args[2]);
+        return;
+    }
 });
 //# sourceMappingURL=clientEvents.js.map

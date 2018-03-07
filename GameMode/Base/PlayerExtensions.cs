@@ -71,6 +71,11 @@ namespace GTMPGameMode.Base
             return player.GetData("VOICE_TS_ID", (ushort)0);
         }
 
+        public static long GetVoiceConnectionID(this Client player)
+        {
+            return player.GetData("VOICE_ID", (long)0);
+        }
+
         public static string GetName(this Client player)
         {
             return player.GetData("PLAYER_TEAMSPEAK_NAME", "");

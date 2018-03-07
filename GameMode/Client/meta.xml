@@ -25,7 +25,6 @@
     <setting name="voice_defaultchannel" value="1" />
     <setting name="voice_ingamechannel" value="115" />
     <setting name="voice_ingamechannelpassword" value="verysecret" />
-    <setting name="voice_useridentificationmethod" value="1" />
     <setting name="voice_clientport" value="4239" />
     <!-- Minimum Version required-->
     <setting name="voice_minpluginversion" value="0.2.794.523" />

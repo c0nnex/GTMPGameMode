@@ -78,7 +78,9 @@ namespace GTMPGameMode
         // LipSync
         private void _voiceServer_VoiceClientTalking(long connectionId, bool isTalking)
         {
-            
+            var p = GetPlayerByConnectionId(connectionId);
+            if (p != null)
+                API.triggerClientEventForAll("LIPSYNC", p, "mp_facial", "mic_chatter");
         }
 
         private Client GetPlayerBySessionId(string clientGUID)
@@ -91,6 +93,10 @@ namespace GTMPGameMode
             return API.getAllPlayers().ToList().FirstOrDefault(p => p.GetTeamspeakID() == teamspeakId);
         }
 
+        private Client GetPlayerByConnectionId(long connectionId)
+        {
+            return API.getAllPlayers().ToList().FirstOrDefault(p => p.GetVoiceConnectionID() == connectionId);
+        }
 
         private void _voiceServer_VoiceClientOutdated(string clientGUID, Version hisVersion, Version ourVersion)
         {
