@@ -78,5 +78,8 @@
   <ItemGroup>
     <Content Include="Client\meta.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Client\clientEvents.ts" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

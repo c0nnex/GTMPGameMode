@@ -288,3 +288,4 @@ __pycache__/
 *.xsd.cs
 /GameMode/GT-MP/GrandTheftMultiplayer.Server.exe
 /GameMode/GT-MP/GrandTheftMultiplayer.Shared.dll
+*.map
