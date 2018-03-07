@@ -4,24 +4,27 @@
   <!-- Server -->
   <script src="../../Server.dll" type="server" lang="compiled" />
 
-  <!-- Assembly -->
-
+  <!-- Assemblies -->
   <assembly ref="Newtonsoft.Json.dll" />
   <assembly ref="NLog.dll" />
   <assembly ref="System.Data.dll" />
   <assembly ref="System.Xml.dll" />
 
-
+  <!-- Client scripts-->
+  <script src="Client/clientEvents.js" type="client" lang="javascript" />
+  <!--- not yet <script src="Client/clientmode.dll" type="client" lang="compiled" /> -->
+  
+  <!-- Client Files -->
 
   <settings>
     <!-- Voice Support -->
     <setting name="voice_server" value="game.cherryrp.de" />
     <setting name="voice_port" value="4498" />
-    <setting name="voice_secret" value="allemalache" />
-    <setting name="voice_serverguid" value="raArhXj6HPEn8SvZYNlK85qoxl0=" />
+    <setting name="voice_secret" value="secret" />
+    <setting name="voice_serverguid" value="GUIDOFVOICESERVER=" />
     <setting name="voice_defaultchannel" value="1" />
     <setting name="voice_ingamechannel" value="115" />
-    <setting name="voice_ingamechannelpassword" value="egal" />
+    <setting name="voice_ingamechannelpassword" value="verysecret" />
     <setting name="voice_useridentificationmethod" value="1" />
     <setting name="voice_clientport" value="4239" />
     <!-- Minimum Version required-->
