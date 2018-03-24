@@ -81,8 +81,15 @@ namespace GTMPGameMode
             var p = GetPlayerByConnectionId(connectionId);
             if (p != null)
             {
-                // No need to check if a player can see the target. The Client-API will take care of it
-                API.triggerClientEventForAll("LIPSYNC", p, "mp_facial", isTalking ? "mic_chatter" : "mic_chatter1");
+                if (!p.IsReady() || p.IsDead())
+                    return;
+                var pPos = p.position;
+                //logger.Debug($"Talking {p.GetCharacterName()} {isTalking}");
+                var pls = API.shared.getAllPlayers().ToList().Where(c => c.IsReady() && c.position.DistanceTo2D(pPos) < 20).ToList();
+                if (isTalking)
+                    pls.ForEach(pt => pt.triggerEvent("LIPSYNC", p, "mp_facial", "mic_chatter", true));
+                else
+                    pls.ForEach(pt => pt.triggerEvent("LIPSYNC", p, "facials@gen_male@variations@normal", "mood_normal_1", true));
             }
         }
 
