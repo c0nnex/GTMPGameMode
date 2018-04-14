@@ -7,7 +7,7 @@ GT-MP Server >= 0.1.798.594 required
 
 Included features:
 
-* GT-MP Voice Support (TS3)
+* GT-MP Voice Support (TS3) (Reference Implementation)
 * Radio/Walkie-Talkie Support
 
 
