@@ -13,6 +13,7 @@ Included features:
 
 Planned features:
 
+* Basic Phone Support (Player to Player)
 * ClientScript / Cef decoupling
 * Cheat detection (teleport hacks / trainers)
 * Data Storage Layer (Json / Database )
