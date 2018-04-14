@@ -114,7 +114,7 @@ namespace GTMPGameMode
             if (p != null && !p.GetData("_VOICE_GOT_VERSION_WARNING", false))
             {
                 p.setData("_VOICE_GOT_VERSION_WARNING", true);
-                p.kick($"VoicePlugin outdated. PLease update to {ourVersion}.");
+                p.kick($"VoicePlugin outdated. Please update to {ourVersion}.");
                 return;
             }
         }
@@ -167,10 +167,10 @@ namespace GTMPGameMode
         {
             var debugVoice = player.GetData("_DEBUG_VOICE", false);
             player.setData("_DEBUG_VOICE", !debugVoice);
-            player.sendNotification("voice", "Debug Voice " + (!debugVoice ? "eingeschaltet" : "ausgeschaltet"));
+            player.sendNotification("voice", "Debug Voice " + (!debugVoice ? "enabled" : "disabled"));
             if (!debugVoice)
             {
-                sharedLogger.Warn($"DEBUGVOICE {player.socialClubName} eingeschaltet");
+                sharedLogger.Warn($"DEBUGVOICE {player.socialClubName} enabled");
             }
             var targetId = player.GetData("VOICE_ID", 0L);
             if (targetId != 0)
