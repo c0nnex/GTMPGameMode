@@ -9,3 +9,11 @@ Included features:
 
 * GT-MP Voice Support (TS3)
 * Radio/Walkie-Talkie Support
+
+
+Planned features:
+
+* ClientScript / Cef decoupling
+* Cheat detection (teleport hacks / trainers)
+* Data Storage Layer (Json / Database )
+* Secondary Voice Supoprt (e.g. Discord / RTC )
