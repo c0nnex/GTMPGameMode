@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static GrandTheftMultiplayer.Server.API.API;
 
-namespace Server.Base
+namespace Server.Managers
 {
     class ClientEventManager : GameModeScript
     {

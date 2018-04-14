@@ -49,6 +49,7 @@ namespace GTMPGameMode
         public static string VoiceIngameChannelPassword = "egal";
         public static Version VoiceServerPluginVersion = new Version(0, 0, 0, 0);
 
+        public static float RadioDistanceMax = 3000.0f;
 
         static GameMode()
         {
@@ -135,6 +136,8 @@ namespace GTMPGameMode
             VoiceServerSecret = API.getSetting<string>("voice_secret");
             VoiceClientPort = API.getSetting<int>("voice_clientport");
             Version.TryParse(API.getSetting<string>("voice_minpluginversion"), out VoiceServerPluginVersion);
+
+            RadioDistanceMax = API.getSetting<float>("radio_max_distance");
 
             OnWorldStartupFirst?.Invoke();
 

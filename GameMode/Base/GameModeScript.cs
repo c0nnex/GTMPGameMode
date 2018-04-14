@@ -44,7 +44,7 @@ namespace GTMPGameMode.Base
         /// </summary>
         public virtual ScriptPriority ScriptStartPosition => ScriptPriority.AFTERINIT;
 
-        public static T GetArg<T>(object[] args, int index, T defaultValue = default(T))
+        public static T GetArg<T>(object[] args, int index, T defaultValue = default)
         {
             if ((args == null) || (index >= args.Length))
                 return defaultValue;
@@ -57,7 +57,7 @@ namespace GTMPGameMode.Base
 
         }
 
-        public static T GetArg<T>(IEnumerable<object> args, int index, T defaultValue = default(T))
+        public static T GetArg<T>(IEnumerable<object> args, int index, T defaultValue = default)
         {
             var tmpList = args.ToList();
             if ((args == null) || (index >= tmpList.Count))

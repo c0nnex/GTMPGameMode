@@ -30,6 +30,7 @@
     <setting name="voice_minpluginversion" value="0.2.794.523" />
     <setting name="enablelipsync" value="false" />
 
+    <setting name="radio_max_distance" value="3000.0" /> <!-- max distance for radio -->
     <!-- OpenWeatherMap -->
     <setting name="owm_appId" value="" default="" description="Your OpenWeatherMap.org AppId" />
     <setting name="owm_locationId" value="5368381" default="5368381" description="The LocationId from the OWM documentation. Default is Los Angeles." />
