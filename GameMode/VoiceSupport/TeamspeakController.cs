@@ -15,8 +15,9 @@ using System.Collections.Concurrent;
 using GTMPGameMode.Base;
 using GTMPVoice;
 using GrandTheftMultiplayer.Shared;
+using CherryRP.Server.Controllers;
 
-namespace GTMPGameMode
+namespace GTMPGameMode.Controllers
 {
     public class TeamspeakController : GameModeScript
     {
@@ -276,6 +277,23 @@ namespace GTMPGameMode
                     var tData = playersIHear.GetOrAdd(callingPlayerName, new VoiceLocationInformation(callingPlayerName, p.GetTeamspeakClientID()));
                     tData.Update(new TSVector(10, 0, 0), 5, true);
                 }
+            }
+
+            // Radio/Walkie Talkie
+            if (player.GetRadioMode() != RadioModes.OFF)
+            {
+                var radioVolume = player.GetData("RADIO_VOLUME", 4);
+                var radioPlayers = RadioController.GetSpeakingPlayersTeamspeak(player, player.GetRadioChannel());
+                radioPlayers.ForEach(fpl =>
+                {
+                    var p = GetPlayerByTeamspeakId(fpl);
+                    if (debugVoice)
+                    {
+                        logger.Debug($"{preface} Radio {p.GetCharacterName()}");
+                    }
+                    var tData = playersIHear.GetOrAdd(fpl, new VoiceLocationInformation(fpl, p.GetTeamspeakClientID()));
+                    tData.Update(new TSVector(10, 0, 0), radioVolume, true);
+                });
             }
 
             if (player.isInVehicle)
