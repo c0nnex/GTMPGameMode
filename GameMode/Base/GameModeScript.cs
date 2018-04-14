@@ -1,4 +1,5 @@
 ﻿using GrandTheftMultiplayer.Server.API;
+using GrandTheftMultiplayer.Server.Elements;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace GTMPGameMode.Base
     /// <summary>
     /// This is a GameMode-Internal script which will be called by the RealScript API.
     /// </summary>
-    public abstract class GameModeScript 
+    public abstract class GameModeScript
     {
         protected static Logger sharedLogger = LogManager.GetLogger("GameModeScript");
         protected Logger logger;
@@ -22,7 +23,7 @@ namespace GTMPGameMode.Base
         {
         }
 
-        public GameModeScript() 
+        public GameModeScript()
         {
             logger = LogManager.GetLogger(this.GetType().FullName);
         }
@@ -43,9 +44,9 @@ namespace GTMPGameMode.Base
         /// </summary>
         public virtual ScriptPriority ScriptStartPosition => ScriptPriority.AFTERINIT;
 
-        public static T GetArg<T>(object[] args, int index , T defaultValue = default(T))
+        public static T GetArg<T>(object[] args, int index, T defaultValue = default(T))
         {
-            if ( (args == null) || (index >= args.Length))
+            if ((args == null) || (index >= args.Length))
                 return defaultValue;
             try
             {
@@ -53,7 +54,7 @@ namespace GTMPGameMode.Base
                 return tmp;
             }
             catch { return defaultValue; }
-            
+
         }
 
         public static T GetArg<T>(IEnumerable<object> args, int index, T defaultValue = default(T))
@@ -67,6 +68,17 @@ namespace GTMPGameMode.Base
                 return tmp;
             }
             catch { return defaultValue; }
+        }
+
+        protected Client FindPlayer(string name)
+        {
+            var allClients = API.getAllPlayers().ToList(); // ToList is important else connecting/disconnecting players will casue an exception
+
+            return allClients.FirstOrDefault(cl => cl.IsReady() && (
+                String.Compare(cl.socialClubName, name, true) == 0 || 
+                String.Compare(cl.name, name, true) == 0 || 
+                String.Compare(cl.GetName(), name, true) == 0 || 
+                String.Compare(cl.GetCharacterName(), name, true) == 0));
         }
     }
 }

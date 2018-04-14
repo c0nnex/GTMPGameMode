@@ -68,6 +68,7 @@
     <Compile Include="Base\PlayerExtensions.cs" />
     <Compile Include="Base\RealScript.cs" />
     <Compile Include="Base\Enums\ScriptPriority.cs" />
+    <Compile Include="Examples\ScriptWithCommands.cs" />
     <Compile Include="GameMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VoiceSupport\TeamspeakController.cs" />

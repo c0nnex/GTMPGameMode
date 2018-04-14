@@ -113,6 +113,17 @@ namespace GTMPGameMode
             }
         }
 
+        private void RegisterScriptCommands(GameModeScript script)
+        {
+            var methods = script.GetType().GetMethods();
+            foreach (var method in methods.Where(ifo => ifo.CustomAttributes.Any(att => att.AttributeType == typeof(CommandAttribute))))
+            {
+                var cmd = method.GetCustomAttribute<CommandAttribute>();
+                API.addResourceChatCommand(method, cmd, script);
+                logger.Info($"RegisterCommand {script.GetType().Name}:{cmd.Alias}/{method.Name}");
+            }
+        }
+
         private void WorldStartup()
         {
             VoiceDefaultChannel = API.getSetting<ulong>("voice_defaultchannel");
@@ -127,8 +138,11 @@ namespace GTMPGameMode
 
             OnWorldStartupFirst?.Invoke();
 
-            // Start all sub Scripts
+            // Start all sub GameModeScript's
             _loadedScripts.OrderBy(lt => lt.ScriptStartPosition).ToList().ForEach(lt => lt.OnScriptStart());
+
+            // Regsiter Commands in GameModeScript's
+            _loadedScripts.OrderBy(lt => lt.ScriptStartPosition).ToList().ForEach(lt => RegisterScriptCommands(lt));
 
             OnWorldStartup?.Invoke();
 
