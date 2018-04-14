@@ -7,6 +7,7 @@
 	}
 
 	class LocalHandle {
+		readonly HandleType: GrandTheftMultiplayer.Client.Models.HandleType;
 		readonly IsNull: boolean;
 		readonly Raw: number;
 		readonly Value: number;
@@ -16,6 +17,14 @@
 		GetHashCode(): number;
 		Properties<T>(): any;
 		ToString(): string;
+	}
+
+	class ScaleformInstructionalButton {
+		Slot: number;
+		Control: number;
+		ControlString: string;
+		Text: string;
+		constructor();
 	}
 
 }

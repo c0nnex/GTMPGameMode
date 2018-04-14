@@ -80,6 +80,13 @@
 		EndInvoke(result: System.IAsyncResult): void;
 	}
 
+	class MenuVisibilityChangedEvent {
+		constructor(object: any, method: any);
+		Invoke(sender: NativeUI.UIMenu, visible: boolean): void;
+		BeginInvoke(sender: NativeUI.UIMenu, visible: boolean, callback: System.AsyncCallback, object: any): System.IAsyncResult;
+		EndInvoke(result: System.IAsyncResult): void;
+	}
+
 	class Sprite {
 		TextureDict: string;
 		constructor(textureDict: string, textureName: string, position: System.Drawing.Point, size: System.Drawing.Size, heading: number, color: System.Drawing.Color);
@@ -125,6 +132,7 @@
 		OnCheckboxChange: IEvent<(sender: NativeUI.UIMenu, checkboxItem: NativeUI.UIMenuCheckboxItem, Checked: boolean) => void>;
 		OnItemSelect: IEvent<(sender: NativeUI.UIMenu, selectedItem: NativeUI.UIMenuItem, index: number) => void>;
 		OnMenuClose: IEvent<(sender: NativeUI.UIMenu) => void>;
+		OnMenuVisibilityChanged: IEvent<(sender: NativeUI.UIMenu, visible: boolean) => void>;
 		OnMenuChange: IEvent<(oldMenu: NativeUI.UIMenu, newMenu: NativeUI.UIMenu, forward: boolean) => void>;
 		constructor(title: string, subtitle: string);
 		constructor(title: string, subtitle: string, offset: System.Drawing.Point);

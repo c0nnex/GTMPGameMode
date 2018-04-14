@@ -266,6 +266,7 @@
 		setBarTimerBarLabelColor(timerBar: NativeUI.BarTimerBar, red: number, green: number, blue: number): void;
 		setTextTimerBarLabelColor(timerBar: NativeUI.TextTimerBar, red: number, green: number, blue: number): void;
 		setTextTimerBarTextColor(timerBar: NativeUI.TextTimerBar, red: number, green: number, blue: number): void;
+		deleteAllTimerBars(): void;
 		getAllLoadedAsiNames(): System.Array<any>;
 		isOpenIVActive(): boolean;
 		isAsiLoaded(asiName: string): boolean;
@@ -385,7 +386,7 @@
 		setCameraDOFFocusDistanceBias(cam: GrandTheftMultiplayer.Client.Javascript.GlobalCamera, focusDistanceBias: number): void;
 		setCameraDOFMaxNearInFocusDistance(cam: GrandTheftMultiplayer.Client.Javascript.GlobalCamera, distance: number): void;
 		setCameraDOFMaxNearInFocusDistanceBlendLevel(cam: GrandTheftMultiplayer.Client.Javascript.GlobalCamera, blendLevel: number): void;
-		createCefBrowser(width: number, height: number, local?: boolean, webSecurityDisabled?: boolean): GrandTheftMultiplayer.Client.GUI.CEF.Browser;
+		createCefBrowser(width: number, height: number, local?: boolean): GrandTheftMultiplayer.Client.GUI.CEF.Browser;
 		destroyCefBrowser(browser: GrandTheftMultiplayer.Client.GUI.CEF.Browser): void;
 		isCefBrowserInitialized(browser: GrandTheftMultiplayer.Client.GUI.CEF.Browser): boolean;
 		waitUntilCefBrowserInit(browser: GrandTheftMultiplayer.Client.GUI.CEF.Browser): void;
@@ -410,6 +411,8 @@
 		clearCefPinning(browser: GrandTheftMultiplayer.Client.GUI.CEF.Browser): void;
 		getBytesSentPerSecond(): number;
 		getBytesReceivedPerSecond(): number;
+		getControlValueNormalized(control: number): number;
+		getDisabledControlValueNormalized(control: number): number;
 		isControlJustPressed(control: number): boolean;
 		isControlPressed(control: number): boolean;
 		isDisabledControlJustReleased(control: number): boolean;
@@ -443,6 +446,9 @@
 		getEntityPosition(entity: GrandTheftMultiplayer.Client.Models.LocalHandle): GrandTheftMultiplayer.Shared.Math.Vector3;
 		setEntityRotation(ent: GrandTheftMultiplayer.Client.Models.LocalHandle, rot: GrandTheftMultiplayer.Shared.Math.Vector3): void;
 		setEntityQuaternion(entity: GrandTheftMultiplayer.Client.Models.LocalHandle, x: number, y: number, z: number, w: number): void;
+		setEntityQuaternion(entity: GrandTheftMultiplayer.Client.Models.LocalHandle, quaternion: GTA.Math.Quaternion): void;
+		playEntityAnimation(entity: GrandTheftMultiplayer.Client.Models.LocalHandle, animDict: string, animName: string, speed: number, loop: boolean, stayInAnim: boolean, delta: number, flags: number): void;
+		stopEntityAnimation(entity: GrandTheftMultiplayer.Client.Models.LocalHandle, animDict: string, animName: string, speed: number): void;
 		getEntityQuaternion(entity: GrandTheftMultiplayer.Client.Models.LocalHandle): GTA.Math.Quaternion;
 		getEntityRotation(entity: GrandTheftMultiplayer.Client.Models.LocalHandle): GrandTheftMultiplayer.Shared.Math.Vector3;
 		getEntityLeftPosition(entity: GrandTheftMultiplayer.Client.Models.LocalHandle): GrandTheftMultiplayer.Shared.Math.Vector3;
@@ -484,7 +490,7 @@
 		isEntityPositionFrozen(entity: GrandTheftMultiplayer.Client.Models.LocalHandle): boolean;
 		isEntityOnScreen(entity: GrandTheftMultiplayer.Client.Models.LocalHandle): boolean;
 		attachEntity(ent1: GrandTheftMultiplayer.Client.Models.LocalHandle, ent2: GrandTheftMultiplayer.Client.Models.LocalHandle, bone: string, positionOffset: GrandTheftMultiplayer.Shared.Math.Vector3, rotationOffset: GrandTheftMultiplayer.Shared.Math.Vector3): void;
-		attachEntityToEntity(ent1: GrandTheftMultiplayer.Client.Models.LocalHandle, ent2: GrandTheftMultiplayer.Client.Models.LocalHandle, bone: string, positionOffset: GrandTheftMultiplayer.Shared.Math.Vector3, rotationOffset: GrandTheftMultiplayer.Shared.Math.Vector3): void;
+		attachEntityToEntity(entity: GrandTheftMultiplayer.Client.Models.LocalHandle, entityTarget: GrandTheftMultiplayer.Client.Models.LocalHandle, bone: string, positionOffset: GrandTheftMultiplayer.Shared.Math.Vector3, rotationOffset: GrandTheftMultiplayer.Shared.Math.Vector3): void;
 		detachEntity(ent: GrandTheftMultiplayer.Client.Models.LocalHandle): void;
 		isEntityAttachedToAnything(ent: GrandTheftMultiplayer.Client.Models.LocalHandle): boolean;
 		isEntityAttachedToEntity(from: GrandTheftMultiplayer.Client.Models.LocalHandle, to: GrandTheftMultiplayer.Client.Models.LocalHandle): boolean;
@@ -753,6 +759,10 @@
 		bindInstructionalButtonToMenuItem(button: NativeUI.InstructionalButton, item: NativeUI.UIMenuItem): void;
 		addInstructionalButtonToMenu(menu: NativeUI.UIMenu, button: NativeUI.InstructionalButton): void;
 		removeInstructionalButtonFromMenu(menu: NativeUI.UIMenu, button: NativeUI.InstructionalButton): void;
+		createMenulessInstructionalButton(slot: number, control: string, text: string): GrandTheftMultiplayer.Client.Models.ScaleformInstructionalButton;
+		createMenulessInstructionalButton(slot: number, control: number, text: string): GrandTheftMultiplayer.Client.Models.ScaleformInstructionalButton;
+		deleteMenulessInstructionalButton(scaleformInstructionalButton: GrandTheftMultiplayer.Client.Models.ScaleformInstructionalButton): void;
+		deleteAllMenulessInstructionalButtons(): void;
 		requestScaleform(scaleformName: string): GTA.Scaleform;
 		renderScaleform(sc: GTA.Scaleform, x: number, y: number, w: number, h: number): void;
 		isNamedRenderTargetRegistered(renderTargetName: string): boolean;
@@ -769,6 +779,10 @@
 		lerpVector(start: GrandTheftMultiplayer.Shared.Math.Vector3, end: GrandTheftMultiplayer.Shared.Math.Vector3, currentTime: number, duration: number): GrandTheftMultiplayer.Shared.Math.Vector3;
 		lerpFloat(start: number, end: number, currentTime: number, duration: number): number;
 		angleBetween(from: GrandTheftMultiplayer.Shared.Math.Vector3, to: GrandTheftMultiplayer.Shared.Math.Vector3): number;
+		rotationToDirection(rotation: GrandTheftMultiplayer.Shared.Math.Vector3): GrandTheftMultiplayer.Shared.Math.Vector3;
+		directionToRotation(direction: GrandTheftMultiplayer.Shared.Math.Vector3): GrandTheftMultiplayer.Shared.Math.Vector3;
+		vectorToQuaternion(vector: GrandTheftMultiplayer.Shared.Math.Vector3): GTA.Math.Quaternion;
+		quaternionToEuler(quaternion: GTA.Math.Quaternion): GrandTheftMultiplayer.Shared.Math.Vector3;
 		loadModel(model: number): void;
 		loadModel(model: number): void;
 		unloadModel(model: number): void;
@@ -924,6 +938,10 @@
 		setPlayerWeaponAnimationOverride(player: GrandTheftMultiplayer.Client.Models.LocalHandle, animStyle: string): void;
 		requestControlOfPlayer(player: GrandTheftMultiplayer.Client.Models.LocalHandle): void;
 		stopControlOfPlayer(player: GrandTheftMultiplayer.Client.Models.LocalHandle): void;
+		getWeaponComponentModel(component: number): number;
+		getWeaponModel(weapon: number): number;
+		getWeaponClipSize(player: GrandTheftMultiplayer.Client.Models.LocalHandle, weapon: number): number;
+		getWeaponDefaultClipSize(weapon: number): number;
 		setPlayerWeaponTint(weapon: number, tint: number): void;
 		getPlayerWeaponTint(weapon: number): number;
 		getWeaponAmmo(weapon: number): number;
@@ -938,6 +956,8 @@
 		removeAllPlayerWeapons(): void;
 		doesPlayerHaveWeapon(weapon: number): boolean;
 		removePlayerWeapon(weapon: number): void;
+		raycastEntity(screenCoord: System.Drawing.PointF, camPos: GrandTheftMultiplayer.Shared.Math.Vector3, camRot: GrandTheftMultiplayer.Shared.Math.Vector3, range?: number): GrandTheftMultiplayer.Client.Models.LocalHandle;
+		raycastEntity(worldPos: GrandTheftMultiplayer.Shared.Math.Vector3, camPos: GrandTheftMultiplayer.Shared.Math.Vector3, range?: number): GrandTheftMultiplayer.Client.Models.LocalHandle;
 		createRaycast(start: GrandTheftMultiplayer.Shared.Math.Vector3, end: GrandTheftMultiplayer.Shared.Math.Vector3, flag: number, ignoreEntity: any, getMaterialHash?: boolean): GrandTheftMultiplayer.Client.Javascript.ScriptContext.Raycast;
 		createRaycastCapsule(source: GrandTheftMultiplayer.Shared.Math.Vector3, target: GrandTheftMultiplayer.Shared.Math.Vector3, radius: number, flag: number, ignoreEntity: any): GrandTheftMultiplayer.Client.Javascript.ScriptContext.Raycast;
 		createRaycastCapsule(source: GrandTheftMultiplayer.Shared.Math.Vector3, direction: GrandTheftMultiplayer.Shared.Math.Vector3, maxDistance: number, radius: number, flag: number, ignoreEntity: any): GrandTheftMultiplayer.Client.Javascript.ScriptContext.Raycast;
@@ -972,9 +992,9 @@
 		screenToWorld(pos: System.Drawing.PointF): GrandTheftMultiplayer.Shared.Math.Vector3;
 		screenToWorldMantainRatio(pos: System.Drawing.PointF): GrandTheftMultiplayer.Shared.Math.Vector3;
 		screenToWorldMaintainRatio(pos: System.Drawing.PointF): GrandTheftMultiplayer.Shared.Math.Vector3;
-		screenToWorld(pos: System.Drawing.PointF, camPos: GrandTheftMultiplayer.Shared.Math.Vector3, camRot: GrandTheftMultiplayer.Shared.Math.Vector3): GrandTheftMultiplayer.Shared.Math.Vector3;
+		screenToWorld(pos: System.Drawing.PointF, camPos: GrandTheftMultiplayer.Shared.Math.Vector3, camRot: GrandTheftMultiplayer.Shared.Math.Vector3, ignoreEntity?: any): GrandTheftMultiplayer.Shared.Math.Vector3;
 		screenToWorldMantainRatio(pos: System.Drawing.PointF, camPos: GrandTheftMultiplayer.Shared.Math.Vector3, camrot: GrandTheftMultiplayer.Shared.Math.Vector3): GrandTheftMultiplayer.Shared.Math.Vector3;
-		screenToWorldMaintainRatio(pos: System.Drawing.PointF, camPos: GrandTheftMultiplayer.Shared.Math.Vector3, camrot: GrandTheftMultiplayer.Shared.Math.Vector3): GrandTheftMultiplayer.Shared.Math.Vector3;
+		screenToWorldMaintainRatio(pos: System.Drawing.PointF, camPos: GrandTheftMultiplayer.Shared.Math.Vector3, camrot: GrandTheftMultiplayer.Shared.Math.Vector3, ignoreEntity?: any): GrandTheftMultiplayer.Shared.Math.Vector3;
 		showMissionPassedMessage(message: string, time?: number): void;
 		showColoredShard(message: string, description: string, textColor: number, bgColor: number, time?: number): void;
 		showOldMessage(message: string, time?: number): void;
@@ -1007,6 +1027,7 @@
 		getAllPeds(): System.Array<any>;
 		getAllMarkers(): System.Array<any>;
 		getAllTextLabels(): System.Array<any>;
+		DumpStreamer(msg: string): number;
 		playPoliceReport(reportName: string): void;
 		setWeather(weather: number): void;
 		getWeather(): number;
@@ -1066,6 +1087,8 @@
 		toggleVehicleFirstPersonCam(enabled: boolean): void;
 		toggleFirstPersonCam(enabled: boolean): void;
 		deleteObject(position: GrandTheftMultiplayer.Shared.Math.Vector3, modelHash: number, radius?: number): void;
+		localHandleToNetHandle(localHandle: GrandTheftMultiplayer.Client.Models.LocalHandle): number;
+		localHandleToNetHandle(gameHandle: number): number;
 		startCoroutine(target: any): void;
 		after(time: number, functionname: string, ..._arguments: any[]): number;
 		every(time: number, functionname: string, ..._arguments: any[]): number;
