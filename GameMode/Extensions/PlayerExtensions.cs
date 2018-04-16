@@ -1,4 +1,5 @@
 ﻿using GrandTheftMultiplayer.Server.Elements;
+using GrandTheftMultiplayer.Shared.Math;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -100,6 +101,31 @@ namespace GTMPGameMode.Base
         public static void Message(this Client player, string msg)
         {
             player.sendNotification("System", msg, false);
+        }
+
+        /// <summary>
+        /// Set/Reset virtual voice-position of player
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="virtualPosition">null = reset</param>
+        public static void SetVoicePosition(this Client player, Vector3 virtualPosition = null)
+        {
+            if (virtualPosition == null)
+                player.resetData("VOICE_POSITION");
+            else
+                player.setData("VOICE_POSITION", virtualPosition);
+        }
+
+        /// <summary>
+        /// Get the Voice Position of this player. Takes into account if he is in an interior that is physically somewhere else.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public static Vector3 GetVoicePosition(this Client player)
+        {
+            if (player.hasData("VOICE_POSITION"))
+                return player.GetData("VOICE_POSITION", new Vector3());
+            return player.position;
         }
         
         #region Radio stuff

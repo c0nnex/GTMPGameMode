@@ -211,7 +211,7 @@ namespace GTMPGameMode.Controllers
             }
 
             // Players near me
-            var inRangePlayers = allPlayers.Where(cl => (cl != player) && (cl.IsReady()) && (playerPos.DistanceTo(cl.position) <= 50) && (cl.dimension == player.dimension)).ToList();
+            var inRangePlayers = allPlayers.Where(cl => (cl != player) && (cl.IsReady()) && (cl.GetVoicePosition().DistanceTo2D(playerPos) <= 50) && (cl.dimension == player.dimension)).ToList();
 
             if (inRangePlayers != null)
             {
