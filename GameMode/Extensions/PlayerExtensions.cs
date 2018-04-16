@@ -127,8 +127,34 @@ namespace GTMPGameMode.Base
                 return player.GetData("VOICE_POSITION", new Vector3());
             return player.position;
         }
-        
+
         #region Radio stuff
+
+        /// <summary>
+        /// Set/Reset virtual radio voice-position of player
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="virtualPosition">null = reset</param>
+        public static void SetRadioVoicePosition(this Client player, Vector3 virtualPosition = null)
+        {
+            if (virtualPosition == null)
+                player.resetData("RADIO_VOICE_POSITION");
+            else
+                player.setData("RADIO_VOICE_POSITION", virtualPosition);
+        }
+
+        /// <summary>
+        /// Get the radio Voice Position of this player. Takes into account if he is in an interior that is physically somewhere else.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public static Vector3 GetRadioVoicePosition(this Client player)
+        {
+            if (player.hasData("RADIO_VOICE_POSITION"))
+                return player.GetData("RADIO_VOICE_POSITION", new Vector3());
+            return player.position;
+        }
+
         public static RadioModes GetRadioMode(this Client player)
         {
             switch (player.GetData("RADIO_MODE", "off"))
