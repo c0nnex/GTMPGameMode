@@ -181,11 +181,12 @@ namespace CherryRP.Server.Controllers
         {
             var channel = GetRadioChannel(frequency);
             var myName = player.GetTeamspeakID();
+            var playerPos = player.GetVoicePosition();
             var rList = new List<string>();
             if (channel != null)
                 channel.Speaking.ForEach(cl =>
                 {
-                    if (channel.IsDigital || (cl.position.DistanceTo2D(player.position) <= GameMode.RadioDistanceMax))
+                    if (channel.IsDigital || (cl.GetVoicePosition().DistanceTo2D(playerPos) <= GameMode.RadioDistanceMax))
                     {
                         var n = cl.GetTeamspeakID();
                         if (!cl.IsDead() && (n != myName))

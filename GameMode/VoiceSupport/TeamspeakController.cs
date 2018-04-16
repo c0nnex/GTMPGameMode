@@ -84,9 +84,9 @@ namespace GTMPGameMode.Controllers
             {
                 if (!p.IsReady() || p.IsDead())
                     return;
-                var pPos = p.position;
+                var pPos = p.GetVoicePosition();
                 //logger.Debug($"Talking {p.GetCharacterName()} {isTalking}");
-                var pls = API.shared.getAllPlayers().ToList().Where(c => c.IsReady() && c.position.DistanceTo2D(pPos) < 20).ToList();
+                var pls = API.shared.getAllPlayers().ToList().Where(c => c.IsReady() && c.GetVoicePosition().DistanceTo2D(pPos) < 20).ToList();
                 if (isTalking)
                     pls.ForEach(pt => pt.triggerEvent("LIPSYNC", p, "mp_facial", "mic_chatter", true));
                 else
@@ -183,7 +183,7 @@ namespace GTMPGameMode.Controllers
 
         public void UpdateTeamspeakForUser(Client player, List<Client> allPlayers)
         {
-            var playerPos = player.position;
+            var playerPos = player.GetVoicePosition();
             var playerRot = player.rotation;
             var rotation = Math.PI / 180 * (playerRot.Z * -1);
             var playerVehicle = player.vehicle;
@@ -207,7 +207,7 @@ namespace GTMPGameMode.Controllers
 
             if (debugVoice)
             {
-                logger.Debug($"{preface} {player.position}");
+                logger.Debug($"{preface} {playerPos}");
             }
 
             // Players near me
@@ -227,7 +227,7 @@ namespace GTMPGameMode.Controllers
                         continue;
                     }
 
-                    var streamedPlayerPos = streamedPlayer.position;
+                    var streamedPlayerPos = streamedPlayer.GetVoicePosition();
                     var distance = playerPos.DistanceTo(streamedPlayerPos);
                     var range = streamedPlayer.GetData<int>("VOICE_RANGE_INT", 5); // VoiceRange of streamed player in meters
                     var volumeModifier = 0f;
@@ -237,9 +237,9 @@ namespace GTMPGameMode.Controllers
                     }
                     if (distance <= range)
                     {
-                        if (Math.Abs(streamedPlayer.position.Z - player.position.Z) > range)
+                        if (Math.Abs(streamedPlayerPos.Z - playerPos.Z) > range)
                         {
-                            logger.Debug($"{preface} drop {streamedPlayer.GetCharacterName()} ZRange {Math.Abs(streamedPlayer.position.Z - player.position.Z)} Speakrange {range} dist {distance}");
+                            logger.Debug($"{preface} drop {streamedPlayer.GetCharacterName()} ZRange {Math.Abs(streamedPlayerPos.Z - playerPos.Z)} Speakrange {range} dist {distance}");
                             continue;
                         }
 
