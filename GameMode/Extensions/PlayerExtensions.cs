@@ -174,13 +174,13 @@ namespace GTMPGameMode.Base
             switch (newMode)
             {
                 case RadioModes.OFF:
-                    player.setData("RADIO_MDOE", "off");
+                    player.setData("RADIO_MODE", "off");
                     break;
                 case RadioModes.LISTENING:
-                    player.setData("RADIO_MDOE", "on");
+                    player.setData("RADIO_MODE", "on");
                     break;
                 case RadioModes.SPEAKING:
-                    player.setData("RADIO_MDOE", "send");
+                    player.setData("RADIO_MODE", "send");
                     break;
                 default:
                     break;
