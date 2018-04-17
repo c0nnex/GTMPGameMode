@@ -20,3 +20,8 @@ Planned features:
 * Data Storage Layer (Json / Database )
 * Secondary Voice Supoprt (e.g. Discord / RTC )
 
+If your server uses this GameMode (or a fork) it would be nice to let me know to list it here ;)
+Servers using this GameMode:
+* CherryRP (www.cherryrp.de)
+* (undisclosed1)
+* (undisclosed2)
