@@ -131,7 +131,7 @@ namespace GTMPGameMode.Controllers
             if (p != null)
             {
                 logger.Debug($"VoiceConnect {p.socialClubName} {teamspeakID} {teamspeakClientID} {connectionId}");
-                _voiceServer.ConfigureClient(connectionId, p.name, p.IsAdmin());
+                _voiceServer.ConfigureClient(connectionId, p.GetData("PLAYER_TEAMSPEAK_NAME", ""), p.IsAdmin());
                 p.setData("VOICE_ID", connectionId);
                 p.setData("VOICE_TS_ID", teamspeakClientID);
                 p.setData("PLAYER_TEAMSPEAK_IDENT", teamspeakID);

@@ -18,17 +18,16 @@
 
   <settings>
     <!-- Voice Support -->
-    <setting name="voice_server" value="game.cherryrp.de" />
-    <setting name="voice_port" value="4498" />
-    <setting name="voice_secret" value="secret" />
-    <setting name="voice_serverguid" value="GUIDOFVOICESERVER=" />
-    <setting name="voice_defaultchannel" value="1" />
-    <setting name="voice_ingamechannel" value="115" />
-    <setting name="voice_ingamechannelpassword" value="verysecret" />
-    <setting name="voice_clientport" value="4239" />
-    <!-- Minimum Version required-->
-    <setting name="voice_minpluginversion" value="0.2.794.523" />
-    <setting name="enablelipsync" value="false" />
+    <setting name="voice_server" value="game.cherryrp.de" /> <!-- Ip/DNs name of your GT-MP Server -->
+    <setting name="voice_port" value="4498" /> <!-- Port the Voice server shall listen on. Must be opened in Firewall for UDP -->
+    <setting name="voice_secret" value="secret" /> <!-- Shared secret key of your voice server -->
+    <setting name="voice_serverguid" value="GUIDOFVOICESERVER=" /> <!-- Guid of your TS3 Server Instance -->
+    <setting name="voice_defaultchannel" value="1" /> <!-- Channel to move players to , if they cannot be moved back to their source channel -->
+    <setting name="voice_ingamechannel" value="115" /> <!-- Channel for ingame voice -->
+    <setting name="voice_ingamechannelpassword" value="verysecret" /> <!-- password for the voice channel -->
+    <setting name="voice_clientport" value="4239" /> <!-- Port the TS3-Plugin will listen on for "connect" broadcasts from GT-MP. (Fixed currently!) -->
+    <setting name="voice_minpluginversion" value="0.2.794.523" /> <!-- Minimum Plugin Version required-->
+    <setting name="enablelipsync" value="false" /> <!-- Enable/disable libsync broadcasts -->
 
     <setting name="radio_max_distance" value="3000.0" /> <!-- max distance for radio -->
     <!-- OpenWeatherMap -->
