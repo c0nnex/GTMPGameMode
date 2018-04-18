@@ -36,16 +36,11 @@ namespace GTMPGameMode.Controllers
         public override void OnScriptStart()
         {
             API.onPlayerDeath += API_onPlayerDeath;
-            API.onPlayerConnected += API_onPlayerConnected;
+            API.onPlayerFinishedDownload += API_onPlayerFinishedDownload;
             API.onPlayerDisconnected += API_onPlayerDisconnected;
         }
 
-        private void API_onPlayerDisconnected(Client player, string reason)
-        {
-            PlayerHears[player.GetCharacterId()] = new Dictionary<string, VoiceLocationInformation>();
-            _voiceServer.SendCommand(player.GetData("VOICE_ID", 0L), "DISCONNECT", "");
-        }
-        private void API_onPlayerConnected(Client player)
+        private void API_onPlayerFinishedDownload(Client player)
         {
             PlayerHears[player.GetCharacterId()] = new Dictionary<string, VoiceLocationInformation>();
             GenerateTeamspeakName(player);
@@ -53,6 +48,11 @@ namespace GTMPGameMode.Controllers
             Connect(player);
         }
 
+        private void API_onPlayerDisconnected(Client player, string reason)
+        {
+            PlayerHears[player.GetCharacterId()] = new Dictionary<string, VoiceLocationInformation>();
+            _voiceServer.SendCommand(player.GetData("VOICE_ID", 0L), "DISCONNECT", "");
+        }
 
         private void API_onPlayerDeath(Client player, NetHandle entityKiller, int weapon)
         {
