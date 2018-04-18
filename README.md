@@ -3,7 +3,8 @@ GT-MP Basic high performance GameMode
 
 This is a baisc GT-MP GameMode that focuses on performance and shows some of the features of the GT-MP Server API.
 
-GT-MP Server >= 0.1.798.594 required
+GT-MP Server >= 0.1.798.594 required  
+Be sure to check out the wiki (https://github.com/c0nnex/GTMPGameMode/wiki)
 
 Included features:
 
@@ -18,3 +19,10 @@ Planned features:
 * Cheat detection (teleport hacks / trainers)
 * Data Storage Layer (Json / Database )
 * Secondary Voice Supoprt (e.g. Discord / RTC )
+
+If your server uses this GameMode (or a fork) it would be nice to let me know to list it here ;)
+
+Servers using this GameMode:
+* CherryRP (www.cherryrp.de)
+* (undisclosed1)
+* (undisclosed2)
