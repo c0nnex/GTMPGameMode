@@ -48,6 +48,7 @@ namespace GTMPGameMode
         public static int VoiceClientPort = 4239;
         public static string VoiceIngameChannelPassword = "egal";
         public static Version VoiceServerPluginVersion = new Version(0, 0, 0, 0);
+        public static bool VoiceEnableLipSync = true;
 
         public static float RadioDistanceMax = 3000.0f;
 
@@ -136,7 +137,7 @@ namespace GTMPGameMode
             VoiceServerSecret = API.getSetting<string>("voice_secret");
             VoiceClientPort = API.getSetting<int>("voice_clientport");
             Version.TryParse(API.getSetting<string>("voice_minpluginversion"), out VoiceServerPluginVersion);
-
+            VoiceEnableLipSync = API.getSetting<bool>("voice_enablelipsync");
             RadioDistanceMax = API.getSetting<float>("radio_max_distance");
 
             OnWorldStartupFirst?.Invoke();

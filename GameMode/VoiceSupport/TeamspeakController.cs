@@ -67,7 +67,7 @@ namespace GTMPGameMode.Controllers
         private void World_OnWorldStartup()
         {
             _voiceServer = new GTMPVoice.Server.VoiceServer(GameMode.VoiceServerPort, GameMode.VoiceServerSecret, GameMode.VoiceServerGUID, GameMode.VoiceServerPluginVersion,
-                GameMode.VoiceDefaultChannel, GameMode.VoiceIngameChannel, GameMode.VoiceIngameChannelPassword, true);
+                GameMode.VoiceDefaultChannel, GameMode.VoiceIngameChannel, GameMode.VoiceIngameChannelPassword, GameMode.VoiceEnableLipSync);
             _voiceServer.VoiceClientConnected += _voiceServer_VoiceClientConnected;
             _voiceServer.VoiceClientDisconnected += _voiceServer_VoiceClientDisconnected;
             _voiceServer.VoiceClientOutdated += _voiceServer_VoiceClientOutdated;

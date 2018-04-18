@@ -5,11 +5,7 @@
   <script src="../../Server.dll" type="server" lang="compiled" />
 
   <!-- Assemblies -->
-  <assembly ref="Newtonsoft.Json.dll" />
-  <assembly ref="NLog.dll" />
-  <assembly ref="System.Data.dll" />
-  <assembly ref="System.Xml.dll" />
-
+  
   <!-- Client scripts-->
   <script src="Client/clientEvents.js" type="client" lang="javascript" />
   <!--- not yet <script src="Client/clientmode.dll" type="client" lang="compiled" /> -->
@@ -27,7 +23,7 @@
     <setting name="voice_ingamechannelpassword" value="verysecret" /> <!-- password for the voice channel -->
     <setting name="voice_clientport" value="4239" /> <!-- Port the TS3-Plugin will listen on for "connect" broadcasts from GT-MP. (Fixed currently!) -->
     <setting name="voice_minpluginversion" value="0.2.794.523" /> <!-- Minimum Plugin Version required-->
-    <setting name="enablelipsync" value="false" /> <!-- Enable/disable libsync broadcasts -->
+    <setting name="voice_enablelipsync" value="true" /> <!-- Enable/disable libsync broadcasts -->
 
     <setting name="radio_max_distance" value="3000.0" /> <!-- max distance for radio -->
     <!-- OpenWeatherMap -->
