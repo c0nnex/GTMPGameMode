@@ -15,9 +15,8 @@ using System.Collections.Concurrent;
 using GTMPGameMode.Base;
 using GTMPVoice;
 using GrandTheftMultiplayer.Shared;
-using CherryRP.Server.Controllers;
 
-namespace GTMPGameMode.Controllers
+namespace GTMPGameMode.VoiceSupport
 {
     public class TeamspeakController : GameModeScript
     {

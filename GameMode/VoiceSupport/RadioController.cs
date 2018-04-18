@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CherryRP.Server.Controllers
+namespace GTMPGameMode.VoiceSupport
 {
     public class RadioController : GameModeScript
     {
@@ -22,10 +22,10 @@ namespace CherryRP.Server.Controllers
         public RadioController()
         {
 
-            ClientEventManager.RegisterClientEvent("PIPE", OnRadioSpeakingKey);
-            ClientEventManager.RegisterClientEvent("PAGEDOWN", OnRadioToggleSpeaking);
-            ClientEventManager.RegisterClientEvent("PAGEUP", OnRadioMute);
-            ClientEventManager.RegisterClientEvent("END", OnRadioNextChannel);
+            ClientEventManager.RegisterClientEvent("RADIO_PTT", OnRadioSpeakingKey);
+            ClientEventManager.RegisterClientEvent("RADIO_TOGGLE_SPEAK", OnRadioToggleSpeaking);
+            ClientEventManager.RegisterClientEvent("RADIO_MUTE", OnRadioMute);
+            ClientEventManager.RegisterClientEvent("RADIO_NEXT", OnRadioNextChannel);
 
             API.onPlayerDisconnected += API_onPlayerDisconnected;
         }
