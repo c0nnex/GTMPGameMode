@@ -171,11 +171,11 @@ namespace VoiceSupport
             var playerRot = player.rotation;
             var rotation = Math.PI / 180 * (playerRot.Z * -1);
             var playerVehicle = player.vehicle;
-            var targetId = player.getData("VOICE_ID");
             var cId = player.handle.Value;
 
-            if (targetId == 0)
+            if (!player.hasData("VOICE_ID"))
                 return;
+            var targetId = player.getData("VOICE_ID");
 
             var playersIHear = new Dictionary<string, VoiceLocationInformation>();
 
@@ -246,7 +246,7 @@ namespace VoiceSupport
 
             PlayerHears[player.handle.Value] = playersIHear;
 
-            _voiceServer.SendUpdate(targetId, playersIHear.Values);
+            _voiceServer.SendUpdate(targetId, playersIHear.Count > 0 ? playersIHear.Values.ToList() : new List<VoiceLocationInformation>() );
         }
 
 

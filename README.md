@@ -1,3 +1,5 @@
+Note: **GTMP Voice currently only supports 64-Bit TS3 Clients!**
+
 # GTMPGameMode
 GT-MP Basic high performance GameMode
 
@@ -26,3 +28,7 @@ Servers using this GameMode:
 * CherryRP (www.cherryrp.de)
 * (undisclosed1)
 * (undisclosed2)
+
+# PureVoice
+
+A standalone resource just with the voice stuff, that can be instantly added to your GT-MP Server
