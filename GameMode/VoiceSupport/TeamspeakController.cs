@@ -71,6 +71,8 @@ namespace GTMPGameMode.VoiceSupport
             _voiceServer.VoiceClientDisconnected += _voiceServer_VoiceClientDisconnected;
             _voiceServer.VoiceClientOutdated += _voiceServer_VoiceClientOutdated;
             _voiceServer.VoiceClientTalking += _voiceServer_VoiceClientTalking;
+            _voiceServer.VoiceClientMicrophoneStatusChanged += _voiceServer_VoiceClientMicrophoneStatusChanged;
+            _voiceServer.VoiceClientSpeakersStatusChanged += _voiceServer_VoiceClientSpeakersStatusChanged;
             teamspeakTimer = API.delay(200, false, () => UpdateTeamspeak());
 
         }
@@ -124,14 +126,33 @@ namespace GTMPGameMode.VoiceSupport
 
         }
 
-        private void _voiceServer_VoiceClientConnected(string clientGUID, string teamspeakID, ushort teamspeakClientID, long connectionId)
+
+        private void _voiceServer_VoiceClientSpeakersStatusChanged(long connectionId, bool isMuted)
+        {
+            var p = GetPlayerByConnectionId(connectionId);
+            if (p != null)
+            {
+                logger.Debug($"{p.GetCharacterName()} Speakers muted {isMuted}");
+            }
+        }
+
+        private void _voiceServer_VoiceClientMicrophoneStatusChanged(long connectionId, bool isMuted)
+        {
+            var p = GetPlayerByConnectionId(connectionId);
+            if (p != null)
+            {
+                logger.Debug($"{p.GetCharacterName()} Mic muted {isMuted}");
+            }
+        }
+
+        private void _voiceServer_VoiceClientConnected(string clientGUID, string teamspeakID, ushort teamspeakClientID, long connectionID, string clientName, bool micMuted, bool speakersMuted)
         {
             var p = GetPlayerBySessionId(clientGUID);
             if (p != null)
             {
-                logger.Debug($"VoiceConnect {p.socialClubName} {teamspeakID} {teamspeakClientID} {connectionId}");
-                _voiceServer.ConfigureClient(connectionId, p.GetData("PLAYER_TEAMSPEAK_NAME", ""), p.IsAdmin());
-                p.setData("VOICE_ID", connectionId);
+                logger.Debug($"VoiceConnect {p.socialClubName} {teamspeakID} {teamspeakClientID} {connectionID}");
+                _voiceServer.ConfigureClient(connectionID, p.GetData("PLAYER_TEAMSPEAK_NAME", ""), p.IsAdmin());
+                p.setData("VOICE_ID", connectionID);
                 p.setData("VOICE_TS_ID", teamspeakClientID);
                 p.setData("PLAYER_TEAMSPEAK_IDENT", teamspeakID);
             }

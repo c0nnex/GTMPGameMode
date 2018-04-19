@@ -15,7 +15,6 @@ namespace VoiceSupport
         static Logger logger = LogManager.GetCurrentClassLogger();
         static System.Timers.Timer teamspeakTimer;
         static ConcurrentDictionary<int, Dictionary<string, VoiceLocationInformation>> PlayerHears = new ConcurrentDictionary<int, Dictionary<string, VoiceLocationInformation>>();
-        static HashSet<int> usedIds = new HashSet<int>();
         static GTMPVoice.Server.VoiceServer _voiceServer;
 
         public static string VoiceServerIP = "";
@@ -55,6 +54,9 @@ namespace VoiceSupport
             _voiceServer.VoiceClientConnected += _voiceServer_VoiceClientConnected;
             _voiceServer.VoiceClientDisconnected += _voiceServer_VoiceClientDisconnected;
             _voiceServer.VoiceClientTalking += _voiceServer_VoiceClientTalking;
+            _voiceServer.VoiceClientMicrophoneStatusChanged += _voiceServer_VoiceClientMicrophoneStatusChanged;
+            _voiceServer.VoiceClientSpeakersStatusChanged += _voiceServer_VoiceClientSpeakersStatusChanged;
+
             teamspeakTimer = API.delay(200, false, () => UpdateTeamspeak());
 
             API.onPlayerDeath += API_onPlayerDeath;
@@ -118,14 +120,32 @@ namespace VoiceSupport
 
         }
 
-        private void _voiceServer_VoiceClientConnected(string clientGUID, string teamspeakID, ushort teamspeakClientID, long connectionId)
+        private void _voiceServer_VoiceClientSpeakersStatusChanged(long connectionId, bool isMuted)
+        {
+            var p = GetPlayerByConnectionId(connectionId);
+            if (p != null)
+            {
+                logger.Debug("{0} Speakers muted {1}",p.name,isMuted);
+            }
+        }
+
+        private void _voiceServer_VoiceClientMicrophoneStatusChanged(long connectionId, bool isMuted)
+        {
+            var p = GetPlayerByConnectionId(connectionId);
+            if (p != null)
+            {
+                logger.Debug("{0} Mic muted {1}", p.name, isMuted);
+            }
+        }
+
+        private void _voiceServer_VoiceClientConnected(string clientGUID, string teamspeakID, ushort teamspeakClientID, long connectionID, string clientName, bool micMuted, bool speakersMuted)
         {
             var p = API.getAllPlayers().ToList().FirstOrDefault(c => c.socialClubName == clientGUID);
             if (p != null)
             {
-                logger.Debug("VoiceConnect {0} {1} {2} {3}", p.socialClubName, teamspeakID, teamspeakClientID, connectionId);
-                _voiceServer.ConfigureClient(connectionId, p.name, false);
-                p.setData("VOICE_ID", connectionId);
+                logger.Debug("VoiceConnect {0} {1} {2} {3}", p.socialClubName, teamspeakID, teamspeakClientID, connectionID);
+                _voiceServer.ConfigureClient(connectionID, p.name, false);
+                p.setData("VOICE_ID", connectionID);
                 p.setData("VOICE_TS_ID", teamspeakClientID);
                 p.setData("PLAYER_TEAMSPEAK_IDENT", teamspeakID);
             }
@@ -158,8 +178,6 @@ namespace VoiceSupport
                 return;
 
             var playersIHear = new Dictionary<string, VoiceLocationInformation>();
-            List<string> mutePlayer = new List<string>();
-            var debugVoice = false; //  player.GetData("_DEBUG_VOICE", false);
 
             // Players near me
             var inRangePlayers = allPlayers.Where(cl => (cl != player) && (cl.position.DistanceTo2D(playerPos) <= 50) && (cl.dimension == player.dimension)).ToList();

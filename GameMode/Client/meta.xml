@@ -22,7 +22,7 @@
     <setting name="voice_ingamechannel" value="115" /> <!-- Channel for ingame voice -->
     <setting name="voice_ingamechannelpassword" value="verysecret" /> <!-- password for the voice channel -->
     <setting name="voice_clientport" value="4239" /> <!-- Port the TS3-Plugin will listen on for "connect" broadcasts from GT-MP. (Fixed currently!) -->
-    <setting name="voice_minpluginversion" value="0.2.794.523" /> <!-- Minimum Plugin Version required-->
+    <setting name="voice_minpluginversion" value="0.2.839.519" /> <!-- Minimum Plugin Version required-->
     <setting name="voice_enablelipsync" value="true" /> <!-- Enable/disable libsync broadcasts -->
 
     <setting name="radio_max_distance" value="3000.0" /> <!-- max distance for radio -->
