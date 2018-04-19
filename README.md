@@ -1,3 +1,5 @@
+Note: **GTMP Voice currently only suports 64-Bit TS3 Clients!**
+
 # GTMPGameMode
 GT-MP Basic high performance GameMode
 
