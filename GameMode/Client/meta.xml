@@ -14,8 +14,8 @@
 
   <settings>
     <!-- Voice Support -->
-    <setting name="voice_server" value="game.cherryrp.de" /> <!-- Ip/DNs name of your GT-MP Server -->
-    <setting name="voice_port" value="4498" /> <!-- Port the Voice server shall listen on. Must be opened in Firewall for UDP -->
+    <setting name="voice_server" value="game.cherryrp.de" /> <!-- Ip/DNs name of your GT-MP Server. IPV6 supported -->
+    <setting name="voice_port" value="4498" /> <!-- Port the Voice server shall listen on. Must be opened in Firewall for UDP. This must be diffrent to the GT-MP Server Port! -->
     <setting name="voice_secret" value="secret" /> <!-- Shared secret key of your voice server -->
     <setting name="voice_serverguid" value="GUIDOFVOICESERVER=" /> <!-- Guid of your TS3 Server Instance -->
     <setting name="voice_defaultchannel" value="1" /> <!-- Channel to move players to , if they cannot be moved back to their source channel -->
