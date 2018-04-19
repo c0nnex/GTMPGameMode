@@ -1,4 +1,4 @@
-﻿using GrandTheftMultiplayer.Server.API;
+using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
 using GTMPVoice;
@@ -177,6 +177,8 @@ namespace VoiceSupport
                 return;
             var targetId = player.getData("VOICE_ID");
 
+			var targetId = player.getData("VOICE_ID");
+			
             var playersIHear = new Dictionary<string, VoiceLocationInformation>();
 
             // Players near me
