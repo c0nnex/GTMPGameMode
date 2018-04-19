@@ -15,7 +15,7 @@
 
   <settings>
     <!-- Voice Support -->
-    <setting name="voice_server" value="game.cherryrp.de" />
+    <setting name="voice_server" value="mygtmpserver.ip" />
     <!-- Ip/DNs name of your GT-MP Server -->
     <setting name="voice_port" value="4498" />
     <!-- Port the Voice server shall listen on. Must be opened in Firewall for UDP -->
