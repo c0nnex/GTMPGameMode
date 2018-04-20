@@ -33,7 +33,6 @@ namespace VoiceSupport
         public VoiceController() : base()
         {
             API.onResourceStart += API_onResourceStart;
-
         }
 
         private void API_onResourceStart()
@@ -69,8 +68,6 @@ namespace VoiceSupport
 
         }
 
-        
-
         private void API_onPlayerFinishedDownload(Client player)
         {
             PlayerHears[player.handle.Value] = new Dictionary<string, VoiceLocationInformation>();
@@ -99,9 +96,9 @@ namespace VoiceSupport
 
         private string GetTeamspeakID(Client streamedPlayer)
         {
-            if (!streamedPlayer.hasData("PLAYER_TEAMSPEAK_IDENT"))
+            if (!streamedPlayer.hasData("VOICE_TEAMSPEAK_IDENT"))
                 return String.Empty;
-            return streamedPlayer.getData("PLAYER_TEAMSPEAK_IDENT");
+            return streamedPlayer.getData("VOICE_TEAMSPEAK_IDENT");
         }
 
         private ushort GetTeamspeakClientID(Client streamedPlayer)
@@ -143,9 +140,13 @@ namespace VoiceSupport
             {
                 p.resetData("VOICE_ID");
                 p.resetData("VOICE_TS_ID");
-                p.resetData("PLAYER_TEAMSPEAK_IDENT");
+                p.resetData("VOICE_TEAMSPEAK_IDENT");
                 if (VoiceForceVoice)
                     p.setData("VOICE_TIMEOUT", DateTime.Now.AddMinutes(1));
+#if GTMP_NEWSERVER
+                API.triggerResourceEvent("GTMPVOICE_CLIENT_DISCONNECTED",p);
+#endif
+
             }
         }
 
@@ -155,6 +156,10 @@ namespace VoiceSupport
             if (p != null)
             {
                 logger.Debug("{0} Speakers muted {1}",p.name,isMuted);
+#if GTMP_NEWSERVER
+                API.triggerResourceEvent("GTMPVOICE_CLIENT_SPEAKERSTATUS",p,isMuted);
+#endif
+
             }
         }
 
@@ -164,6 +169,9 @@ namespace VoiceSupport
             if (p != null)
             {
                 logger.Debug("{0} Mic muted {1}", p.name, isMuted);
+#if GTMP_NEWSERVER
+                API.triggerResourceEvent("GTMPVOICE_CLIENT_MICROPHONESTATUS",p,isMuted);
+#endif
             }
         }
 
@@ -176,7 +184,10 @@ namespace VoiceSupport
                 _voiceServer.ConfigureClient(connectionID, p.name, false);
                 p.setData("VOICE_ID", connectionID);
                 p.setData("VOICE_TS_ID", teamspeakClientID);
-                p.setData("PLAYER_TEAMSPEAK_IDENT", teamspeakID);
+                p.setData("VOICE_TEAMSPEAK_IDENT", teamspeakID);
+#if GTMP_NEWSERVER
+                API.triggerResourceEvent("GTMPVOICE_CLIENT_CONNECTED",p,micMuted,speakersMuted);
+#endif
             }
         }
 
@@ -208,6 +219,9 @@ namespace VoiceSupport
             {
                 if (player.hasData("VOICE_TIMEOUT") && (player.getData("VOICE_TIMEOUT") < DateTime.Now))
                 {
+#if GTMP_NEWSERVER
+                   API.triggerResourceEvent("GTMPVOICE_CLIENT_NOVOICE",p);
+#endif
                     player.kick("Please install the TS3 GTMP Voice Plugin");
                 }
                 return;
