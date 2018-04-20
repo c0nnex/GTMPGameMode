@@ -34,6 +34,11 @@
             The Mute-State of the speakers of a client changed
             </summary>
         </member>
+        <member name="E:GTMPVoice.Server.VoiceServer.VoiceClientCommand">
+            <summary>
+            Received a Command from the TS3 plugin
+            </summary>
+        </member>
         <member name="M:GTMPVoice.Server.VoiceServer.#ctor(System.Int32,System.String,System.String,System.Version,System.UInt64,System.UInt64,System.String,System.Boolean)">
             <summary>
             Create a new VoiceServer
