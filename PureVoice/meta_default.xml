@@ -35,6 +35,7 @@
     <!-- Minimum Plugin Version required-->
     <setting name="voice_enablelipsync" value="true" />
     <!-- Enable/disable libsync broadcasts -->
-
+    <setting name="voice_maxrange" value="50.0" />
+    <!-- Maximum Voice distance to hear (for player selection) do not set this too high will impact performance -->
   </settings>
 </meta>

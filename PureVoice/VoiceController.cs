@@ -27,6 +27,7 @@ namespace VoiceSupport
         public static string VoiceIngameChannelPassword = "egal";
         public static Version VoiceServerPluginVersion = new Version(0, 0, 0, 0);
         public static bool VoiceEnableLipSync = true;
+        public static float VoiceMaxRange = 50.0f; 
 
         public VoiceController() : base()
         {
@@ -47,7 +48,7 @@ namespace VoiceSupport
             VoiceClientPort = API.getSetting<int>("voice_clientport");
             Version.TryParse(API.getSetting<string>("voice_minpluginversion"), out VoiceServerPluginVersion);
             VoiceEnableLipSync = API.getSetting<bool>("voice_enablelipsync");
-
+            VoiceMaxRange = API.getSetting<float>("voice_maxrange");
 
             _voiceServer = new GTMPVoice.Server.VoiceServer(VoiceServerPort, VoiceServerSecret, VoiceServerGUID, VoiceServerPluginVersion,
                 VoiceDefaultChannel, VoiceIngameChannel, VoiceIngameChannelPassword, VoiceEnableLipSync);
@@ -182,7 +183,7 @@ namespace VoiceSupport
             var playersIHear = new Dictionary<string, VoiceLocationInformation>();
 
             // Players near me
-            var inRangePlayers = allPlayers.Where(cl => (cl != player) && (cl.position.DistanceTo2D(playerPos) <= 50) && (cl.dimension == player.dimension) && cl.hasData("VOICE_TS_ID")).ToList();
+            var inRangePlayers = allPlayers.Where(cl => (cl != player) && (cl.position.DistanceTo2D(playerPos) <= VoiceMaxRange) && (cl.dimension == player.dimension) && cl.hasData("VOICE_TS_ID")).ToList();
 
             if (inRangePlayers != null)
             {
@@ -196,7 +197,7 @@ namespace VoiceSupport
 
                     var streamedPlayerPos = streamedPlayer.position;
                     var distance = playerPos.DistanceTo(streamedPlayerPos);
-                    var range = 5; // VoiceRange of streamed player in meters
+                    var range = 5; // VoiceRange of streamed player in meters, maybe make this a player-Data?
                     var volumeModifier = 0f;
 
                     if (distance <= range)
