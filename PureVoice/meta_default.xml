@@ -37,5 +37,7 @@
     <!-- Enable/disable libsync broadcasts -->
     <setting name="voice_maxrange" value="50.0" />
     <!-- Maximum Voice distance to hear (for player selection) do not set this too high will impact performance -->
+    <setting name="voice_forcevoice" value="true" />
+    <!-- Enforce using of gtmpvoice -->
   </settings>
 </meta>

@@ -27,7 +27,8 @@ namespace VoiceSupport
         public static string VoiceIngameChannelPassword = "egal";
         public static Version VoiceServerPluginVersion = new Version(0, 0, 0, 0);
         public static bool VoiceEnableLipSync = true;
-        public static float VoiceMaxRange = 50.0f; 
+        public static float VoiceMaxRange = 50.0f;
+        public static bool VoiceForceVoice = true;
 
         public VoiceController() : base()
         {
@@ -49,11 +50,13 @@ namespace VoiceSupport
             Version.TryParse(API.getSetting<string>("voice_minpluginversion"), out VoiceServerPluginVersion);
             VoiceEnableLipSync = API.getSetting<bool>("voice_enablelipsync");
             VoiceMaxRange = API.getSetting<float>("voice_maxrange");
+            VoiceForceVoice = API.getSetting<bool>("voice_forcevoice");
 
             _voiceServer = new GTMPVoice.Server.VoiceServer(VoiceServerPort, VoiceServerSecret, VoiceServerGUID, VoiceServerPluginVersion,
                 VoiceDefaultChannel, VoiceIngameChannel, VoiceIngameChannelPassword, VoiceEnableLipSync);
             _voiceServer.VoiceClientConnected += _voiceServer_VoiceClientConnected;
             _voiceServer.VoiceClientDisconnected += _voiceServer_VoiceClientDisconnected;
+            _voiceServer.VoiceClientOutdated += _voiceServer_VoiceClientOutdated;
             _voiceServer.VoiceClientTalking += _voiceServer_VoiceClientTalking;
             _voiceServer.VoiceClientMicrophoneStatusChanged += _voiceServer_VoiceClientMicrophoneStatusChanged;
             _voiceServer.VoiceClientSpeakersStatusChanged += _voiceServer_VoiceClientSpeakersStatusChanged;
@@ -66,6 +69,8 @@ namespace VoiceSupport
 
         }
 
+        
+
         private void API_onPlayerFinishedDownload(Client player)
         {
             PlayerHears[player.handle.Value] = new Dictionary<string, VoiceLocationInformation>();
@@ -76,6 +81,8 @@ namespace VoiceSupport
         {
             PlayerHears[player.handle.Value] = new Dictionary<string, VoiceLocationInformation>();
             _voiceServer.SendCommand(player.getData("VOICE_ID"), "DISCONNECT", "");
+            player.resetData("VOICE_ID");
+            player.resetData("VOICE_TS_ID");
         }
 
         private void API_onPlayerDeath(Client player, NetHandle entityKiller, int weapon)
@@ -83,6 +90,25 @@ namespace VoiceSupport
             Dictionary<string, VoiceLocationInformation> notused = null;
             PlayerHears.TryRemove(player.handle.Value, out notused);
             _voiceServer.MutePlayer(player.getData("VOICE_ID"), "_ALL_");
+        }
+
+        private Client GetPlayerByConnectionId(long connectionId)
+        {
+            return API.getAllPlayers().ToList().FirstOrDefault(p => p.hasData("VOICE_ID") &&  p.getData("VOICE_ID") == connectionId);
+        }
+
+        private string GetTeamspeakID(Client streamedPlayer)
+        {
+            if (!streamedPlayer.hasData("PLAYER_TEAMSPEAK_IDENT"))
+                return String.Empty;
+            return streamedPlayer.getData("PLAYER_TEAMSPEAK_IDENT");
+        }
+
+        private ushort GetTeamspeakClientID(Client streamedPlayer)
+        {
+            if (!streamedPlayer.hasData("VOICE_TS_ID"))
+                return 0;
+            return streamedPlayer.getData("VOICE_TS_ID");
         }
 
         // LipSync
@@ -101,26 +127,26 @@ namespace VoiceSupport
             }
         }
 
-        private Client GetPlayerByConnectionId(long connectionId)
+        private void _voiceServer_VoiceClientOutdated(string clientGUID, Version hisVersion, Version ourVersion)
         {
-            return API.getAllPlayers().ToList().FirstOrDefault(p => p.getData("VOICE_ID") == connectionId);
-        }
-
-        private string GetTeamspeakID(Client streamedPlayer)
-        {
-            return streamedPlayer.getData("PLAYER_TEAMSPEAK_IDENT");
-        }
-
-        private ushort GetTeamspeakClientID(Client streamedPlayer)
-        {
-            if (!streamedPlayer.hasData("VOICE_TS_ID"))
-                return 0;
-            return streamedPlayer.getData("VOICE_TS_ID");
+            var p = API.getAllPlayers().ToList().FirstOrDefault(c => c.socialClubName == clientGUID);
+            if (p != null)
+            {
+                p.kick("Please update your TS3 GTMP Voice Plugin.");
+            }
         }
 
         private void _voiceServer_VoiceClientDisconnected(long connectionId)
         {
-
+            var p = GetPlayerByConnectionId(connectionId);
+            if (p != null)
+            {
+                p.resetData("VOICE_ID");
+                p.resetData("VOICE_TS_ID");
+                p.resetData("PLAYER_TEAMSPEAK_IDENT");
+                if (VoiceForceVoice)
+                    p.setData("VOICE_TIMEOUT", DateTime.Now.AddMinutes(1));
+            }
         }
 
         private void _voiceServer_VoiceClientSpeakersStatusChanged(long connectionId, bool isMuted)
@@ -159,6 +185,8 @@ namespace VoiceSupport
         public static void Connect(Client player)
         {
             player.triggerEvent("GTMPVOICE", VoiceServerIP, VoiceServerPort, VoiceServerSecret, player.socialClubName, VoiceServerPluginVersion.ToString(), VoiceClientPort);
+            if (VoiceForceVoice)
+                player.setData("VOICE_TIMEOUT", DateTime.Now.AddMinutes(1));
         }
 
         public void UpdateTeamspeak()
@@ -177,7 +205,13 @@ namespace VoiceSupport
             var cId = player.handle.Value;
 
             if (!player.hasData("VOICE_ID"))
+            {
+                if (player.hasData("VOICE_TIMEOUT") && (player.getData("VOICE_TIMEOUT") < DateTime.Now))
+                {
+                    player.kick("Please install the TS3 GTMP Voice Plugin");
+                }
                 return;
+            }
             var targetId = player.getData("VOICE_ID");
 
             var playersIHear = new Dictionary<string, VoiceLocationInformation>();
