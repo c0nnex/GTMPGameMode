@@ -112,6 +112,8 @@ namespace VoiceSupport
 
         private ushort GetTeamspeakClientID(Client streamedPlayer)
         {
+            if (!streamedPlayer.hasData("VOICE_TS_ID"))
+                return 0;
             return streamedPlayer.getData("VOICE_TS_ID");
         }
 
@@ -177,12 +179,10 @@ namespace VoiceSupport
                 return;
             var targetId = player.getData("VOICE_ID");
 
-			var targetId = player.getData("VOICE_ID");
-			
             var playersIHear = new Dictionary<string, VoiceLocationInformation>();
 
             // Players near me
-            var inRangePlayers = allPlayers.Where(cl => (cl != player) && (cl.position.DistanceTo2D(playerPos) <= 50) && (cl.dimension == player.dimension)).ToList();
+            var inRangePlayers = allPlayers.Where(cl => (cl != player) && (cl.position.DistanceTo2D(playerPos) <= 50) && (cl.dimension == player.dimension) && cl.hasData("VOICE_TS_ID")).ToList();
 
             if (inRangePlayers != null)
             {
