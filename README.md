@@ -33,6 +33,7 @@ Servers using this GameMode / PureVoice:
 * CherryRP (www.cherryrp.de)
 * (undisclosed1)
 * (undisclosed2)
-* Civitas RP (civitas-rp.de)
+* Civitas RP (civitas-rp.eu)
 * AdAstra Rp (adastragaming.fr)
+* Nero-Life (nero-gaming.de)
 
