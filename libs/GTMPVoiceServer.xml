@@ -1,0 +1,1156 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GTMPVoiceServer</name>
+    </assembly>
+    <members>
+        <member name="E:GTMPVoice.Server.VoiceServer.VoiceClientConnected">
+            <summary>
+            Event when a new client connected to us
+            </summary>
+        </member>
+        <member name="E:GTMPVoice.Server.VoiceServer.VoiceClientOutdated">
+            <summary>
+            Event when a client with an outdaten plugin version connected
+            </summary>
+        </member>
+        <member name="E:GTMPVoice.Server.VoiceServer.VoiceClientDisconnected">
+            <summary>
+            A client discronnected
+            </summary>
+        </member>
+        <member name="E:GTMPVoice.Server.VoiceServer.VoiceClientTalking">
+            <summary>
+            The "isTalking" State of a client changed (only if LipSync is enabled)
+            </summary>
+        </member>
+        <member name="E:GTMPVoice.Server.VoiceServer.VoiceClientMicrophoneStatusChanged">
+            <summary>
+            The Mute-State of the mircophjone of a client changed
+            </summary>
+        </member>
+        <member name="E:GTMPVoice.Server.VoiceServer.VoiceClientSpeakersStatusChanged">
+            <summary>
+            The Mute-State of the speakers of a client changed
+            </summary>
+        </member>
+        <member name="E:GTMPVoice.Server.VoiceServer.VoiceClientCommand">
+            <summary>
+            Received a Command from the TS3 plugin
+            </summary>
+        </member>
+        <member name="M:GTMPVoice.Server.VoiceServer.#ctor(System.Int32,System.String,System.String,System.Version,System.UInt64,System.UInt64,System.String,System.Boolean)">
+            <summary>
+            Create a new VoiceServer
+            </summary>
+            <param name="port">UDP Port to listen on</param>
+            <param name="secret">Our sharted secret</param>
+            <param name="serverGUID">a unique identifier of the Server (for TS3 the TS3-Server-Instance Identifier)</param>
+            <param name="requiredClientVersion">minimum plugin version required</param>
+            <param name="defaultChannel">a default channel to join if client cannot rejoin previous channel</param>
+            <param name="ingameChannel">the ingame channel id</param>
+            <param name="ingameChannelPassword">(oprion) password for the ingame channel.Leave empty for none</param>
+            <param name="enableLipSync">enable talking-change events fopr lipsync</param>
+        </member>
+        <member name="M:GTMPVoice.Server.VoiceServer.RegisterOutGameChannels(System.UInt64[])">
+            <summary>
+            Register channelids that are allowed to join when being in game (e.g. Support channels)
+            </summary>
+            <param name="channelIds"></param>
+        </member>
+        <member name="M:GTMPVoice.Server.VoiceServer.MutePlayer(System.Int64,System.String)">
+            <summary>
+            Mute a client on anaother client
+            </summary>
+            <param name="targetId">the client where to mute someone</param>
+            <param name="playerName">the name of the player to mute</param>
+        </member>
+        <member name="M:GTMPVoice.Server.VoiceServer.SendUpdate(System.Int64,System.Collections.Generic.IEnumerable{GTMPVoice.VoiceLocationInformation})">
+            <summary>
+            Send a voice update to a client
+            </summary>
+            <param name="targetId">target client</param>
+            <param name="data">new voice data</param>
+        </member>
+        <member name="M:GTMPVoice.Server.VoiceServer.SendUpdate(System.Int64,GTMPVoice.VoiceLocationInformation)">
+            <summary>
+            Send a voice update to a client
+            </summary>
+            <param name="targetId">target client</param>
+            <param name="data">new voice data</param>
+        </member>
+        <member name="M:GTMPVoice.Server.VoiceServer.SendUpdate(System.Int64,System.String,TSVector,System.Single,System.Boolean)">
+            <summary>
+             Send a voice update to a client
+            </summary>
+            <param name="targetId">target client</param>
+            <param name="playerName">affected client</param>
+            <param name="position">3D position</param>
+            <param name="volumeModifier">vol modifier (-10.0 ... +10.0)</param>
+            <param name="positionIsRelative">position is relative to the target client</param>
+        </member>
+        <member name="M:GTMPVoice.Server.VoiceServer.ConfigureClient(System.Int64,System.String,System.Boolean)">
+            <summary>
+            Set client configuration
+            </summary>
+            <param name="targetId">target client</param>
+            <param name="nickName">new nick name</param>
+            <param name="canLeaveIngameChannel">if the client is allowed to leave the ongame channel</param>
+        </member>
+        <member name="M:GTMPVoice.Server.VoiceServer.SendCommand(System.Int64,System.String,System.String)">
+            <summary>
+            Send a voice command to the client
+            </summary>
+            <param name="targetId">target client</param>
+            <param name="command">command</param>
+            <param name="data">optional command data</param>
+        </member>
+        <member name="P:GTMPVoice.VoiceClient.Model.VoicePaketSetup.EnableLipSync">
+            <summary>
+            Send callback to Server when Talkstatus changes?
+            </summary>
+        </member>
+        <member name="P:GTMPVoice.VoiceClient.Model.VoicePaketSetup.AllowedOutGameChannels">
+            <summary>
+            Channels a normal client may be in without being moved back while being In-Game (e.g. Support channels)
+            </summary>
+        </member>
+        <member name="M:GTMPVoice.VoiceClient.VoiceSerializer.RegisterNestedType``1">
+            <summary>
+            Register nested property type
+            </summary>
+            <typeparam name="T">INetSerializable structure</typeparam>
+            <returns>True - if register successful, false - if type already registered</returns>
+        </member>
+        <member name="M:GTMPVoice.VoiceClient.VoiceSerializer.RegisterNestedType``1(System.Func{``0})">
+            <summary>
+            Register nested property type
+            </summary>
+            <typeparam name="T">INetSerializable class</typeparam>
+            <returns>True - if register successful, false - if type already registered</returns>
+        </member>
+        <member name="M:GTMPVoice.VoiceClient.VoiceSerializer.RegisterNestedType``1(System.Action{LiteNetLib.Utils.NetDataWriter,``0},System.Func{LiteNetLib.Utils.NetDataReader,``0})">
+            <summary>
+            Register nested property type
+            </summary>
+            <param name="writeDelegate"></param>
+            <param name="readDelegate"></param>
+            <returns>True - if register successful, false - if type already registered</returns>
+        </member>
+        <member name="M:GTMPVoice.VoiceClient.VoiceSerializer.Register``1">
+            <exception cref="T:LiteNetLib.Utils.InvalidTypeException"><typeparamref name="T"/>'s fields are not supported, or it has no fields</exception>
+        </member>
+        <member name="M:GTMPVoice.VoiceClient.VoiceSerializer.Deserialize``1(LiteNetLib.Utils.NetDataReader)">
+            <summary>
+            Reads packet with known type
+            </summary>
+            <param name="reader">NetDataReader with packet</param>
+            <returns>Returns packet if packet in reader is matched type</returns>
+            <exception cref="T:LiteNetLib.Utils.InvalidTypeException"><typeparamref name="T"/>'s fields are not supported, or it has no fields</exception>
+        </member>
+        <member name="M:GTMPVoice.VoiceClient.VoiceSerializer.Deserialize``1(LiteNetLib.Utils.NetDataReader,``0)">
+            <summary>
+            Reads packet with known type (non alloc variant)
+            </summary>
+            <param name="reader">NetDataReader with packet</param>
+            <param name="target">Deserialization target</param>
+            <returns>Returns true if packet in reader is matched type</returns>
+            <exception cref="T:LiteNetLib.Utils.InvalidTypeException"><typeparamref name="T"/>'s fields are not supported, or it has no fields</exception>
+        </member>
+        <member name="M:GTMPVoice.VoiceClient.VoiceSerializer.Serialize``1(LiteNetLib.Utils.NetDataWriter,``0)">
+            <summary>
+            Serialize struct to NetDataWriter (fast)
+            </summary>
+            <param name="writer">Serialization target NetDataWriter</param>
+            <param name="obj">Object to serialize</param>
+            <exception cref="T:LiteNetLib.Utils.InvalidTypeException"><typeparamref name="T"/>'s fields are not supported, or it has no fields</exception>
+        </member>
+        <member name="M:GTMPVoice.VoiceClient.VoiceSerializer.Serialize``1(``0)">
+            <summary>
+            Serialize struct to byte array
+            </summary>
+            <param name="obj">Object to serialize</param>
+            <returns>byte array with serialized data</returns>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetDataReader.Clone">
+            <summary>
+            Clone NetDataReader without data copy (usable for OnReceive)
+            </summary>
+            <returns>new NetDataReader instance</returns>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetDataWriter.FromBytes(System.Byte[],System.Boolean)">
+            <summary>
+            Creates NetDataWriter from existing ByteArray
+            </summary>
+            <param name="bytes">Source byte array</param>
+            <param name="copy">Copy array to new location or use existing</param>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetDataWriter.FromBytes(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Creates NetDataWriter from existing ByteArray (always copied data)
+            </summary>
+            <param name="bytes">Source byte array</param>
+            <param name="offset">Offset of array</param>
+            <param name="length">Length of array</param>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetPacketProcessor.RegisterNestedType``1">
+            <summary>
+            Register nested property type
+            </summary>
+            <typeparam name="T">INetSerializable structure</typeparam>
+            <returns>True - if register successful, false - if type already registered</returns>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetPacketProcessor.RegisterNestedType``1(System.Action{LiteNetLib.Utils.NetDataWriter,``0},System.Func{LiteNetLib.Utils.NetDataReader,``0})">
+            <summary>
+            Register nested property type
+            </summary>
+            <param name="writeDelegate"></param>
+            <param name="readDelegate"></param>
+            <returns>True - if register successful, false - if type already registered</returns>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetPacketProcessor.RegisterNestedType``1(System.Func{``0})">
+            <summary>
+            Register nested property type
+            </summary>
+            <typeparam name="T">INetSerializable class</typeparam>
+            <returns>True - if register successful, false - if type already registered</returns>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetPacketProcessor.ReadAllPackets(LiteNetLib.Utils.NetDataReader)">
+            <summary>
+            Reads all available data from NetDataReader and calls OnReceive delegates
+            </summary>
+            <param name="reader">NetDataReader with packets data</param>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetPacketProcessor.ReadAllPackets(LiteNetLib.Utils.NetDataReader,System.Object)">
+            <summary>
+            Reads all available data from NetDataReader and calls OnReceive delegates
+            </summary>
+            <param name="reader">NetDataReader with packets data</param>
+            <param name="userData">Argument that passed to OnReceivedEvent</param>
+            <exception cref="T:LiteNetLib.Utils.ParseException">Malformed packet</exception>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetPacketProcessor.ReadPacket(LiteNetLib.Utils.NetDataReader)">
+            <summary>
+            Reads one packet from NetDataReader and calls OnReceive delegate
+            </summary>
+            <param name="reader">NetDataReader with packet</param>
+            <exception cref="T:LiteNetLib.Utils.ParseException">Malformed packet</exception>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetPacketProcessor.ReadPacket(LiteNetLib.Utils.NetDataReader,System.Object)">
+            <summary>
+            Reads one packet from NetDataReader and calls OnReceive delegate
+            </summary>
+            <param name="reader">NetDataReader with packet</param>
+            <param name="userData">Argument that passed to OnReceivedEvent</param>
+            <exception cref="T:LiteNetLib.Utils.ParseException">Malformed packet</exception>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetPacketProcessor.Subscribe``1(System.Action{``0},System.Func{``0})">
+            <summary>
+            Register and subscribe to packet receive event
+            </summary>
+            <param name="onReceive">event that will be called when packet deserialized with ReadPacket method</param>
+            <param name="packetConstructor">Method that constructs packet intead of slow Activator.CreateInstance</param>
+            <exception cref="T:LiteNetLib.Utils.InvalidTypeException"><typeparamref name="T"/>'s fields are not supported, or it has no fields</exception>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetPacketProcessor.Subscribe``2(System.Action{``0,``1},System.Func{``0})">
+            <summary>
+            Register and subscribe to packet receive event (with userData)
+            </summary>
+            <param name="onReceive">event that will be called when packet deserialized with ReadPacket method</param>
+            <param name="packetConstructor">Method that constructs packet intead of slow Activator.CreateInstance</param>
+            <exception cref="T:LiteNetLib.Utils.InvalidTypeException"><typeparamref name="T"/>'s fields are not supported, or it has no fields</exception>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetPacketProcessor.SubscribeReusable``1(System.Action{``0})">
+            <summary>
+            Register and subscribe to packet receive event
+            This metod will overwrite last received packet class on receive (less garbage)
+            </summary>
+            <param name="onReceive">event that will be called when packet deserialized with ReadPacket method</param>
+            <exception cref="T:LiteNetLib.Utils.InvalidTypeException"><typeparamref name="T"/>'s fields are not supported, or it has no fields</exception>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetPacketProcessor.SubscribeReusable``2(System.Action{``0,``1})">
+            <summary>
+            Register and subscribe to packet receive event
+            This metod will overwrite last received packet class on receive (less garbage)
+            </summary>
+            <param name="onReceive">event that will be called when packet deserialized with ReadPacket method</param>
+            <exception cref="T:LiteNetLib.Utils.InvalidTypeException"><typeparamref name="T"/>'s fields are not supported, or it has no fields</exception>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetSerializer.RegisterNestedType``1">
+            <summary>
+            Register nested property type
+            </summary>
+            <typeparam name="T">INetSerializable structure</typeparam>
+            <returns>True - if register successful, false - if type already registered</returns>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetSerializer.RegisterNestedType``1(System.Func{``0})">
+            <summary>
+            Register nested property type
+            </summary>
+            <typeparam name="T">INetSerializable class</typeparam>
+            <returns>True - if register successful, false - if type already registered</returns>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetSerializer.RegisterNestedType``1(System.Action{LiteNetLib.Utils.NetDataWriter,``0},System.Func{LiteNetLib.Utils.NetDataReader,``0})">
+            <summary>
+            Register nested property type
+            </summary>
+            <param name="writeDelegate"></param>
+            <param name="readDelegate"></param>
+            <returns>True - if register successful, false - if type already registered</returns>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetSerializer.Register``1">
+            <exception cref="T:LiteNetLib.Utils.InvalidTypeException"><typeparamref name="T"/>'s fields are not supported, or it has no fields</exception>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetSerializer.Deserialize``1(LiteNetLib.Utils.NetDataReader)">
+            <summary>
+            Reads packet with known type
+            </summary>
+            <param name="reader">NetDataReader with packet</param>
+            <returns>Returns packet if packet in reader is matched type</returns>
+            <exception cref="T:LiteNetLib.Utils.InvalidTypeException"><typeparamref name="T"/>'s fields are not supported, or it has no fields</exception>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetSerializer.Deserialize``1(LiteNetLib.Utils.NetDataReader,``0)">
+            <summary>
+            Reads packet with known type (non alloc variant)
+            </summary>
+            <param name="reader">NetDataReader with packet</param>
+            <param name="target">Deserialization target</param>
+            <returns>Returns true if packet in reader is matched type</returns>
+            <exception cref="T:LiteNetLib.Utils.InvalidTypeException"><typeparamref name="T"/>'s fields are not supported, or it has no fields</exception>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetSerializer.Serialize``1(LiteNetLib.Utils.NetDataWriter,``0)">
+            <summary>
+            Serialize struct to NetDataWriter (fast)
+            </summary>
+            <param name="writer">Serialization target NetDataWriter</param>
+            <param name="obj">Object to serialize</param>
+            <exception cref="T:LiteNetLib.Utils.InvalidTypeException"><typeparamref name="T"/>'s fields are not supported, or it has no fields</exception>
+        </member>
+        <member name="M:LiteNetLib.Utils.NetSerializer.Serialize``1(``0)">
+            <summary>
+            Serialize struct to byte array
+            </summary>
+            <param name="obj">Object to serialize</param>
+            <returns>byte array with serialized data</returns>
+        </member>
+        <member name="T:LiteNetLib.UnconnectedMessageType">
+            <summary>
+            Type of message that you receive in OnNetworkReceiveUnconnected event
+            </summary>
+        </member>
+        <member name="T:LiteNetLib.DisconnectReason">
+            <summary>
+            Disconnect reason that you receive in OnPeerDisconnected event
+            </summary>
+        </member>
+        <member name="T:LiteNetLib.DisconnectInfo">
+            <summary>
+            Additional information about disconnection
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.DisconnectInfo.Reason">
+            <summary>
+            Additional info why peer disconnected
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.DisconnectInfo.SocketErrorCode">
+            <summary>
+            Error code (if reason is SocketSendError or SocketReceiveError)
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.DisconnectInfo.AdditionalData">
+            <summary>
+            Additional data that can be accessed (only if reason is RemoteConnectionClose)
+            </summary>
+        </member>
+        <member name="M:LiteNetLib.ConnectionRequest.Accept">
+            <summary>
+            Accept connection and get new NetPeer as result
+            </summary>
+            <returns>Connected NetPeer</returns>
+        </member>
+        <member name="M:LiteNetLib.INetEventListener.OnPeerConnected(LiteNetLib.NetPeer)">
+            <summary>
+            New remote peer connected to host, or client connected to remote host
+            </summary>
+            <param name="peer">Connected peer object</param>
+        </member>
+        <member name="M:LiteNetLib.INetEventListener.OnPeerDisconnected(LiteNetLib.NetPeer,LiteNetLib.DisconnectInfo)">
+            <summary>
+            Peer disconnected
+            </summary>
+            <param name="peer">disconnected peer</param>
+            <param name="disconnectInfo">additional info about reason, errorCode or data received with disconnect message</param>
+        </member>
+        <member name="M:LiteNetLib.INetEventListener.OnNetworkError(LiteNetLib.NetEndPoint,System.Int32)">
+            <summary>
+            Network error (on send or receive)
+            </summary>
+            <param name="endPoint">From endPoint (can be null)</param>
+            <param name="socketErrorCode">Socket error code</param>
+        </member>
+        <member name="M:LiteNetLib.INetEventListener.OnNetworkReceive(LiteNetLib.NetPeer,LiteNetLib.Utils.NetDataReader,LiteNetLib.DeliveryMethod)">
+            <summary>
+            Received some data
+            </summary>
+            <param name="peer">From peer</param>
+            <param name="reader">DataReader containing all received data</param>
+            <param name="deliveryMethod">Type of received packet</param>
+        </member>
+        <member name="M:LiteNetLib.INetEventListener.OnNetworkReceiveUnconnected(LiteNetLib.NetEndPoint,LiteNetLib.Utils.NetDataReader,LiteNetLib.UnconnectedMessageType)">
+            <summary>
+            Received unconnected message
+            </summary>
+            <param name="remoteEndPoint">From address (IP and Port)</param>
+            <param name="reader">Message data</param>
+            <param name="messageType">Message type (simple, discovery request or responce)</param>
+        </member>
+        <member name="M:LiteNetLib.INetEventListener.OnNetworkLatencyUpdate(LiteNetLib.NetPeer,System.Int32)">
+            <summary>
+            Latency information updated
+            </summary>
+            <param name="peer">Peer with updated latency</param>
+            <param name="latency">latency value in milliseconds</param>
+        </member>
+        <member name="M:LiteNetLib.INetEventListener.OnConnectionRequest(LiteNetLib.ConnectionRequest)">
+            <summary>
+            On peer connection requested
+            </summary>
+            <param name="request">Request information (EndPoint, internal id, additional data)</param>
+        </member>
+        <member name="T:LiteNetLib.NatPunchModule">
+            <summary>
+            Module for UDP NAT Hole punching operations. Can be accessed from NetManager
+            </summary>
+        </member>
+        <member name="T:LiteNetLib.DeliveryMethod">
+            <summary>
+            Sending method type
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.DeliveryMethod.Unreliable">
+            <summary>
+            Unreliable. Packets can be dropped, duplicated or arrive without order
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.DeliveryMethod.ReliableUnordered">
+            <summary>
+            Reliable. All packets will be sent and received, but without order
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.DeliveryMethod.Sequenced">
+            <summary>
+            Unreliable. Packets can be dropped, but never duplicated and arrive in order
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.DeliveryMethod.ReliableOrdered">
+            <summary>
+            Reliable and ordered. All packets will be sent and received in order
+            </summary>
+        </member>
+        <member name="T:LiteNetLib.NetConstants">
+            <summary>
+            Network constants. Can be tuned from sources for your purposes.
+            </summary>
+        </member>
+        <member name="T:LiteNetLib.INetLogger">
+            <summary>
+            Interface to implement for your own logger
+            </summary>
+        </member>
+        <member name="T:LiteNetLib.NetDebug">
+            <summary>
+            Static class for defining your own LiteNetLib logger instead of Console.WriteLine
+            or Debug.Log if compiled with UNITY flag
+            </summary>
+        </member>
+        <member name="T:LiteNetLib.NetEndPoint">
+            <summary>
+            Network End Point. Contains ip address and port
+            </summary>
+        </member>
+        <member name="M:LiteNetLib.NetEndPoint.#ctor(System.String,System.Int32)">
+            <param name="hostStr">A valid host string that can be resolved by DNS or parsed as an IP address</param>
+            <param name="port">Port of the end point</param>
+            <exception cref="T:System.ArgumentException"> <paramref name="hostStr"/> contains an invalid IP address</exception>>
+            <exception cref="T:System.ArgumentOutOfRangeException"> 
+                <paramref name="port"/> is less than IPEndPoint.MinPort or port is greater than IPEndPoint.MaxPort</exception>
+        </member>
+        <member name="T:LiteNetLib.NetManager">
+            <summary>
+            Main class for all network operations. Can be used as client and/or server.
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.UnconnectedMessagesEnabled">
+            <summary>
+            Enable messages receiving without connection. (with SendUnconnectedMessage method)
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.NatPunchEnabled">
+            <summary>
+            Enable nat punch messages
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.UpdateTime">
+            <summary>
+            Library logic update and send period in milliseconds
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.PingInterval">
+            <summary>
+            Interval for latency detection and checking connection
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.DisconnectTimeout">
+            <summary>
+            If NetManager doesn't receive any packet from remote peer during this time then connection will be closed
+            (including library internal keepalive packets)
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.SimulatePacketLoss">
+            <summary>
+            Simulate packet loss by dropping random amout of packets. (Works only in DEBUG mode)
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.SimulateLatency">
+            <summary>
+            Simulate latency by holding packets for random time. (Works only in DEBUG mode)
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.SimulationPacketLossChance">
+            <summary>
+            Chance of packet loss when simulation enabled. value in percents (1 - 100).
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.SimulationMinLatency">
+            <summary>
+            Minimum simulated latency
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.SimulationMaxLatency">
+            <summary>
+            Maximum simulated latency
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.UnsyncedEvents">
+            <summary>
+            Experimental feature. Events automatically will be called without PollEvents method from another thread
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.DiscoveryEnabled">
+            <summary>
+            Allows receive DiscoveryRequests
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.MergeEnabled">
+            <summary>
+            Merge small packets into one before sending to reduce outgoing packets count. (May increase a bit outgoing data size)
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.ReconnectDelay">
+            <summary>
+            Delay betwen initial connection attempts
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.MaxConnectAttempts">
+            <summary>
+            Maximum connection attempts before client stops and call disconnect event.
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.ReuseAddress">
+            <summary>
+            Enables socket option "ReuseAddress" for specific purposes
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.Statistics">
+            <summary>
+            Statistics of all connections
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetManager.NatPunchModule">
+            <summary>
+            NatPunchModule for NAT hole punching operations
+            </summary>
+        </member>
+        <member name="P:LiteNetLib.NetManager.IsRunning">
+            <summary>
+            Returns true if socket listening and update thread is running
+            </summary>
+        </member>
+        <member name="P:LiteNetLib.NetManager.LocalPort">
+            <summary>
+            Local EndPoint (host and port)
+            </summary>
+        </member>
+        <member name="M:LiteNetLib.NetManager.#ctor(LiteNetLib.INetEventListener)">
+            <summary>
+            NetManager constructor with maxConnections = 1 (usable for client)
+            </summary>
+            <param name="listener">Network events listener</param>
+        </member>
+        <member name="M:LiteNetLib.NetManager.#ctor(LiteNetLib.INetEventListener,System.Int32)">
+            <summary>
+            NetManager constructor
+            </summary>
+            <param name="listener">Network events listener</param>
+            <param name="maxConnections">Maximum connections (incoming and outcoming)</param>
+        </member>
+        <member name="M:LiteNetLib.NetManager.SendToAll(LiteNetLib.Utils.NetDataWriter,LiteNetLib.DeliveryMethod)">
+            <summary>
+            Send data to all connected peers
+            </summary>
+            <param name="writer">DataWriter with data</param>
+            <param name="options">Send options (reliable, unreliable, etc.)</param>
+        </member>
+        <member name="M:LiteNetLib.NetManager.SendToAll(System.Byte[],LiteNetLib.DeliveryMethod)">
+            <summary>
+            Send data to all connected peers
+            </summary>
+            <param name="data">Data</param>
+            <param name="options">Send options (reliable, unreliable, etc.)</param>
+        </member>
+        <member name="M:LiteNetLib.NetManager.SendToAll(System.Byte[],System.Int32,System.Int32,LiteNetLib.DeliveryMethod)">
+            <summary>
+            Send data to all connected peers
+            </summary>
+            <param name="data">Data</param>
+            <param name="start">Start of data</param>
+            <param name="length">Length of data</param>
+            <param name="options">Send options (reliable, unreliable, etc.)</param>
+        </member>
+        <member name="M:LiteNetLib.NetManager.SendToAll(LiteNetLib.Utils.NetDataWriter,LiteNetLib.DeliveryMethod,LiteNetLib.NetPeer)">
+            <summary>
+            Send data to all connected peers
+            </summary>
+            <param name="writer">DataWriter with data</param>
+            <param name="options">Send options (reliable, unreliable, etc.)</param>
+            <param name="excludePeer">Excluded peer</param>
+        </member>
+        <member name="M:LiteNetLib.NetManager.SendToAll(System.Byte[],LiteNetLib.DeliveryMethod,LiteNetLib.NetPeer)">
+            <summary>
+            Send data to all connected peers
+            </summary>
+            <param name="data">Data</param>
+            <param name="options">Send options (reliable, unreliable, etc.)</param>
+            <param name="excludePeer">Excluded peer</param>
+        </member>
+        <member name="M:LiteNetLib.NetManager.SendToAll(System.Byte[],System.Int32,System.Int32,LiteNetLib.DeliveryMethod,LiteNetLib.NetPeer)">
+            <summary>
+            Send data to all connected peers
+            </summary>
+            <param name="data">Data</param>
+            <param name="start">Start of data</param>
+            <param name="length">Length of data</param>
+            <param name="options">Send options (reliable, unreliable, etc.)</param>
+            <param name="excludePeer">Excluded peer</param>
+        </member>
+        <member name="M:LiteNetLib.NetManager.Start">
+            <summary>
+            Start logic thread and listening on available port
+            </summary>
+        </member>
+        <member name="M:LiteNetLib.NetManager.Start(System.String,System.String,System.Int32)">
+            <summary>
+            Start logic thread and listening on selected port
+            </summary>
+            <param name="addressIPv4">bind to specific ipv4 address</param>
+            <param name="addressIPv6">bind to specific ipv6 address</param>
+            <param name="port">port to listen</param>
+        </member>
+        <member name="M:LiteNetLib.NetManager.Start(System.Int32)">
+            <summary>
+            Start logic thread and listening on selected port
+            </summary>
+            <param name="port">port to listen</param>
+        </member>
+        <member name="M:LiteNetLib.NetManager.SendUnconnectedMessage(System.Byte[],LiteNetLib.NetEndPoint)">
+            <summary>
+            Send message without connection
+            </summary>
+            <param name="message">Raw data</param>
+            <param name="remoteEndPoint">Packet destination</param>
+            <returns>Operation result</returns>
+        </member>
+        <member name="M:LiteNetLib.NetManager.SendUnconnectedMessage(LiteNetLib.Utils.NetDataWriter,LiteNetLib.NetEndPoint)">
+            <summary>
+            Send message without connection
+            </summary>
+            <param name="writer">Data serializer</param>
+            <param name="remoteEndPoint">Packet destination</param>
+            <returns>Operation result</returns>
+        </member>
+        <member name="M:LiteNetLib.NetManager.SendUnconnectedMessage(System.Byte[],System.Int32,System.Int32,LiteNetLib.NetEndPoint)">
+            <summary>
+            Send message without connection
+            </summary>
+            <param name="message">Raw data</param>
+            <param name="start">data start</param>
+            <param name="length">data length</param>
+            <param name="remoteEndPoint">Packet destination</param>
+            <returns>Operation result</returns>
+        </member>
+        <member name="M:LiteNetLib.NetManager.Flush">
+            <summary>
+            Flush all queued packets of all peers
+            </summary>
+        </member>
+        <member name="M:LiteNetLib.NetManager.PollEvents">
+            <summary>
+            Receive all pending events. Call this in game update code
+            </summary>
+        </member>
+        <member name="M:LiteNetLib.NetManager.Connect(System.String,System.Int32,System.String)">
+            <summary>
+            Connect to remote host
+            </summary>
+            <param name="address">Server IP or hostname</param>
+            <param name="port">Server Port</param>
+            <param name="key">Connection key</param>
+            <returns>Null if connections limit reached, New NetPeer if new connection, Old NetPeer if already connected</returns>
+            <exception cref="T:System.InvalidOperationException">Manager is not running. Call <see cref="M:LiteNetLib.NetManager.Start"/></exception>
+        </member>
+        <member name="M:LiteNetLib.NetManager.Connect(System.String,System.Int32,LiteNetLib.Utils.NetDataWriter)">
+            <summary>
+            Connect to remote host
+            </summary>
+            <param name="address">Server IP or hostname</param>
+            <param name="port">Server Port</param>
+            <param name="connectionData">Additional data for remote peer</param>
+            <returns>Null if connections limit reached, New NetPeer if new connection, Old NetPeer if already connected</returns>
+            <exception cref="T:System.InvalidOperationException">Manager is not running. Call <see cref="M:LiteNetLib.NetManager.Start"/></exception>
+        </member>
+        <member name="M:LiteNetLib.NetManager.Connect(LiteNetLib.NetEndPoint,System.String)">
+            <summary>
+            Connect to remote host
+            </summary>
+            <param name="target">Server end point (ip and port)</param>
+            <param name="key">Connection key</param>
+            <returns>Null if connections limit reached, New NetPeer if new connection, Old NetPeer if already connected</returns>
+            <exception cref="T:System.InvalidOperationException">Manager is not running. Call <see cref="M:LiteNetLib.NetManager.Start"/></exception>
+        </member>
+        <member name="M:LiteNetLib.NetManager.Connect(LiteNetLib.NetEndPoint,LiteNetLib.Utils.NetDataWriter)">
+            <summary>
+            Connect to remote host
+            </summary>
+            <param name="target">Server end point (ip and port)</param>
+            <param name="connectionData">Additional data for remote peer</param>
+            <returns>Null if connections limit reached, New NetPeer if new connection, Old NetPeer if already connected</returns>
+            <exception cref="T:System.InvalidOperationException">Manager is not running. Call <see cref="M:LiteNetLib.NetManager.Start"/></exception>
+        </member>
+        <member name="M:LiteNetLib.NetManager.Stop">
+            <summary>
+            Force closes connection and stop all threads.
+            </summary>
+        </member>
+        <member name="M:LiteNetLib.NetManager.GetFirstPeer">
+            <summary>
+            Get first peer. Usefull for Client mode
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LiteNetLib.NetManager.GetPeers">
+            <summary>
+            Get copy of current connected peers (slow! use GetPeersNonAlloc for best performance)
+            </summary>
+            <returns>Array with connected peers</returns>
+        </member>
+        <member name="M:LiteNetLib.NetManager.GetPeers(LiteNetLib.ConnectionState)">
+            <summary>
+            Get copy of current connected peers (slow! use GetPeersNonAlloc for best performance)
+            </summary>
+            <returns>Array with connected peers</returns>
+        </member>
+        <member name="M:LiteNetLib.NetManager.GetPeersNonAlloc(System.Collections.Generic.List{LiteNetLib.NetPeer},LiteNetLib.ConnectionState)">
+            <summary>
+            Get copy of peers (without allocations)
+            </summary>
+            <param name="peers">List that will contain result</param>
+            <param name="peerState">State of peers</param>
+        </member>
+        <member name="M:LiteNetLib.NetManager.DisconnectPeerForce(LiteNetLib.NetPeer)">
+            <summary>
+            Immediately disconnect peer from server without additional data
+            </summary>
+            <param name="peer">peer to disconnect</param>
+        </member>
+        <member name="M:LiteNetLib.NetManager.DisconnectPeer(LiteNetLib.NetPeer)">
+            <summary>
+            Disconnect peer from server
+            </summary>
+            <param name="peer">peer to disconnect</param>
+        </member>
+        <member name="M:LiteNetLib.NetManager.DisconnectPeer(LiteNetLib.NetPeer,System.Byte[])">
+            <summary>
+            Disconnect peer from server and send additional data (Size must be less or equal MTU - 8)
+            </summary>
+            <param name="peer">peer to disconnect</param>
+            <param name="data">additional data</param>
+        </member>
+        <member name="M:LiteNetLib.NetManager.DisconnectPeer(LiteNetLib.NetPeer,LiteNetLib.Utils.NetDataWriter)">
+            <summary>
+            Disconnect peer from server and send additional data (Size must be less or equal MTU - 8)
+            </summary>
+            <param name="peer">peer to disconnect</param>
+            <param name="writer">additional data</param>
+        </member>
+        <member name="M:LiteNetLib.NetManager.DisconnectPeer(LiteNetLib.NetPeer,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Disconnect peer from server and send additional data (Size must be less or equal MTU - 8)
+            </summary>
+            <param name="peer">peer to disconnect</param>
+            <param name="data">additional data</param>
+            <param name="start">data start</param>
+            <param name="count">data length</param>
+        </member>
+        <member name="T:LiteNetLib.ConnectionState">
+            <summary>
+            Peer connection state
+            </summary>
+        </member>
+        <member name="T:LiteNetLib.NetPeer">
+            <summary>
+            Network peer. Main purpose is sending messages to specific peer.
+            </summary>
+        </member>
+        <member name="P:LiteNetLib.NetPeer.ConnectionState">
+            <summary>
+            Current connection state
+            </summary>
+        </member>
+        <member name="P:LiteNetLib.NetPeer.ConnectId">
+            <summary>
+            Connection id for internal purposes, but can be used as key in your dictionary of peers
+            </summary>
+        </member>
+        <member name="P:LiteNetLib.NetPeer.EndPoint">
+            <summary>
+            Peer ip address and port
+            </summary>
+        </member>
+        <member name="P:LiteNetLib.NetPeer.Ping">
+            <summary>
+            Current ping in milliseconds
+            </summary>
+        </member>
+        <member name="P:LiteNetLib.NetPeer.Mtu">
+            <summary>
+            Current MTU - Maximum Transfer Unit ( maximum udp packet size without fragmentation )
+            </summary>
+        </member>
+        <member name="P:LiteNetLib.NetPeer.TimeSinceLastPacket">
+            <summary>
+            Time since last packet received (including internal library packets)
+            </summary>
+        </member>
+        <member name="P:LiteNetLib.NetPeer.NetManager">
+            <summary>
+            Peer parent NetManager
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetPeer.Tag">
+            <summary>
+            Application defined object containing data about the connection
+            </summary>
+        </member>
+        <member name="F:LiteNetLib.NetPeer.Statistics">
+            <summary>
+            Statistics of peer connection
+            </summary>
+        </member>
+        <member name="M:LiteNetLib.NetPeer.GetMaxSinglePacketSize(LiteNetLib.DeliveryMethod)">
+            <summary>
+            Gets maximum size of packet that will be not fragmented.
+            </summary>
+            <param name="options">Type of packet that you want send</param>
+            <returns>size in bytes</returns>
+        </member>
+        <member name="M:LiteNetLib.NetPeer.Send(System.Byte[],LiteNetLib.DeliveryMethod)">
+            <summary>
+            Send data to peer
+            </summary>
+            <param name="data">Data</param>
+            <param name="options">Send options (reliable, unreliable, etc.)</param>
+            <exception cref="T:LiteNetLib.TooBigPacketException">
+                If size exceeds maximum limit:<para/>
+                MTU - headerSize bytes for Unreliable<para/>
+                Fragment count exceeded ushort.MaxValue<para/>
+            </exception>
+        </member>
+        <member name="M:LiteNetLib.NetPeer.Send(LiteNetLib.Utils.NetDataWriter,LiteNetLib.DeliveryMethod)">
+            <summary>
+            Send data to peer
+            </summary>
+            <param name="dataWriter">DataWriter with data</param>
+            <param name="options">Send options (reliable, unreliable, etc.)</param>
+            <exception cref="T:LiteNetLib.TooBigPacketException">
+                If size exceeds maximum limit:<para/>
+                MTU - headerSize bytes for Unreliable<para/>
+                Fragment count exceeded ushort.MaxValue<para/>
+            </exception>
+        </member>
+        <member name="M:LiteNetLib.NetPeer.Send(System.Byte[],System.Int32,System.Int32,LiteNetLib.DeliveryMethod)">
+            <summary>
+            Send data to peer
+            </summary>
+            <param name="data">Data</param>
+            <param name="start">Start of data</param>
+            <param name="length">Length of data</param>
+            <param name="options">Send options (reliable, unreliable, etc.)</param>
+            <exception cref="T:LiteNetLib.TooBigPacketException">
+                If size exceeds maximum limit:<para/>
+                MTU - headerSize bytes for Unreliable<para/>
+                Fragment count exceeded ushort.MaxValue<para/>
+            </exception>
+        </member>
+        <member name="M:LiteNetLib.NetPeer.Flush">
+            <summary>
+            Flush all queued packets
+            </summary>
+        </member>
+        <member name="T:LiteNetLib.LocalAddrType">
+            <summary>
+            Address type that you want to receive from NetUtils.GetLocalIp method
+            </summary>
+        </member>
+        <member name="T:LiteNetLib.NetUtils">
+            <summary>
+            Some specific network utilities
+            </summary>
+        </member>
+        <member name="M:LiteNetLib.NetUtils.RequestTimeFromNTP(System.String,System.Int32,System.Action{System.Nullable{System.DateTime}})">
+            <summary>
+            Request time from NTP server and calls callback (if success)
+            </summary>
+            <param name="ntpServerAddress">NTP Server address</param>
+            <param name="port">port</param>
+            <param name="onRequestComplete">callback (called from other thread!)</param>
+        </member>
+        <member name="M:LiteNetLib.NetUtils.GetLocalIpList(LiteNetLib.LocalAddrType)">
+            <summary>
+            Get all local ip addresses
+            </summary>
+            <param name="addrType">type of address (IPv4, IPv6 or both)</param>
+            <returns>List with all local ip adresses</returns>
+        </member>
+        <member name="M:LiteNetLib.NetUtils.GetLocalIpList(System.Collections.Generic.List{System.String},LiteNetLib.LocalAddrType)">
+            <summary>
+            Get all local ip addresses (non alloc version)
+            </summary>
+            <param name="targetList">result list</param>
+            <param name="addrType">type of address (IPv4, IPv6 or both)</param>
+        </member>
+        <member name="M:LiteNetLib.NetUtils.GetLocalIp(LiteNetLib.LocalAddrType)">
+            <summary>
+            Get first detected local ip address
+            </summary>
+            <param name="addrType">type of address (IPv4, IPv6 or both)</param>
+            <returns>IP address if available. Else - string.Empty</returns>
+        </member>
+        <member name="T:ConcurrentCollections.ConcurrentHashSet`1">
+            <summary>
+            Represents a thread-safe hash-based unique collection.
+            </summary>
+            <typeparam name="T">The type of the items in the collection.</typeparam>
+            <remarks>
+            All public members of <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/> are thread-safe and may be used
+            concurrently from multiple threads.
+            </remarks>
+        </member>
+        <member name="P:ConcurrentCollections.ConcurrentHashSet`1.Count">
+            <summary>
+            Gets the number of items contained in the <see
+            cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>.
+            </summary>
+            <value>The number of items contained in the <see
+            cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>.</value>
+            <remarks>Count has snapshot semantics and represents the number of items in the <see
+            cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>
+            at the moment when Count was accessed.</remarks>
+        </member>
+        <member name="P:ConcurrentCollections.ConcurrentHashSet`1.IsEmpty">
+            <summary>
+            Gets a value that indicates whether the <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/> is empty.
+            </summary>
+            <value>true if the <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/> is empty; otherwise,
+            false.</value>
+        </member>
+        <member name="M:ConcurrentCollections.ConcurrentHashSet`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see
+            cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>
+            class that is empty, has the default concurrency level, has the default initial capacity, and
+            uses the default comparer for the item type.
+            </summary>
+        </member>
+        <member name="M:ConcurrentCollections.ConcurrentHashSet`1.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see
+            cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>
+            class that is empty, has the specified concurrency level and capacity, and uses the default
+            comparer for the item type.
+            </summary>
+            <param name="concurrencyLevel">The estimated number of threads that will update the
+            <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/> concurrently.</param>
+            <param name="capacity">The initial number of elements that the <see
+            cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>
+            can contain.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="concurrencyLevel"/> is
+            less than 1.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"> <paramref name="capacity"/> is less than
+            0.</exception>
+        </member>
+        <member name="M:ConcurrentCollections.ConcurrentHashSet`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>
+            class that contains elements copied from the specified <see
+            cref="T:System.Collections.IEnumerable{T}"/>, has the default concurrency
+            level, has the default initial capacity, and uses the default comparer for the item type.
+            </summary>
+            <param name="collection">The <see
+            cref="T:System.Collections.IEnumerable{T}"/> whose elements are copied to
+            the new
+            <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="collection"/> is a null reference.</exception>
+        </member>
+        <member name="M:ConcurrentCollections.ConcurrentHashSet`1.#ctor(System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>
+            class that is empty, has the specified concurrency level and capacity, and uses the specified
+            <see cref="T:System.Collections.Generic.IEqualityComparer{T}"/>.
+            </summary>
+            <param name="comparer">The <see cref="T:System.Collections.Generic.IEqualityComparer{T}"/>
+            implementation to use when comparing items.</param>
+        </member>
+        <member name="M:ConcurrentCollections.ConcurrentHashSet`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>
+            class that contains elements copied from the specified <see
+            cref="T:System.Collections.IEnumerable"/>, has the default concurrency level, has the default
+            initial capacity, and uses the specified
+            <see cref="T:System.Collections.Generic.IEqualityComparer{T}"/>.
+            </summary>
+            <param name="collection">The <see
+            cref="T:System.Collections.IEnumerable{T}"/> whose elements are copied to
+            the new
+            <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>.</param>
+            <param name="comparer">The <see cref="T:System.Collections.Generic.IEqualityComparer{T}"/>
+            implementation to use when comparing items.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="collection"/> is a null reference
+            (Nothing in Visual Basic).
+            </exception>
+        </member>
+        <member name="M:ConcurrentCollections.ConcurrentHashSet`1.#ctor(System.Int32,System.Collections.Generic.IEnumerable{`0},System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/> 
+            class that contains elements copied from the specified <see cref="T:System.Collections.IEnumerable"/>, 
+            has the specified concurrency level, has the specified initial capacity, and uses the specified 
+            <see cref="T:System.Collections.Generic.IEqualityComparer{T}"/>.
+            </summary>
+            <param name="concurrencyLevel">The estimated number of threads that will update the 
+            <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/> concurrently.</param>
+            <param name="collection">The <see cref="T:System.Collections.IEnumerable{T}"/> whose elements are copied to the new 
+            <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>.</param>
+            <param name="comparer">The <see cref="T:System.Collections.Generic.IEqualityComparer{T}"/> implementation to use 
+            when comparing items.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="collection"/> is a null reference.
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="concurrencyLevel"/> is less than 1.
+            </exception>
+        </member>
+        <member name="M:ConcurrentCollections.ConcurrentHashSet`1.#ctor(System.Int32,System.Int32,System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>
+            class that is empty, has the specified concurrency level, has the specified initial capacity, and
+            uses the specified <see cref="T:System.Collections.Generic.IEqualityComparer{T}"/>.
+            </summary>
+            <param name="concurrencyLevel">The estimated number of threads that will update the
+            <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/> concurrently.</param>
+            <param name="capacity">The initial number of elements that the <see
+            cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>
+            can contain.</param>
+            <param name="comparer">The <see cref="T:System.Collections.Generic.IEqualityComparer{T}"/>
+            implementation to use when comparing items.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="concurrencyLevel"/> is less than 1. -or-
+            <paramref name="capacity"/> is less than 0.
+            </exception>
+        </member>
+        <member name="M:ConcurrentCollections.ConcurrentHashSet`1.Add(`0)">
+            <summary>
+            Adds the specified item to the <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>.
+            </summary>
+            <param name="item">The item to add.</param>
+            <returns>true if the items was added to the <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>
+            successfully; false if it already exists.</returns>
+            <exception cref="T:System.OverflowException">The <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>
+            contains too many items.</exception>
+        </member>
+        <member name="M:ConcurrentCollections.ConcurrentHashSet`1.Clear">
+            <summary>
+            Removes all items from the <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>.
+            </summary>
+        </member>
+        <member name="M:ConcurrentCollections.ConcurrentHashSet`1.Contains(`0)">
+            <summary>
+            Determines whether the <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/> contains the specified
+            item.
+            </summary>
+            <param name="item">The item to locate in the <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>.</param>
+            <returns>true if the <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/> contains the item; otherwise, false.</returns>
+        </member>
+        <member name="M:ConcurrentCollections.ConcurrentHashSet`1.TryRemove(`0)">
+            <summary>
+            Attempts to remove the item from the <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>.
+            </summary>
+            <param name="item">The item to remove.</param>
+            <returns>true if an item was removed successfully; otherwise, false.</returns>
+        </member>
+        <member name="M:ConcurrentCollections.ConcurrentHashSet`1.GetEnumerator">
+            <summary>Returns an enumerator that iterates through the <see
+            cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>.</summary>
+            <returns>An enumerator for the <see cref="T:ConcurrentCollections.ConcurrentHashSet`1"/>.</returns>
+            <remarks>
+            The enumerator returned from the collection is safe to use concurrently with
+            reads and writes to the collection, however it does not represent a moment-in-time snapshot
+            of the collection.  The contents exposed through the enumerator may contain modifications
+            made to the collection after <see cref="M:ConcurrentCollections.ConcurrentHashSet`1.GetEnumerator"/> was called.
+            </remarks>
+        </member>
+        <member name="T:TSVector">
+            <summary>
+             A vector in 3D space
+            </summary>
+        </member>
+        <member name="F:TSVector.X">
+            <summary>
+            The x-coordinate of this <see cref="!:Vector"/> structure.
+            </summary>
+        </member>
+        <member name="F:TSVector.Y">
+            <summary>
+            The y-coordinate of this <see cref="!:Vector"/> structure.
+            </summary>
+        </member>
+        <member name="F:TSVector.Z">
+            <summary>
+            The z-coordinate of this <see cref="!:Vector"/> structure.
+            </summary>
+        </member>
+        <member name="M:TSVector.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            Initializes a new instance of the <see cref="!:Vector"/> structure. 
+            </summary>
+            <param name="x">The <see cref="F:TSVector.X"/> value</param>
+            <param name="y">The <see cref="F:TSVector.Y"/> value</param>
+            <param name="z">The <see cref="F:TSVector.Z"/> value</param>
+        </member>
+        <member name="M:TSVector.ToString">
+            <summary>
+            Returns a string that represents the current object.
+            </summary>
+            <returns>A string that represents the current object.</returns>
+        </member>
+    </members>
+</doc>

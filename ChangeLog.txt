@@ -1,0 +1,6 @@
+
+
+1.0.1.0
+* Add support for microphone/speaker muting
+* update voice plugin
+

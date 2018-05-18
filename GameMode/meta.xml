@@ -1,0 +1,35 @@
+﻿<meta>
+  <info name="GameMode" description="GameMode" author="c0nnex" version="0.0.2" type="gamemode" async="true"/>
+
+  <!-- Server -->
+  <script src="../Server.dll" type="server" lang="compiled" />
+
+  <!-- Assemblies -->
+  
+  <!-- Client scripts-->
+  <script src="Client/clientEvents.js" type="client" lang="javascript" />
+  <!--- not yet <script src="Client/clientmode.cs" type="client" lang="csharp" /> -->
+  
+  <!-- Client Files -->
+
+  <settings>
+    <!-- Voice Support -->
+    <setting name="voice_server" value="game.cherryrp.de" /> <!-- Ip/DNs name of your GT-MP Server. IPV6 supported -->
+    <setting name="voice_port" value="4498" /> <!-- Port the Voice server shall listen on. Must be opened in Firewall for UDP. This must be diffrent to the GT-MP Server Port! -->
+    <setting name="voice_secret" value="secret" /> <!-- Shared secret key of your voice server -->
+    <setting name="voice_serverguid" value="GUIDOFVOICESERVER=" /> <!-- Guid of your TS3 Server Instance -->
+    <setting name="voice_defaultchannel" value="1" /> <!-- Channel to move players to , if they cannot be moved back to their source channel -->
+    <setting name="voice_ingamechannel" value="115" /> <!-- Channel for ingame voice -->
+    <setting name="voice_ingamechannelpassword" value="verysecret" /> <!-- password for the voice channel -->
+    <setting name="voice_clientport" value="4239" /> <!-- Port the TS3-Plugin will listen on for "connect" broadcasts from GT-MP. (Fixed currently!) -->
+    <setting name="voice_minpluginversion" value="0.2.839.519" /> <!-- Minimum Plugin Version required-->
+    <setting name="voice_enablelipsync" value="true" /> <!-- Enable/disable libsync broadcasts -->
+
+    <setting name="radio_max_distance" value="3000.0" /> <!-- max distance for radio -->
+    <!-- OpenWeatherMap -->
+    <setting name="owm_appId" value="" default="" description="Your OpenWeatherMap.org AppId" />
+    <setting name="owm_locationId" value="5368381" default="5368381" description="The LocationId from the OWM documentation. Default is Los Angeles." />
+    <setting name="owm_updateInterval" value="60" default="60" description="How often should the weather be updated in seconds. Free account has max 60 requests per minute. I chose a weird number so the players wont feel the interval that easy. In the price list it says: Weather API data update in less than 2h, so I assume you could set a higher value." />
+    <setting name="owm_units" value="metric" default="metric" description="Set to metric for celsius or imperial for fahrenheit" />
+  </settings>
+</meta>

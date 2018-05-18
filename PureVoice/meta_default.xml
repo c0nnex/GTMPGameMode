@@ -18,7 +18,7 @@
     <setting name="voice_server" value="mygtmpserver.ip" />
     <!-- Ip/DNs name of your GT-MP Server -->
     <setting name="voice_port" value="4498" />
-    <!-- Port the Voice server shall listen on. Must be opened in Firewall for UDP -->
+    <!-- Port the Voice server shall listen on. Must be opened in Firewall for UDP. This must be diffrent to the GT-MP Server Port! -->
     <setting name="voice_secret" value="secret" />
     <!-- Shared secret key of your voice server -->
     <setting name="voice_serverguid" value="GUIDOFVOICESERVER=" />
@@ -31,10 +31,13 @@
     <!-- password for the voice channel -->
     <setting name="voice_clientport" value="4239" />
     <!-- Port the TS3-Plugin will listen on for "connect" broadcasts from GT-MP. (Fixed currently!) -->
-    <setting name="voice_minpluginversion" value="0.2.794.523" />
+    <setting name="voice_minpluginversion" value="0.2.839.519" />
     <!-- Minimum Plugin Version required-->
     <setting name="voice_enablelipsync" value="true" />
     <!-- Enable/disable libsync broadcasts -->
-
+    <setting name="voice_maxrange" value="50.0" />
+    <!-- Maximum Voice distance to hear (for player selection) do not set this too high will impact performance -->
+    <setting name="voice_forcevoice" value="true" />
+    <!-- Enforce using of gtmpvoice -->
   </settings>
 </meta>
