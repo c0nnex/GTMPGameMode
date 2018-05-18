@@ -1,14 +1,14 @@
 ﻿<meta>
-  <info name="GameMode" description="GameMode" author="c0nnex" version="0.0.1" type="gamemode" async="true"/>
+  <info name="GameMode" description="GameMode" author="c0nnex" version="0.0.2" type="gamemode" async="true"/>
 
   <!-- Server -->
-  <script src="../../Server.dll" type="server" lang="compiled" />
+  <script src="../Server.dll" type="server" lang="compiled" />
 
   <!-- Assemblies -->
   
   <!-- Client scripts-->
   <script src="Client/clientEvents.js" type="client" lang="javascript" />
-  <!--- not yet <script src="Client/clientmode.dll" type="client" lang="compiled" /> -->
+  <!--- not yet <script src="Client/clientmode.cs" type="client" lang="csharp" /> -->
   
   <!-- Client Files -->
 

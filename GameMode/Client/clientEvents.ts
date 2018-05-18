@@ -1,4 +1,4 @@
-﻿/// <reference path="../GT-MP/typescripts/index.d.ts" />
+﻿/// <reference path="../../libs/typescripts/index.d.ts" />
 
 // Allow repeated events when holding down a key?
 var noRepeatCheck = false;
