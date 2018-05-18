@@ -279,7 +279,14 @@ namespace GTMPGameMode.Server.VoiceSupport
                         volumeModifier = Math.Min(10.0f, Math.Max(-10.0f, volumeModifier));
 
                         var tData = playersIHear.GetOrAdd(n, new VoiceLocationInformation(n, streamedPlayer.GetTeamspeakClientID()));
-                        tData.Update(new TSVector((float)(Math.Round(x * 1000) / 1000), (float)(Math.Round(y * 1000) / 1000), 0), (float)(Math.Round(volumeModifier * 1000) / 1000), false);
+
+                        /* Make sure distance and volume modifier is within TS range -10 ... +10 */
+                        var xPos = Math.Max(-10f, Math.Min(10f, (float)(Math.Round(x * 1000) / 1000)));
+                        var yPos = Math.Max(-10f, Math.Min(10f, (float)(Math.Round(y * 1000) / 1000)));
+                        var volMod = Math.Max(-10f, Math.Min(10f, (float)(Math.Round(volumeModifier * 1000) / 1000)));
+
+                        tData.Update(new TSVector(xPos, yPos, 0), volMod, false);
+
                     }
                 }
             }
