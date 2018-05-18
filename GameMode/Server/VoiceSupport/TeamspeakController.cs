@@ -12,11 +12,11 @@ using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Server.Constant;
 using GrandTheftMultiplayer.Shared.Math;
 using System.Collections.Concurrent;
-using GTMPGameMode.Base;
+using GTMPGameMode.Server.Base;
 using GTMPVoice;
 using GrandTheftMultiplayer.Shared;
 
-namespace GTMPGameMode.VoiceSupport
+namespace GTMPGameMode.Server.VoiceSupport
 {
     public class TeamspeakController : GameModeScript
     {

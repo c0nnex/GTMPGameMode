@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GTMPGameMode.Base
+namespace GTMPGameMode.Server.Base
 {
     public static class EntityExtensions
     {

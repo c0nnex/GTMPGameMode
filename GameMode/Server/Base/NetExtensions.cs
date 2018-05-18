@@ -1,6 +1,6 @@
 ﻿using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared.Math;
-using GTMPGameMode.Base;
+using GTMPGameMode.Server.Base;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NLog;

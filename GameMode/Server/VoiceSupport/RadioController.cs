@@ -3,17 +3,17 @@ using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Server.Managers;
 using GTMPGameMode;
-using GTMPGameMode.Base;
+using GTMPGameMode.Server.Base;
 using Newtonsoft.Json;
 using NLog;
-using Server.Managers;
+using GTMPGameMode.Server.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GTMPGameMode.VoiceSupport
+namespace GTMPGameMode.Server.VoiceSupport
 {
     public class RadioController : GameModeScript
     {

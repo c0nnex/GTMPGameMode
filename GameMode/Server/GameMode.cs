@@ -1,14 +1,16 @@
-﻿using GrandTheftMultiplayer.Server.API;
+﻿using GrandTheftMultiplayer.Server;
+using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Server.Managers;
 using GrandTheftMultiplayer.Shared;
 using GrandTheftMultiplayer.Shared.Math;
-using GTMPGameMode.Base;
+using GTMPGameMode.Server.Base;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -16,7 +18,7 @@ using System.Reflection;
 using System.Threading;
 using System.Timers;
 
-namespace GTMPGameMode
+namespace GTMPGameMode.Server
 {
     public delegate void NoArgumentsEventHandler();
 
@@ -69,7 +71,7 @@ namespace GTMPGameMode
             API.onPlayerBeginConnect += API_onPlayerBeginConnect;
         }
 
-        
+
 
         private void API_onResourceStart()
         {
@@ -81,7 +83,7 @@ namespace GTMPGameMode
                 {
                     logger.Info($"Loading class {item.Name}");
                     var o = Activator.CreateInstance(item) as GameModeScript;
-                    if (o!= null)
+                    if (o != null)
                         _loadedScripts.Add(o); // Important. Prevent Garbage collection
                 }
                 if (item.IsSubclassOf(typeof(Script)) && (item != typeof(GameMode)) && !item.IsAbstract)
@@ -126,12 +128,59 @@ namespace GTMPGameMode
             }
         }
 
+        private void RegisterExportedFunctions(GameModeScript script)
+        {
+            var scriptType = script.GetType();
+            if (!scriptType.CustomAttributes.Any(att => att.AttributeType == typeof(ExportAsAttribute)))
+                return;
+
+            var exportedPool = API.exported as IDictionary<string, object>;
+
+            var resName = scriptType.GetCustomAttribute<ExportAsAttribute>().ExportedRessourceName;
+
+            dynamic resPool = null;
+            var needToAdd = false;
+            if (!exportedPool.TryGetValue(resName, out resPool)) // already exporterd? then expand else create new expandobject
+            {
+                needToAdd = true;
+                resPool = new ExpandoObject();
+            }
+
+            var exportDict = resPool as IDictionary<string, object>;
+
+            foreach (var method in scriptType.GetMethods().Where(ifo => ifo.CustomAttributes.Any(att => att.AttributeType == typeof(ExportFunctionAttribute))))
+            {
+                ExportedFunctionDelegate punchthrough = delegate (object[] parameters)
+                {
+                    return script.InvokeMethod(method, parameters);
+                };
+                exportDict.Add(method.Name, punchthrough);
+            }
+
+            foreach (var eventInfo in scriptType.GetEvents().Where(ifo => ifo.CustomAttributes.Any(att => att.AttributeType == typeof(ExportEventAttribute))))
+            {
+                exportDict.Add(eventInfo.Name, null);
+
+                ExportedEvent punchthrough = delegate (dynamic[] parameters)
+                {
+                    var e = exportDict[eventInfo.Name] as ExportedEvent;
+                    e?.Invoke(parameters);
+                };
+
+                eventInfo.AddEventHandler(script, punchthrough);
+            }
+
+            if (needToAdd)
+                exportedPool.Add(resName, resPool);
+        }
+
         private void WorldStartup()
         {
             VoiceDefaultChannel = API.getSetting<ulong>("voice_defaultchannel");
             VoiceIngameChannel = API.getSetting<ulong>("voice_ingamechannel");
             VoiceIngameChannelPassword = API.getSetting<string>("voice_ingamechannelpassword");
-            VoiceServerGUID = API.getSetting<string>("voice_serverguid"); ;
+            VoiceServerGUID = API.getSetting<string>("voice_serverguid");
+            ;
             VoiceServerIP = API.getSetting<string>("voice_server");
             VoiceServerPort = API.getSetting<int>("voice_port");
             VoiceServerSecret = API.getSetting<string>("voice_secret");
@@ -141,6 +190,9 @@ namespace GTMPGameMode
             RadioDistanceMax = API.getSetting<float>("radio_max_distance");
 
             OnWorldStartupFirst?.Invoke();
+
+            // Register Exports in GameModeScript's
+            _loadedScripts.OrderBy(lt => lt.ScriptStartPosition).ToList().ForEach(lt => RegisterExportedFunctions(lt));
 
             // Start all sub GameModeScript's
             _loadedScripts.OrderBy(lt => lt.ScriptStartPosition).ToList().ForEach(lt => lt.OnScriptStart());
@@ -196,7 +248,7 @@ namespace GTMPGameMode
             }
         }
 
-       
+
 
     }
 }

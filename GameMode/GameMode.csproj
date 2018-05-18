@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Server\Base\Enums\RadioModes.cs" />
+    <Compile Include="Server\Base\ExportAttributes.cs" />
     <Compile Include="Server\Managers\ClientEventManager.cs" />
     <Compile Include="Server\Base\Constants.cs" />
     <Compile Include="Server\Extensions\EntityExtensions.cs" />

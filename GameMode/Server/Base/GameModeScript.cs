@@ -5,10 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GTMPGameMode.Base
+namespace GTMPGameMode.Server.Base
 {
     /// <summary>
     /// This is a GameMode-Internal script which will be called by the RealScript API.
@@ -79,6 +80,26 @@ namespace GTMPGameMode.Base
                 String.Compare(cl.name, name, true) == 0 || 
                 String.Compare(cl.GetName(), name, true) == 0 || 
                 String.Compare(cl.GetCharacterName(), name, true) == 0));
+        }
+
+
+        public dynamic InvokeMethod(MethodInfo methodInfo, object[] args)
+        {
+            if (args.Length == 0)
+            {
+                return methodInfo.Invoke(this, null);
+            }
+
+            var nArgs = args.ToList();
+            if (args.Length != methodInfo.GetParameters().Length)
+            {
+                for (int i = args.Length; i < methodInfo.GetParameters().Length; i++)
+                {
+                    nArgs.Add(Type.Missing);
+                }
+            }
+
+            return methodInfo.Invoke(this, nArgs.ToArray());
         }
     }
 }

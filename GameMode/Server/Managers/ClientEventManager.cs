@@ -1,5 +1,5 @@
 ﻿using GrandTheftMultiplayer.Server.Elements;
-using GTMPGameMode.Base;
+using GTMPGameMode.Server.Base;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static GrandTheftMultiplayer.Server.API.API;
 
-namespace Server.Managers
+namespace GTMPGameMode.Server.Managers
 {
     class ClientEventManager : GameModeScript
     {

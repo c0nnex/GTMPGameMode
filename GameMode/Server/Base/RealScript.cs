@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GTMPGameMode.Base
+namespace GTMPGameMode.Server.Base
 {
     /// <summary>
     /// This is a real script which binds to GT-MP Server. Restricted Use

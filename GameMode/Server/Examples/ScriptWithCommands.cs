@@ -1,13 +1,13 @@
 ﻿using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Server.Managers;
-using GTMPGameMode.Base;
+using GTMPGameMode.Server.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GTMPGameMode.Examples
+namespace GTMPGameMode.Server.Examples
 {
     public class ScriptWithCommands : GameModeScript
     {
