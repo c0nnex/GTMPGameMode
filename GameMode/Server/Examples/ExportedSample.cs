@@ -1,9 +1,15 @@
-﻿using System;
+﻿#if GTMP
+using GrandTheftMultiplayer.Server.Elements;
+#endif
+#if RAGEMP
+using GTANetworkAPI;
+#endif
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GrandTheftMultiplayer.Server.Elements;
 using GTMPGameMode.Server.Base;
 
 namespace GTMPGameMode.Server.Examples

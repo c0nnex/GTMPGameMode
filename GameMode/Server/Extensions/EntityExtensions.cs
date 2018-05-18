@@ -1,4 +1,9 @@
-﻿using GrandTheftMultiplayer.Server.Elements;
+﻿#if GTMP 
+using GrandTheftMultiplayer.Server.Elements;
+#endif
+#if RAGEMP
+using GTANetworkAPI;
+#endif
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +16,7 @@ namespace GTMPGameMode.Server.Base
     {
         public static T GetData<T>(this Entity entity, string dataName, T defaultValue = default(T))
         {
-            if (entity == null || !entity.exists)
+            if (entity == null || !API.Shared.doesEntityExist(entity))
                 return defaultValue;
             if (!entity.hasData(dataName))
                 return defaultValue;
@@ -26,7 +31,7 @@ namespace GTMPGameMode.Server.Base
 
         public static T GetSyncedData<T>(this Entity entity, string dataName, T defaultValue = default(T))
         {
-            if (entity == null || !entity.exists)
+            if (entity == null || !API.Shared.doesEntityExist(entity))
                 return defaultValue;
             if (!entity.hasSyncedData(dataName))
                 return defaultValue;

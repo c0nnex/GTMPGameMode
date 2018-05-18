@@ -1,5 +1,11 @@
-﻿using GrandTheftMultiplayer.Server.Elements;
+﻿#if GTMP
+using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared.Math;
+#endif
+#if RAGEMP
+using GTANetworkAPI;
+#endif
+
 using GTMPGameMode.Server.Base;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;

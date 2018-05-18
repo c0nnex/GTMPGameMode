@@ -1,5 +1,10 @@
-﻿using GrandTheftMultiplayer.Server.API;
+﻿//using GrandTheftMultiplayer.Server.API;
+#if GTMP
 using GrandTheftMultiplayer.Server.Elements;
+#endif
+#if RAGEMP
+using GTANetworkAPI;
+#endif
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -18,7 +23,7 @@ namespace GTMPGameMode.Server.Base
     {
         protected static Logger sharedLogger = LogManager.GetLogger("GameModeScript");
         protected Logger logger;
-        protected API API => GameMode.sharedAPI;
+        protected GTAAPI API => GameMode.sharedAPI;
 
         static GameModeScript()
         {
@@ -60,8 +65,8 @@ namespace GTMPGameMode.Server.Base
             var allClients = API.getAllPlayers().ToList(); // ToList is important else connecting/disconnecting players will casue an exception
 
             return allClients.FirstOrDefault(cl => cl.IsReady() && (
-                String.Compare(cl.socialClubName, name, true) == 0 || 
-                String.Compare(cl.name, name, true) == 0 || 
+                String.Compare(GTAAPI.Shared.GetPlayerSocialClubName(cl), name, true) == 0 || 
+                String.Compare(GTAAPI.Shared.GetPlayerName(cl), name, true) == 0 || 
                 String.Compare(cl.GetName(), name, true) == 0 || 
                 String.Compare(cl.GetCharacterName(), name, true) == 0));
         }

@@ -1,5 +1,12 @@
-﻿using GrandTheftMultiplayer.Server.Elements;
+﻿#if GTMP
+using GrandTheftMultiplayer.Server.API;
+using GrandTheftMultiplayer.Server.Elements;
+using GrandTheftMultiplayer.Server.Managers;
 using GrandTheftMultiplayer.Shared.Math;
+#endif
+#if RAGEMP
+using GTANetworkAPI;
+#endif
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +20,7 @@ namespace GTMPGameMode.Server.Base
         #region Data Helpers
         public static T GetData<T>(this Client player, string dataName, T defaultValue = default)
         {
-            if (player == null || !player.exists)
+            if (player == null || !API.Shared.doesEntityExist(player))
                 return defaultValue;
             if (!player.hasData(dataName))
                 return defaultValue;
@@ -28,7 +35,7 @@ namespace GTMPGameMode.Server.Base
 
         public static T GetSyncedData<T>(this Client player, string dataName, T defaultValue = default)
         {
-            if (player == null || !player.exists)
+            if (player == null || !API.Shared.doesEntityExist(player))
                 return defaultValue;
             if (!player.hasSyncedData(dataName))
                 return defaultValue;
@@ -54,12 +61,12 @@ namespace GTMPGameMode.Server.Base
 
         public static bool IsDead(this Client player)
         {
-            return player.GetData("IS_DEAD", false) || player.dead;
+            return player.GetData("IS_DEAD", false) || player.isDead();
         }
 
         public static int GetCharacterId(this Client player)
         {
-            return player.GetData("PLAYER_ID", player.handle.Value);
+            return player.GetData("PLAYER_ID", ((NetHandle)player).Value);
         }
 
         public static string GetTeamspeakID(this Client player)
@@ -84,7 +91,7 @@ namespace GTMPGameMode.Server.Base
 
         public static string GetCharacterName(this Client player)
         {
-            return player.GetData("PLAYER_CHARACTER_NAME", player.name);
+            return player.GetData("PLAYER_CHARACTER_NAME", player.getName());
         }
 
         public static void UpdateHUD(this Client player)
@@ -100,7 +107,12 @@ namespace GTMPGameMode.Server.Base
 
         public static void Message(this Client player, string msg)
         {
+#if GTMP
             player.sendNotification("System", msg, false);
+#endif
+#if RAGEMP
+            player.SendNotification(msg, false);
+#endif
         }
 
         /// <summary>
@@ -125,10 +137,10 @@ namespace GTMPGameMode.Server.Base
         {
             if (player.hasData("VOICE_POSITION"))
                 return player.GetData("VOICE_POSITION", new Vector3());
-            return player.position;
+            return GTAAPI.Shared.GetEntityPosition(player);
         }
 
-        #region Radio stuff
+#region Radio stuff
 
         /// <summary>
         /// Set/Reset virtual radio voice-position of player
@@ -152,7 +164,7 @@ namespace GTMPGameMode.Server.Base
         {
             if (player.hasData("RADIO_VOICE_POSITION"))
                 return player.GetData("RADIO_VOICE_POSITION", new Vector3());
-            return player.position;
+            return GTAAPI.Shared.GetEntityPosition(player);
         }
 
         public static RadioModes GetRadioMode(this Client player)
@@ -200,6 +212,6 @@ namespace GTMPGameMode.Server.Base
         {
             return true;
         }
-        #endregion
+#endregion
     }
 }

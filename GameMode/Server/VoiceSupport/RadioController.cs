@@ -1,9 +1,17 @@
-﻿using ConcurrentCollections;
+﻿#if GTMP
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Server.Managers;
+#endif
+#if RAGEMP
+using GTANetworkAPI;
+#endif
 using GTMPGameMode;
 using GTMPGameMode.Server.Base;
+
+
+using ConcurrentCollections;
+
 using Newtonsoft.Json;
 using NLog;
 using GTMPGameMode.Server.Managers;

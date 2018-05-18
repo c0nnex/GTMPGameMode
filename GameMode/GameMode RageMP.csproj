@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6B10223B-B7F9-450D-A1D7-F5820855352C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GTMPGameMode</RootNamespace>
+    <AssemblyName>Server</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;RAGEMP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Bootstrapper">
+      <HintPath>..\libs\RageMP\Bootstrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="GTMPVoiceServer, Version=1.0.840.627, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\GTMPVoiceServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Server\Base\Enums\RadioModes.cs" />
+    <Compile Include="Server\Base\ExportAttributes.cs" />
+    <Compile Include="Server\Base\RageMPAPI.cs" />
+    <Compile Include="Server\Examples\ExportedSample.cs" />
+    <Compile Include="Server\Managers\ClientEventManager.cs" />
+    <Compile Include="Server\Base\Constants.cs" />
+    <Compile Include="Server\Extensions\EntityExtensions.cs" />
+    <Compile Include="Server\Base\GameModeScript.cs" />
+    <Compile Include="Server\Base\NetExtensions.cs" />
+    <Compile Include="Server\Extensions\PlayerExtensions.cs" />
+    <Compile Include="Server\Base\RealScript.cs" />
+    <Compile Include="Server\Base\Enums\ScriptPriority.cs" />
+    <Compile Include="Server\Examples\ScriptWithCommands.cs" />
+    <Compile Include="Server\GameMode.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\VoiceSupport\RadioController.cs" />
+    <Compile Include="Server\VoiceSupport\TeamspeakController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="meta.xml">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Client\clientEvents.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\index.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Blip.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Browser.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Camera.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Checkpoint.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Colshape.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Discord.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Entity.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Events.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.App.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Audio.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Brain.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Cam.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Controls.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Cutscene.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Datafile.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Decisionevent.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Decorator.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Dlc1.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Dlc2.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Entity.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Fire.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Gameplay.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Graphics.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Interior.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Itemset.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Mobile.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Object.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Pathfind.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Ped.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Player.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Recorder.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Rope.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Script.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Stats.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Streaming.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.System.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Time.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Ui.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Unk.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Vehicle.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Water.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Weapon.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Worldprobe.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Game.Zone.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Gui.Chat.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Gui.Cursor.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Gui.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\Mp.Keys.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Marker.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Nametags.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Object.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Ped.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Pickup.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Player.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Pool.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Quaternion.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Raycasting.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Vector3.d.ts" />
+    <TypeScriptCompile Include="types-ragemp-client\types\MP.Vehicle.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\index.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.Blip.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.Checkpoint.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.Colshape.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.Config.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.Entity.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.Events.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.Marker.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.Object.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.Pickup.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.Player.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.Pool.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.TextLabel.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.Vector3.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.Vehicle.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.Versions.d.ts" />
+    <TypeScriptCompile Include="types-ragemp\types\MP.World.d.ts" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

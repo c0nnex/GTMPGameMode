@@ -1,9 +1,15 @@
-﻿using GrandTheftMultiplayer.Server;
+﻿#if GTMP
+using GrandTheftMultiplayer.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Server.Managers;
 using GrandTheftMultiplayer.Shared;
 using GrandTheftMultiplayer.Shared.Math;
+#endif
+#if RAGEMP
+using GTANetworkAPI;
+using GTANetworkInternals;
+#endif
 using GTMPGameMode.Server.Base;
 using NLog;
 using System;
@@ -25,6 +31,7 @@ namespace GTMPGameMode.Server
     class GameMode : RealScript
     {
         private static List<GameModeScript> _loadedScripts = new List<GameModeScript>();
+        internal static Script Instance = null;
 
         public static bool IsShuttingDown { get; private set; }
 
@@ -54,6 +61,12 @@ namespace GTMPGameMode.Server
 
         public static float RadioDistanceMax = 3000.0f;
 
+#if GTMP
+        private static GTAAPI GTAAPI;
+#endif
+#if RAGEMP
+        private static GTAAPI GTAAPI;
+#endif
         static GameMode()
         {
 
@@ -65,17 +78,25 @@ namespace GTMPGameMode.Server
             CultureInfo.DefaultThreadCurrentCulture = ci;
             System.Threading.Thread.CurrentThread.CurrentCulture = ci;
             System.Threading.Thread.CurrentThread.CurrentUICulture = ci;
+#if GTMP
             sharedAPI = API;
+            GTAAPI = API;
             API.onResourceStart += API_onResourceStart;
             API.onResourceStop += API_onResourceStop;
             API.onPlayerBeginConnect += API_onPlayerBeginConnect;
+#endif
+#if RAGEMP
+            sharedAPI = (GTAAPI)API;
+            GTAAPI = (GTAAPI)API;
+#endif
         }
 
-
-
+#if RAGEMP
+        [ServerEvent(Event.ResourceStart)]
+#endif
         private void API_onResourceStart()
         {
-
+            Instance = this;
             var allTypes = Assembly.GetExecutingAssembly().GetTypes();
             foreach (var item in allTypes)
             {
@@ -93,6 +114,9 @@ namespace GTMPGameMode.Server
             API.delay(2000, true, () => WorldStartup());
         }
 
+#if RAGEMP
+        [ServerEvent(Event.ResourceStop)]
+#endif
         private void API_onResourceStop()
         {
             IsShuttingDown = true;
@@ -107,18 +131,30 @@ namespace GTMPGameMode.Server
             OnWorldReloadConfig?.Invoke();
         }
 
+#if GTMP
         private void API_onPlayerBeginConnect(Client player, CancelEventArgs cancelConnection)
+#endif
+#if RAGEMP
+        [ServerEvent(Event.PlayerConnected)]
+        private void API_onPlayerBeginConnect(Client player)
+#endif
         {
             if (!IsWorldStarted)
             {
+#if GTMP
                 cancelConnection.Cancel = true;
                 cancelConnection.Reason = "Server still starting. Please wait a minute...";
+#endif
+#if RAGEMP
+                player.Kick("Server still starting. Please wait a minute...");
+#endif
                 return;
             }
         }
 
         private void RegisterScriptCommands(GameModeScript script)
         {
+#if GTMP
             var methods = script.GetType().GetMethods();
             foreach (var method in methods.Where(ifo => ifo.CustomAttributes.Any(att => att.AttributeType == typeof(CommandAttribute))))
             {
@@ -126,6 +162,11 @@ namespace GTMPGameMode.Server
                 API.addResourceChatCommand(method, cmd, script);
                 logger.Info($"RegisterCommand {script.GetType().Name}:{cmd.Alias}/{method.Name}");
             }
+#endif
+#if RAGEMP // Not supported
+            if (script.GetType().GetMethods().Any(ifo => ifo.CustomAttributes.Any(att => att.AttributeType == typeof(CommandAttribute))))
+                throw new NotSupportedException("OutOfScript-Commands are not supported by RageMP");
+#endif
         }
 
         private void RegisterExportedFunctions(GameModeScript script)
@@ -133,9 +174,12 @@ namespace GTMPGameMode.Server
             var scriptType = script.GetType();
             if (!scriptType.CustomAttributes.Any(att => att.AttributeType == typeof(ExportAsAttribute)))
                 return;
-
+#if GTMP
             var exportedPool = API.exported as IDictionary<string, object>;
-
+#endif
+#if RAGEMP
+            var exportedPool = API.Exported as IDictionary<string, object>;
+#endif
             var resName = scriptType.GetCustomAttribute<ExportAsAttribute>().ExportedRessourceName;
 
             dynamic resPool = null;
@@ -176,6 +220,7 @@ namespace GTMPGameMode.Server
 
         private void WorldStartup()
         {
+
             VoiceDefaultChannel = API.getSetting<ulong>("voice_defaultchannel");
             VoiceIngameChannel = API.getSetting<ulong>("voice_ingamechannel");
             VoiceIngameChannelPassword = API.getSetting<string>("voice_ingamechannelpassword");
@@ -222,10 +267,10 @@ namespace GTMPGameMode.Server
                 WorldStartedEvent.Reset();
                 if (kickPlayers)
                 {
-                    foreach (var player in API.shared.getAllPlayers().ToList())
+                    foreach (var player in GTAAPI.shared.getAllPlayers().ToList())
                     {
                         // Maybe Save Players?
-                        player.kick("Server restart");
+                        GTAAPI.Shared.KickPlayer(player, "Server restart");
                     }
                     Thread.Sleep(2000);
                 }
@@ -240,7 +285,13 @@ namespace GTMPGameMode.Server
                 _loadedScripts.OrderBy(lt => lt.ScriptStartPosition).ToList().ForEach(lt => lt.OnScriptStop());
                 sharedLogger.Debug("ShutDown EXIT");
                 if (stopServer)
+                {
+#if GTMP
                     API.shared.stopServer();
+#else
+                    throw new NotSupportedException();
+#endif
+                }
             }
             catch (Exception ex)
             {

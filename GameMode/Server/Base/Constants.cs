@@ -1,4 +1,10 @@
-﻿using GrandTheftMultiplayer.Shared.Math;
+﻿#if  GTMP
+using GrandTheftMultiplayer.Shared.Math;
+#endif
+#if RAGEMP
+using GTANetworkAPI; 
+#endif
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
