@@ -450,10 +450,45 @@ namespace GTMPGameMode
         {
             return enumerable.Distinct(new LambdaComparer<TSource>(comparer));
         }
+
         public static IEnumerable<TSource> Intersect<TSource>(this IEnumerable<TSource> enumerable, IEnumerable<TSource> other, Func<TSource, TSource, bool> comparer)
         {
             return enumerable.Intersect<TSource>(other, new LambdaComparer<TSource>(comparer));
         }
+
+        public static T GetArg<T>(this IEnumerable<object> args, int index, T defaultValue = default)
+        {
+            var tmpList = args?.ToList();
+            if ((args == null) || (index >= tmpList.Count))
+                return defaultValue;
+            try
+            {
+                if (typeof(T).IsEnum)
+                    return (T)Enum.Parse(typeof(T), tmpList[index].ToString());
+                if (typeof(T) is IConvertible)
+                    return (T)Convert.ChangeType(tmpList[index], typeof(T), CultureInfo.InvariantCulture);
+                return (T)tmpList[index];
+            }
+            catch { return defaultValue; }
+        }
+
+        public static T GetArg<T>(this object[] args, int index, T defaultValue = default)
+        {
+            var tmpList = args?.ToList();
+            if ((args == null) || (index >= tmpList.Count))
+                return defaultValue;
+            try
+            {
+                if (typeof(T).IsEnum)
+                    return (T)Enum.Parse(typeof(T), tmpList[index].ToString());
+                if (typeof(T) is IConvertible)
+                    return (T)Convert.ChangeType(tmpList[index], typeof(T), CultureInfo.InvariantCulture);
+                return (T)tmpList[index];
+            }
+            catch { return defaultValue; }
+        }
+
+
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
             Contract.Requires(enumerable != null);

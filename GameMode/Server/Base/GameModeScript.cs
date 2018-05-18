@@ -47,28 +47,12 @@ namespace GTMPGameMode.Server.Base
 
         public static T GetArg<T>(object[] args, int index, T defaultValue = default)
         {
-            if ((args == null) || (index >= args.Length))
-                return defaultValue;
-            try
-            {
-                T tmp = (T)Convert.ChangeType(args[index], typeof(T), CultureInfo.InvariantCulture);
-                return tmp;
-            }
-            catch { return defaultValue; }
-
+            return args.GetArg<T>(index, defaultValue);
         }
 
         public static T GetArg<T>(IEnumerable<object> args, int index, T defaultValue = default)
         {
-            var tmpList = args.ToList();
-            if ((args == null) || (index >= tmpList.Count))
-                return defaultValue;
-            try
-            {
-                T tmp = (T)Convert.ChangeType(tmpList[index], typeof(T), CultureInfo.InvariantCulture);
-                return tmp;
-            }
-            catch { return defaultValue; }
+            return args.GetArg<T>(index, defaultValue);
         }
 
         protected Client FindPlayer(string name)
@@ -83,7 +67,7 @@ namespace GTMPGameMode.Server.Base
         }
 
 
-        public dynamic InvokeMethod(MethodInfo methodInfo, object[] args)
+        internal dynamic InvokeMethod(MethodInfo methodInfo, object[] args)
         {
             if (args.Length == 0)
             {
