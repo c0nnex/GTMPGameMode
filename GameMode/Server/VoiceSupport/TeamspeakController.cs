@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+using GTANetworkInternals;
+using GTANetworkAPI;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -6,15 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using GrandTheftMultiplayer.Server.API;
 using System.IO;
-using GrandTheftMultiplayer.Server.Elements;
-using GrandTheftMultiplayer.Server.Constant;
-using GrandTheftMultiplayer.Shared.Math;
 using System.Collections.Concurrent;
 using GTMPGameMode.Server.Base;
 using GTMPVoice;
-using GrandTheftMultiplayer.Shared;
 
 namespace GTMPGameMode.Server.VoiceSupport
 {
@@ -34,9 +31,9 @@ namespace GTMPGameMode.Server.VoiceSupport
         }
         public override void OnScriptStart()
         {
-            API.onPlayerDeath += API_onPlayerDeath;
-            API.onPlayerFinishedDownload += API_onPlayerFinishedDownload;
-            API.onPlayerDisconnected += API_onPlayerDisconnected;
+            GTAAPI.onPlayerDeath += API_onPlayerDeath;
+            GTAAPI.onPlayerFinishedDownload += API_onPlayerFinishedDownload;
+            GTAAPI.onPlayerDisconnected += API_onPlayerDisconnected;
         }
 
         private void API_onPlayerFinishedDownload(Client player)
@@ -73,7 +70,7 @@ namespace GTMPGameMode.Server.VoiceSupport
             _voiceServer.VoiceClientTalking += _voiceServer_VoiceClientTalking;
             _voiceServer.VoiceClientMicrophoneStatusChanged += _voiceServer_VoiceClientMicrophoneStatusChanged;
             _voiceServer.VoiceClientSpeakersStatusChanged += _voiceServer_VoiceClientSpeakersStatusChanged;
-            teamspeakTimer = API.delay(200, false, () => UpdateTeamspeak());
+            teamspeakTimer = API.Delay(200, false, () => UpdateTeamspeak());
 
         }
 
@@ -87,27 +84,27 @@ namespace GTMPGameMode.Server.VoiceSupport
                     return;
                 var pPos = p.GetVoicePosition();
                 //logger.Debug($"Talking {p.GetCharacterName()} {isTalking}");
-                var pls = API.shared.getAllPlayers().ToList().Where(c => c.IsReady() && c.GetVoicePosition().DistanceTo2D(pPos) < 20).ToList();
+                var pls = GTAAPI.shared.GetAllPlayers().ToList().Where(c => c.IsReady() && c.GetVoicePosition().DistanceTo2D(pPos) < 20).ToList();
                 if (isTalking)
-                    pls.ForEach(pt => pt.triggerEvent("LIPSYNC", p, "mp_facial", "mic_chatter", true));
+                    pls.ForEach(pt => pt.TriggerEvent("LIPSYNC", p, "mp_facial", "mic_chatter", true));
                 else
-                    pls.ForEach(pt => pt.triggerEvent("LIPSYNC", p, "facials@gen_male@variations@normal", "mood_normal_1", true));
+                    pls.ForEach(pt => pt.TriggerEvent("LIPSYNC", p, "facials@gen_male@variations@normal", "mood_normal_1", true));
             }
         }
 
         private Client GetPlayerBySessionId(string clientGUID)
         {
-            return API.getAllPlayers().ToList().FirstOrDefault(p => p.GetName() == clientGUID);
+            return API.GetAllPlayers().ToList().FirstOrDefault(p => p.GetName() == clientGUID);
         }
 
         private Client GetPlayerByTeamspeakId(string teamspeakId)
         {
-            return API.getAllPlayers().ToList().FirstOrDefault(p => p.GetTeamspeakID() == teamspeakId);
+            return API.GetAllPlayers().ToList().FirstOrDefault(p => p.GetTeamspeakID() == teamspeakId);
         }
 
         private Client GetPlayerByConnectionId(long connectionId)
         {
-            return API.getAllPlayers().ToList().FirstOrDefault(p => p.GetVoiceConnectionID() == connectionId);
+            return API.GetAllPlayers().ToList().FirstOrDefault(p => p.GetVoiceConnectionID() == connectionId);
         }
 
         private void _voiceServer_VoiceClientOutdated(string clientGUID, Version hisVersion, Version ourVersion)
@@ -115,8 +112,8 @@ namespace GTMPGameMode.Server.VoiceSupport
             var p = GetPlayerBySessionId(clientGUID);
             if (p != null && !p.GetData("_VOICE_GOT_VERSION_WARNING", false))
             {
-                p.setData("_VOICE_GOT_VERSION_WARNING", true);
-                p.kick($"VoicePlugin outdated. Please update to {ourVersion}.");
+                p.SetData("_VOICE_GOT_VERSION_WARNING", true);
+                p.Kick($"VoicePlugin outdated. Please update to {ourVersion}.");
                 return;
             }
         }
@@ -150,11 +147,11 @@ namespace GTMPGameMode.Server.VoiceSupport
             var p = GetPlayerBySessionId(clientGUID);
             if (p != null)
             {
-                logger.Debug($"VoiceConnect {p.socialClubName} {teamspeakID} {teamspeakClientID} {connectionID}");
+                logger.Debug($"VoiceConnect {p.SocialClubName} {teamspeakID} {teamspeakClientID} {connectionID}");
                 _voiceServer.ConfigureClient(connectionID, p.GetData("PLAYER_TEAMSPEAK_NAME", ""), p.IsAdmin());
-                p.setData("VOICE_ID", connectionID);
-                p.setData("VOICE_TS_ID", teamspeakClientID);
-                p.setData("PLAYER_TEAMSPEAK_IDENT", teamspeakID);
+                p.SetData("VOICE_ID", connectionID);
+                p.SetData("VOICE_TS_ID", teamspeakClientID);
+                p.SetData("PLAYER_TEAMSPEAK_IDENT", teamspeakID);
             }
         }
 
@@ -162,7 +159,7 @@ namespace GTMPGameMode.Server.VoiceSupport
         /* Teamspeak Handling Functions */
         public static void Connect(Client player)
         {
-            player.triggerEvent("GTMPVOICE", GameMode.VoiceServerIP, GameMode.VoiceServerPort, GameMode.VoiceServerSecret,
+            player.TriggerEvent("GTMPVOICE", GameMode.VoiceServerIP, GameMode.VoiceServerPort, GameMode.VoiceServerSecret,
                  player.GetData("PLAYER_TEAMSPEAK_NAME", ""), GameMode.VoiceServerPluginVersion.ToString(), GameMode.VoiceClientPort);
         }
 
@@ -173,25 +170,25 @@ namespace GTMPGameMode.Server.VoiceSupport
             while (usedIds.Contains(newVal))
                 newVal = GameMode.RND.Next(1000000, 8999999);
             usedIds.Add(newVal);
-            player.setData("PLAYER_TEAMSPEAK_ID", newVal);
-            player.setData("PLAYER_TEAMSPEAK_NAME", newVal.ToString());
+            player.SetData("PLAYER_TEAMSPEAK_ID", newVal);
+            player.SetData("PLAYER_TEAMSPEAK_NAME", newVal.ToString());
             return newVal;
         }
 
         public void UpdateTeamspeak()
         {
-            var players = API.getAllPlayers().ToList();
-            players.ForEach(p => { try { UpdateTeamspeakForUser(p, players); } catch (Exception ex) { logger.Error(ex, $"UpdateTeamspeakForUser {p.socialClubName} : {ex.Message}"); } });
+            var players = API.GetAllPlayers().ToList();
+            players.ForEach(p => { try { UpdateTeamspeakForUser(p, players); } catch (Exception ex) { logger.Error(ex, $"UpdateTeamspeakForUser {p.SocialClubName} : {ex.Message}"); } });
         }
 
         public static bool ToggleVoiceDebug(Client player)
         {
             var debugVoice = player.GetData("_DEBUG_VOICE", false);
-            player.setData("_DEBUG_VOICE", !debugVoice);
-            player.sendNotification("voice", "Debug Voice " + (!debugVoice ? "enabled" : "disabled"));
+            player.SetData("_DEBUG_VOICE", !debugVoice);
+            player.SendNotification("Debug Voice " + (!debugVoice ? "enabled" : "disabled"));
             if (!debugVoice)
             {
-                sharedLogger.Warn($"DEBUGVOICE {player.socialClubName} enabled");
+                sharedLogger.Warn($"DEBUGVOICE {player.SocialClubName} enabled");
             }
             var targetId = player.GetData("VOICE_ID", 0L);
             if (targetId != 0)
@@ -204,9 +201,9 @@ namespace GTMPGameMode.Server.VoiceSupport
         public void UpdateTeamspeakForUser(Client player, List<Client> allPlayers)
         {
             var playerPos = player.GetVoicePosition();
-            var playerRot = player.rotation;
+            var playerRot = player.Rotation;
             var rotation = Math.PI / 180 * (playerRot.Z * -1);
-            var playerVehicle = player.vehicle;
+            var playerVehicle = player.Vehicle;
             var targetId = player.GetData("VOICE_ID", 0L);
             var cId = player.GetCharacterId();
 
@@ -223,7 +220,7 @@ namespace GTMPGameMode.Server.VoiceSupport
             var playersIHear = new Dictionary<string, VoiceLocationInformation>();
             List<string> mutePlayer = new List<string>();
             var debugVoice = player.GetData("_DEBUG_VOICE", false);
-            var preface = $"DEBUGVOICE '{player.socialClubName}' => ";
+            var preface = $"DEBUGVOICE '{player.SocialClubName}' => ";
 
             if (debugVoice)
             {
@@ -231,7 +228,7 @@ namespace GTMPGameMode.Server.VoiceSupport
             }
 
             // Players near me
-            var inRangePlayers = allPlayers.Where(cl => (cl != player) && (cl.IsReady()) && (cl.GetVoicePosition().DistanceTo2D(playerPos) <= 50) && (cl.dimension == player.dimension)).ToList();
+            var inRangePlayers = allPlayers.Where(cl => (cl != player) && (cl.IsReady()) && (cl.GetVoicePosition().DistanceTo2D(playerPos) <= 50) && (cl.Dimension == player.Dimension)).ToList();
 
             if (inRangePlayers != null)
             {
@@ -291,7 +288,7 @@ namespace GTMPGameMode.Server.VoiceSupport
                 }
             }
             // Player i phone with
-            if (player.hasData("CALLING_PLAYER_NAME") && (player.GetData("CALL_IS_STARTED", 0) == 1))
+            if (player.HasData("CALLING_PLAYER_NAME") && (player.GetData("CALL_IS_STARTED", 0) == 1))
             {
                 var callingPlayerName = player.GetData("CALLING_PLAYER_NAME", String.Empty);
                 if (!String.IsNullOrEmpty(callingPlayerName))
@@ -323,9 +320,9 @@ namespace GTMPGameMode.Server.VoiceSupport
                 });
             }
 
-            if (player.isInVehicle)
+            if (player.IsInVehicle)
             {
-                var others = player.vehicle?.occupants.ToList();
+                var others = player.Vehicle?.Occupants.ToList();
                 if (others != null)
                 {
                     others.Remove(player);

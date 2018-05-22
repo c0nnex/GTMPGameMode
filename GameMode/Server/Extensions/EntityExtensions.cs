@@ -1,5 +1,6 @@
-﻿#if GTMP 
-using GrandTheftMultiplayer.Server.Elements;
+using GTANetworkInternals;
+using GTANetworkAPI;
+#if GTMP 
 #endif
 #if RAGEMP
 using GTANetworkAPI;
@@ -16,11 +17,11 @@ namespace GTMPGameMode.Server.Base
     {
         public static T GetData<T>(this Entity entity, string dataName, T defaultValue = default(T))
         {
-            if (entity == null || !API.Shared.doesEntityExist(entity))
+            if (entity == null || !GTAAPI.Shared.DoesEntityExist(entity))
                 return defaultValue;
-            if (!entity.hasData(dataName))
+            if (!entity.HasData(dataName))
                 return defaultValue;
-            var tmp = entity.getData(dataName);
+            var tmp = entity.GetData(dataName);
             if (tmp == null)
                 return defaultValue;
             if (typeof(T).HasInterface(typeof(IConvertible)))
@@ -31,11 +32,11 @@ namespace GTMPGameMode.Server.Base
 
         public static T GetSyncedData<T>(this Entity entity, string dataName, T defaultValue = default(T))
         {
-            if (entity == null || !API.Shared.doesEntityExist(entity))
+            if (entity == null || !GTAAPI.Shared.DoesEntityExist(entity))
                 return defaultValue;
-            if (!entity.hasSyncedData(dataName))
+            if (!entity.HasSharedData(dataName))
                 return defaultValue;
-            var tmp = entity.getSyncedData(dataName);
+            var tmp = entity.GetSharedData(dataName);
             if (tmp == null)
                 return defaultValue;
             if (typeof(T).HasInterface(typeof(IConvertible)))

@@ -1,10 +1,6 @@
-﻿#if GTMP
-using GrandTheftMultiplayer.Server;
-using GrandTheftMultiplayer.Server.API;
-using GrandTheftMultiplayer.Server.Elements;
-using GrandTheftMultiplayer.Server.Managers;
-using GrandTheftMultiplayer.Shared;
-using GrandTheftMultiplayer.Shared.Math;
+using GTANetworkInternals;
+using GTANetworkAPI;
+#if GTMP
 #endif
 #if RAGEMP
 using GTANetworkAPI;
@@ -81,13 +77,13 @@ namespace GTMPGameMode.Server
 #if GTMP
             sharedAPI = API;
             GTAAPI = API;
-            API.onResourceStart += API_onResourceStart;
-            API.onResourceStop += API_onResourceStop;
-            API.onPlayerBeginConnect += API_onPlayerBeginConnect;
+            GTAAPI.onResourceStart += API_onResourceStart;
+            GTAAPI.onResourceStop += API_onResourceStop;
+            GTAAPI.onPlayerBeginConnect += API_onPlayerBeginConnect;
 #endif
 #if RAGEMP
-            sharedAPI = (GTAAPI)API;
-            GTAAPI = (GTAAPI)API;
+
+            GTAAPI.WireEvents(API);
 #endif
         }
 
@@ -111,7 +107,7 @@ namespace GTMPGameMode.Server
                     throw new InvalidOperationException($"Derivates of Script are not allowed! ({item.Name})");
             }
             // give other ressources some time to start up
-            API.delay(2000, true, () => WorldStartup());
+            GTAAPI.Delay(2000, true, () => WorldStartup());
         }
 
 #if RAGEMP
@@ -159,7 +155,7 @@ namespace GTMPGameMode.Server
             foreach (var method in methods.Where(ifo => ifo.CustomAttributes.Any(att => att.AttributeType == typeof(CommandAttribute))))
             {
                 var cmd = method.GetCustomAttribute<CommandAttribute>();
-                API.addResourceChatCommand(method, cmd, script);
+                GTAAPI.addResourceChatCommand(method, cmd, script);
                 logger.Info($"RegisterCommand {script.GetType().Name}:{cmd.Alias}/{method.Name}");
             }
 #endif
@@ -175,10 +171,10 @@ namespace GTMPGameMode.Server
             if (!scriptType.CustomAttributes.Any(att => att.AttributeType == typeof(ExportAsAttribute)))
                 return;
 #if GTMP
-            var exportedPool = API.exported as IDictionary<string, object>;
+            var exportedPool = GTAAPI.exported as IDictionary<string, object>;
 #endif
 #if RAGEMP
-            var exportedPool = API.Exported as IDictionary<string, object>;
+            var exportedPool = GTAAPI.Exported as IDictionary<string, object>;
 #endif
             var resName = scriptType.GetCustomAttribute<ExportAsAttribute>().ExportedRessourceName;
 
@@ -221,18 +217,18 @@ namespace GTMPGameMode.Server
         private void WorldStartup()
         {
 
-            VoiceDefaultChannel = API.getSetting<ulong>("voice_defaultchannel");
-            VoiceIngameChannel = API.getSetting<ulong>("voice_ingamechannel");
-            VoiceIngameChannelPassword = API.getSetting<string>("voice_ingamechannelpassword");
-            VoiceServerGUID = API.getSetting<string>("voice_serverguid");
+            VoiceDefaultChannel = GTAAPI.GetSetting<ulong>("voice_defaultchannel");
+            VoiceIngameChannel = GTAAPI.GetSetting<ulong>("voice_ingamechannel");
+            VoiceIngameChannelPassword = GTAAPI.GetSetting<string>("voice_ingamechannelpassword");
+            VoiceServerGUID = GTAAPI.GetSetting<string>("voice_serverguid");
             ;
-            VoiceServerIP = API.getSetting<string>("voice_server");
-            VoiceServerPort = API.getSetting<int>("voice_port");
-            VoiceServerSecret = API.getSetting<string>("voice_secret");
-            VoiceClientPort = API.getSetting<int>("voice_clientport");
-            Version.TryParse(API.getSetting<string>("voice_minpluginversion"), out VoiceServerPluginVersion);
-            VoiceEnableLipSync = API.getSetting<bool>("voice_enablelipsync");
-            RadioDistanceMax = API.getSetting<float>("radio_max_distance");
+            VoiceServerIP = GTAAPI.GetSetting<string>("voice_server");
+            VoiceServerPort = GTAAPI.GetSetting<int>("voice_port");
+            VoiceServerSecret = GTAAPI.GetSetting<string>("voice_secret");
+            VoiceClientPort = GTAAPI.GetSetting<int>("voice_clientport");
+            Version.TryParse(GTAAPI.GetSetting<string>("voice_minpluginversion"), out VoiceServerPluginVersion);
+            VoiceEnableLipSync = GTAAPI.GetSetting<bool>("voice_enablelipsync");
+            RadioDistanceMax = GTAAPI.GetSetting<float>("radio_max_distance");
 
             OnWorldStartupFirst?.Invoke();
 
@@ -267,7 +263,7 @@ namespace GTMPGameMode.Server
                 WorldStartedEvent.Reset();
                 if (kickPlayers)
                 {
-                    foreach (var player in GTAAPI.shared.getAllPlayers().ToList())
+                    foreach (var player in GTAAPI.shared.GetAllPlayers().ToList())
                     {
                         // Maybe Save Players?
                         GTAAPI.Shared.KickPlayer(player, "Server restart");
@@ -287,7 +283,7 @@ namespace GTMPGameMode.Server
                 if (stopServer)
                 {
 #if GTMP
-                    API.shared.stopServer();
+                    GTAAPI.shared.stopServer();
 #else
                     throw new NotSupportedException();
 #endif

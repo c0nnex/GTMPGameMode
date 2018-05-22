@@ -1,5 +1,6 @@
-﻿#if GTMP
-using GrandTheftMultiplayer.Server.Elements;
+using GTANetworkInternals;
+using GTANetworkAPI;
+#if GTMP
 #endif
 #if RAGEMP
 using GTANetworkAPI;
@@ -29,9 +30,9 @@ namespace GTMPGameMode.Server.Examples
 
         /* To Access it from other GTMP scripts:
          * 
-         * API.exported.coolname.ReturnTrue(client)
+         * GTAAPI.exported.coolname.ReturnTrue(client)
          * 
-         * API.exported.coolname.OnReturnTrue += myEventhandler;
+         * GTAAPI.exported.coolname.OnReturnTrue += myEventhandler;
          * public void myEventHandler(GameModeScript script, Client player)
          * {
          * ]

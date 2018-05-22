@@ -1,5 +1,5 @@
-﻿using GrandTheftMultiplayer.Server.Elements;
-using GrandTheftMultiplayer.Server.Managers;
+using GTANetworkInternals;
+using GTANetworkAPI;
 using GTMPGameMode.Server.Base;
 using System;
 using System.Collections.Generic;
@@ -18,13 +18,13 @@ namespace GTMPGameMode.Server.Examples
             var target = FindPlayer(name);
             if (target == null)
             {
-                player.sendChatMessage($"Player '{name}' not found/online.");
+                player.SendChatMessage($"Player '{name}' not found/online.");
             }
             else
             {
-                target.kick("Byebye!");
-                player.sendChatMessage($"Player {target.GetCharacterName()}/{player.socialClubName} kicked.");
-                logger.Debug($"{player.socialClubName}: KICK {target.GetCharacterName()}/{player.socialClubName}");
+                target.Kick("Byebye!");
+                player.SendChatMessage($"Player {target.GetCharacterName()}/{player.SocialClubName} kicked.");
+                logger.Debug($"{player.SocialClubName}: KICK {target.GetCharacterName()}/{player.SocialClubName}");
             }
         }
     }

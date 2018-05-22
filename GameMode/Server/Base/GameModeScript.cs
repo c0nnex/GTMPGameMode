@@ -1,6 +1,7 @@
-﻿//using GrandTheftMultiplayer.Server.API;
+using GTANetworkInternals;
+using GTANetworkAPI;
+//using GrandTheftMultiplayer.Server.API;
 #if GTMP
-using GrandTheftMultiplayer.Server.Elements;
 #endif
 #if RAGEMP
 using GTANetworkAPI;
@@ -17,13 +18,13 @@ using System.Threading.Tasks;
 namespace GTMPGameMode.Server.Base
 {
     /// <summary>
-    /// This is a GameMode-Internal script which will be called by the RealScript API.
+    /// This is a GameMode-Internal script which will be called by the RealScript GTAAPI.
     /// </summary>
     public abstract class GameModeScript
     {
         protected static Logger sharedLogger = LogManager.GetLogger("GameModeScript");
         protected Logger logger;
-        protected GTAAPI API => GameMode.sharedAPI;
+        protected GTAAPI API => GTAAPI.Instance;
 
         static GameModeScript()
         {
@@ -35,12 +36,12 @@ namespace GTMPGameMode.Server.Base
         }
 
         /// <summary>
-        /// Override. Replaces API.OnResourceStart
+        /// Override. Replaces GTAAPI.OnResourceStart
         /// </summary>
         public virtual void OnScriptStart() { }
 
         /// <summary>
-        /// Override. Replaces API.OnResourceStop
+        /// Override. Replaces GTAAPI.OnResourceStop
         /// </summary>
         public virtual void OnScriptStop() { }
 
@@ -62,7 +63,7 @@ namespace GTMPGameMode.Server.Base
 
         protected Client FindPlayer(string name)
         {
-            var allClients = API.getAllPlayers().ToList(); // ToList is important else connecting/disconnecting players will casue an exception
+            var allClients = GTAAPI.Shared.GetAllPlayers().ToList(); // ToList is important else connecting/disconnecting players will casue an exception
 
             return allClients.FirstOrDefault(cl => cl.IsReady() && (
                 String.Compare(GTAAPI.Shared.GetPlayerSocialClubName(cl), name, true) == 0 || 

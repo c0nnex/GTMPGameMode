@@ -1,6 +1,6 @@
-﻿#if GTMP
-using GrandTheftMultiplayer.Server.Elements;
-using GrandTheftMultiplayer.Shared.Math;
+using GTANetworkInternals;
+using GTANetworkAPI;
+#if GTMP
 #endif
 #if RAGEMP
 using GTANetworkAPI;

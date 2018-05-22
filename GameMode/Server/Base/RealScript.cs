@@ -1,5 +1,6 @@
-﻿#if GTMP
-using GrandTheftMultiplayer.Server.API;
+using GTANetworkInternals;
+using GTANetworkAPI;
+#if GTMP
 #endif
 #if RAGEMP
 using GTANetworkAPI;
@@ -23,9 +24,6 @@ namespace GTMPGameMode.Server.Base
         protected static Logger sharedLogger = LogManager.GetLogger("RealScript");
 
 #if GTMP
-        public static GTAAPI sharedAPI;
-#endif
-#if RAGEMP
         public static GTAAPI sharedAPI;
 #endif
 

@@ -1,6 +1,7 @@
-﻿#if GTMP
-using static GrandTheftMultiplayer.Server.API.API;
-using GrandTheftMultiplayer.Server.Elements;
+using GTANetworkInternals;
+using GTANetworkAPI;
+#if GTMP
+using static GrandTheftMultiplayer.Server.GTAAPI.API;
 #endif
 #if RAGEMP
 using GTANetworkAPI;
@@ -30,7 +31,7 @@ namespace GTMPGameMode.Server.Managers
         public override void OnScriptStart()
         {
 #if GTMP
-            API.onClientEventTrigger += API_onClientEventTrigger;
+            GTAAPI.onClientEventTrigger += API_onClientEventTrigger;
 #endif
         }
 

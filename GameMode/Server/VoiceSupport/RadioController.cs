@@ -1,7 +1,6 @@
-﻿#if GTMP
-using GrandTheftMultiplayer.Server.API;
-using GrandTheftMultiplayer.Server.Elements;
-using GrandTheftMultiplayer.Server.Managers;
+using GTANetworkInternals;
+using GTANetworkAPI;
+#if GTMP
 #endif
 #if RAGEMP
 using GTANetworkAPI;
@@ -35,7 +34,7 @@ namespace GTMPGameMode.Server.VoiceSupport
             ClientEventManager.RegisterClientEvent("RADIO_MUTE", OnRadioMute);
             ClientEventManager.RegisterClientEvent("RADIO_NEXT", OnRadioNextChannel);
 
-            API.onPlayerDisconnected += API_onPlayerDisconnected;
+            GTAAPI.onPlayerDisconnected += API_onPlayerDisconnected;
         }
 
         private void API_onPlayerDisconnected(Client player, string reason)
@@ -104,7 +103,7 @@ namespace GTMPGameMode.Server.VoiceSupport
                 {
                     channel.Listening.ForEach(pl => pl.PlaySound("mic_click_on"));
                 }
-                player.setData("RADIO_MODE", "send");
+                player.SetData("RADIO_MODE", "send");
                 player.UpdateHUD();
             }
         }
@@ -127,7 +126,7 @@ namespace GTMPGameMode.Server.VoiceSupport
                 if (channel.Speaking.TryRemove(player))
                     channel.Listening.ForEach(pl => pl.PlaySound("mic_click_off"));
 
-                player.setData("RADIO_MODE", "on");
+                player.SetData("RADIO_MODE", "on");
                 player.UpdateHUD();
             }
         }
@@ -250,7 +249,7 @@ namespace GTMPGameMode.Server.VoiceSupport
                 sharedLogger.Debug($"PlayerJoinChannel {player.GetCharacterName()} {channel.ChannelName}");
                 if (channel.Join(player, -2003))
                 {
-                    player.setData("PLAYER_RADIO_CHANNEL", channel.ChannelName);
+                    player.SetData("PLAYER_RADIO_CHANNEL", channel.ChannelName);
                     player.UpdateHUD();
                     if (notify)
                         player.Message($"You joind radiochannel '{channel.ChannelName}'");
@@ -267,8 +266,8 @@ namespace GTMPGameMode.Server.VoiceSupport
                     sharedLogger.Debug($"PlayerLeaveChannel {player.GetCharacterName()} {channel.ChannelName} {removeMember}");
                 if (channel.Leave(player, removeMember))
                 {
-                    player.resetData("RADIO_MODE");
-                    player.resetData("PLAYER_RADIO_CHANNEL");
+                    player.ResetData("RADIO_MODE");
+                    player.ResetData("PLAYER_RADIO_CHANNEL");
                     player.UpdateHUD();
                     if (notify)
                         player.Message($"You left radiochannel '{channel.ChannelName}'");
@@ -326,7 +325,7 @@ namespace GTMPGameMode.Server.VoiceSupport
                     player.Message("Radio off.");
             }
             Speaking.TryRemove(player);
-            player.setData("RADIO_MODE", "off");
+            player.SetData("RADIO_MODE", "off");
             player.UpdateHUD();
         }
 
@@ -337,7 +336,7 @@ namespace GTMPGameMode.Server.VoiceSupport
                 if (!silent)
                     player.Message("Radio on.");
             }
-            player.setData("RADIO_MODE", "on");
+            player.SetData("RADIO_MODE", "on");
             player.UpdateHUD();
         }
 
@@ -361,7 +360,7 @@ namespace GTMPGameMode.Server.VoiceSupport
             if (wasRemoved)
             {
                 player.SetRadioChannel(0);
-                player.resetData("RADIO_MODE");
+                player.ResetData("RADIO_MODE");
                 player.UpdateHUD();
             }
             return wasRemoved;
