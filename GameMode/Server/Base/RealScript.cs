@@ -1,5 +1,3 @@
-using GTANetworkInternals;
-using GTANetworkAPI;
 #if GTMP
 #endif
 #if RAGEMP
