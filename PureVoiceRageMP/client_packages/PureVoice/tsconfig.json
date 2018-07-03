@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "noImplicitAny": false,
+    "noEmitOnError": false,
+    "removeComments": false,
+    "allowUnreachableCode": true,
+    "sourceMap": false,
+    "target": "es5",
+    "module": "commonjs"
+  },
+  "compileOnSave": true
+}

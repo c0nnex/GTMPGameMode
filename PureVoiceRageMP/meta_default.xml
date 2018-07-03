@@ -1,0 +1,43 @@
+﻿<meta>
+  <info name="GTMPVoice" description="GTMPVoice pure implementation" author="c0nnex" version="0.0.1" type="script" async="true"/>
+
+  <!-- Server -->
+  <script src="VoiceController.cs" type="server" lang="csharp" />
+
+  <!-- Assemblies -->
+  <assembly ref="NLog.dll" />
+  <assembly ref="GTMPVoiceServer.dll" />
+  <!-- Client scripts-->
+  <script src="clientEvents.js" type="client" lang="javascript" />
+  <!--- not yet <script src="Client/clientmode.dll" type="client" lang="compiled" /> -->
+
+  <!-- Client Files -->
+
+  <settings>
+    <!-- Voice Support -->
+    <setting name="voice_server" value="mygtmpserver.ip" />
+    <!-- Ip/DNs name of your GT-MP Server -->
+    <setting name="voice_port" value="4498" />
+    <!-- Port the Voice server shall listen on. Must be opened in Firewall for UDP. This must be diffrent to the GT-MP Server Port! -->
+    <setting name="voice_secret" value="secret" />
+    <!-- Shared secret key of your voice server -->
+    <setting name="voice_serverguid" value="GUIDOFVOICESERVER=" />
+    <!-- Guid of your TS3 Server Instance -->
+    <setting name="voice_defaultchannel" value="1" />
+    <!-- Channel to move players to , if they cannot be moved back to their source channel -->
+    <setting name="voice_ingamechannel" value="115" />
+    <!-- Channel for ingame voice -->
+    <setting name="voice_ingamechannelpassword" value="verysecret" />
+    <!-- password for the voice channel -->
+    <setting name="voice_clientport" value="4239" />
+    <!-- Port the TS3-Plugin will listen on for "connect" broadcasts from GT-MP. (Fixed currently!) -->
+    <setting name="voice_minpluginversion" value="0.2.839.519" />
+    <!-- Minimum Plugin Version required-->
+    <setting name="voice_enablelipsync" value="true" />
+    <!-- Enable/disable libsync broadcasts -->
+    <setting name="voice_maxrange" value="50.0" />
+    <!-- Maximum Voice distance to hear (for player selection) do not set this too high will impact performance -->
+    <setting name="voice_forcevoice" value="true" />
+    <!-- Enforce using of gtmpvoice -->
+  </settings>
+</meta>
