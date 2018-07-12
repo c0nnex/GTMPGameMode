@@ -1,7 +1,7 @@
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
-using GTMPVoice;
+using PureVoice;
 using NLog;
 using System;
 using System.Collections.Concurrent;
@@ -15,7 +15,7 @@ namespace VoiceSupport
         static Logger logger = LogManager.GetCurrentClassLogger();
         static System.Timers.Timer teamspeakTimer;
         static ConcurrentDictionary<int, Dictionary<string, VoiceLocationInformation>> PlayerHears = new ConcurrentDictionary<int, Dictionary<string, VoiceLocationInformation>>();
-        static GTMPVoice.Server.VoiceServer _voiceServer;
+        static PureVoice.Server.VoiceServer _voiceServer;
 
         public static string VoiceServerIP = "";
         public static int VoiceServerPort = 4500;
@@ -60,7 +60,7 @@ namespace VoiceSupport
             VoiceMaxRange = GetVoiceSetting<float>("voice_maxrange", false, 50.0f);
             VoiceForceVoice = GetVoiceSetting<bool>("voice_forcevoice", false, true);
 
-            _voiceServer = new GTMPVoice.Server.VoiceServer(VoiceServerPort, VoiceServerSecret, VoiceServerGUID, VoiceServerPluginVersion,
+            _voiceServer = new PureVoice.Server.VoiceServer(VoiceServerPort, VoiceServerSecret, VoiceServerGUID, VoiceServerPluginVersion,
                 VoiceDefaultChannel, VoiceIngameChannel, VoiceIngameChannelPassword, VoiceEnableLipSync);
             _voiceServer.VoiceClientConnected += _voiceServer_VoiceClientConnected;
             _voiceServer.VoiceClientDisconnected += _voiceServer_VoiceClientDisconnected;
@@ -125,7 +125,6 @@ namespace VoiceSupport
             if (p != null)
             {
                 var pPos = p.position;
-                //logger.Debug($"Talking {p.GetCharacterName()} {isTalking}");
                 var pls = API.shared.getAllPlayers().ToList().Where(c => c.position.DistanceTo2D(pPos) < 20).ToList();
                 if (isTalking)
                     pls.ForEach(pt => pt.triggerEvent("LIPSYNC", p, "mp_facial", "mic_chatter", true));
@@ -139,7 +138,7 @@ namespace VoiceSupport
             var p = API.getAllPlayers().ToList().FirstOrDefault(c => c.socialClubName == clientGUID);
             if (p != null)
             {
-                p.kick("Please update your TS3 GTMP Voice Plugin.");
+                p.kick("Please update your TS3 PureVoice Plugin.");
             }
         }
 
@@ -153,7 +152,7 @@ namespace VoiceSupport
                 p.resetData("VOICE_TEAMSPEAK_IDENT");
                 if (VoiceForceVoice)
                     p.setData("VOICE_TIMEOUT", DateTime.Now.AddMinutes(1));
-                API.triggerResourceEvent("GTMPVOICE_CLIENT_DISCONNECTED", p);
+                API.triggerResourceEvent("PUREVOICE_CLIENT_DISCONNECTED", p);
             }
         }
 
@@ -163,7 +162,7 @@ namespace VoiceSupport
             if (p != null)
             {
                 logger.Debug("{0} Speakers muted {1}", p.name, isMuted);
-                API.triggerResourceEvent("GTMPVOICE_CLIENT_SPEAKERSTATUS", p, isMuted);
+                API.triggerResourceEvent("PUREVOICE_CLIENT_SPEAKERSTATUS", p, isMuted);
             }
         }
 
@@ -173,7 +172,7 @@ namespace VoiceSupport
             if (p != null)
             {
                 logger.Debug("{0} Mic muted {1}", p.name, isMuted);
-                API.triggerResourceEvent("GTMPVOICE_CLIENT_MICROPHONESTATUS", p, isMuted);
+                API.triggerResourceEvent("PUREVOICE_CLIENT_MICROPHONESTATUS", p, isMuted);
             }
         }
 
@@ -187,7 +186,7 @@ namespace VoiceSupport
                 p.setData("VOICE_ID", connectionID);
                 p.setData("VOICE_TS_ID", teamspeakClientID);
                 p.setData("VOICE_TEAMSPEAK_IDENT", teamspeakID);
-                API.triggerResourceEvent("GTMPVOICE_CLIENT_CONNECTED", p, micMuted, speakersMuted);
+                API.triggerResourceEvent("PUREVOICE_CLIENT_CONNECTED", p, micMuted, speakersMuted);
             }
         }
 
@@ -195,7 +194,7 @@ namespace VoiceSupport
         /* Teamspeak Handling Functions */
         public static void Connect(Client player)
         {
-            player.triggerEvent("GTMPVOICE", VoiceServerIP, VoiceServerPort, VoiceServerSecret, player.socialClubName, VoiceServerPluginVersion.ToString(), VoiceClientPort);
+            player.triggerEvent("PUREVOICE", VoiceServerIP, VoiceServerPort, VoiceServerSecret, player.socialClubName, VoiceServerPluginVersion.ToString(), VoiceClientPort);
             if (VoiceForceVoice)
                 player.setData("VOICE_TIMEOUT", DateTime.Now.AddMinutes(1));
         }
@@ -219,8 +218,8 @@ namespace VoiceSupport
             {
                 if (player.hasData("VOICE_TIMEOUT") && (player.getData("VOICE_TIMEOUT") < DateTime.Now))
                 {
-                    API.triggerResourceEvent("GTMPVOICE_CLIENT_NOVOICE", player);
-                    player.kick("Please install the TS3 GTMP Voice Plugin");
+                    API.triggerResourceEvent("PUREVOICE_CLIENT_NOVOICE", player);
+                    player.kick("Please install the TS3 PureVoice Plugin");
                 }
                 return;
             }

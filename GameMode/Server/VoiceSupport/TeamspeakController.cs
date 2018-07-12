@@ -13,7 +13,7 @@ using GrandTheftMultiplayer.Server.Constant;
 using GrandTheftMultiplayer.Shared.Math;
 using System.Collections.Concurrent;
 using GTMPGameMode.Server.Base;
-using GTMPVoice;
+using PureVoice;
 using GrandTheftMultiplayer.Shared;
 
 namespace GTMPGameMode.Server.VoiceSupport
@@ -23,7 +23,7 @@ namespace GTMPGameMode.Server.VoiceSupport
         static System.Timers.Timer teamspeakTimer;
         static ConcurrentDictionary<int, Dictionary<string, VoiceLocationInformation>> PlayerHears = new ConcurrentDictionary<int, Dictionary<string, VoiceLocationInformation>>();
         static HashSet<int> usedIds = new HashSet<int>();
-        static GTMPVoice.Server.VoiceServer _voiceServer;
+        static PureVoice.Server.VoiceServer _voiceServer;
 
         public TeamspeakController() : base()
         {
@@ -65,7 +65,7 @@ namespace GTMPGameMode.Server.VoiceSupport
 
         private void World_OnWorldStartup()
         {
-            _voiceServer = new GTMPVoice.Server.VoiceServer(GameMode.VoiceServerPort, GameMode.VoiceServerSecret, GameMode.VoiceServerGUID, GameMode.VoiceServerPluginVersion,
+            _voiceServer = new PureVoice.Server.VoiceServer(GameMode.VoiceServerPort, GameMode.VoiceServerSecret, GameMode.VoiceServerGUID, GameMode.VoiceServerPluginVersion,
                 GameMode.VoiceDefaultChannel, GameMode.VoiceIngameChannel, GameMode.VoiceIngameChannelPassword, GameMode.VoiceEnableLipSync);
             _voiceServer.VoiceClientConnected += _voiceServer_VoiceClientConnected;
             _voiceServer.VoiceClientDisconnected += _voiceServer_VoiceClientDisconnected;

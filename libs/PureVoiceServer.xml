@@ -1,45 +1,45 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>GTMPVoiceServer</name>
+        <name>PureVoiceServer</name>
     </assembly>
     <members>
-        <member name="E:GTMPVoice.Server.VoiceServer.VoiceClientConnected">
+        <member name="E:PureVoice.Server.VoiceServer.VoiceClientConnected">
             <summary>
             Event when a new client connected to us
             </summary>
         </member>
-        <member name="E:GTMPVoice.Server.VoiceServer.VoiceClientOutdated">
+        <member name="E:PureVoice.Server.VoiceServer.VoiceClientOutdated">
             <summary>
             Event when a client with an outdaten plugin version connected
             </summary>
         </member>
-        <member name="E:GTMPVoice.Server.VoiceServer.VoiceClientDisconnected">
+        <member name="E:PureVoice.Server.VoiceServer.VoiceClientDisconnected">
             <summary>
             A client discronnected
             </summary>
         </member>
-        <member name="E:GTMPVoice.Server.VoiceServer.VoiceClientTalking">
+        <member name="E:PureVoice.Server.VoiceServer.VoiceClientTalking">
             <summary>
             The "isTalking" State of a client changed (only if LipSync is enabled)
             </summary>
         </member>
-        <member name="E:GTMPVoice.Server.VoiceServer.VoiceClientMicrophoneStatusChanged">
+        <member name="E:PureVoice.Server.VoiceServer.VoiceClientMicrophoneStatusChanged">
             <summary>
             The Mute-State of the mircophjone of a client changed
             </summary>
         </member>
-        <member name="E:GTMPVoice.Server.VoiceServer.VoiceClientSpeakersStatusChanged">
+        <member name="E:PureVoice.Server.VoiceServer.VoiceClientSpeakersStatusChanged">
             <summary>
             The Mute-State of the speakers of a client changed
             </summary>
         </member>
-        <member name="E:GTMPVoice.Server.VoiceServer.VoiceClientCommand">
+        <member name="E:PureVoice.Server.VoiceServer.VoiceClientCommand">
             <summary>
             Received a Command from the TS3 plugin
             </summary>
         </member>
-        <member name="M:GTMPVoice.Server.VoiceServer.#ctor(System.Int32,System.String,System.String,System.Version,System.UInt64,System.UInt64,System.String,System.Boolean)">
+        <member name="M:PureVoice.Server.VoiceServer.#ctor(System.Int32,System.String,System.String,System.Version,System.UInt64,System.UInt64,System.String,System.Boolean)">
             <summary>
             Create a new VoiceServer
             </summary>
@@ -52,34 +52,34 @@
             <param name="ingameChannelPassword">(oprion) password for the ingame channel.Leave empty for none</param>
             <param name="enableLipSync">enable talking-change events fopr lipsync</param>
         </member>
-        <member name="M:GTMPVoice.Server.VoiceServer.RegisterOutGameChannels(System.UInt64[])">
+        <member name="M:PureVoice.Server.VoiceServer.RegisterOutGameChannels(System.UInt64[])">
             <summary>
             Register channelids that are allowed to join when being in game (e.g. Support channels)
             </summary>
             <param name="channelIds"></param>
         </member>
-        <member name="M:GTMPVoice.Server.VoiceServer.MutePlayer(System.Int64,System.String)">
+        <member name="M:PureVoice.Server.VoiceServer.MutePlayer(System.Int64,System.String)">
             <summary>
             Mute a client on anaother client
             </summary>
             <param name="targetId">the client where to mute someone</param>
             <param name="playerName">the name of the player to mute</param>
         </member>
-        <member name="M:GTMPVoice.Server.VoiceServer.SendUpdate(System.Int64,System.Collections.Generic.IEnumerable{GTMPVoice.VoiceLocationInformation})">
+        <member name="M:PureVoice.Server.VoiceServer.SendUpdate(System.Int64,System.Collections.Generic.IEnumerable{PureVoice.VoiceLocationInformation})">
             <summary>
             Send a voice update to a client
             </summary>
             <param name="targetId">target client</param>
             <param name="data">new voice data</param>
         </member>
-        <member name="M:GTMPVoice.Server.VoiceServer.SendUpdate(System.Int64,GTMPVoice.VoiceLocationInformation)">
+        <member name="M:PureVoice.Server.VoiceServer.SendUpdate(System.Int64,PureVoice.VoiceLocationInformation)">
             <summary>
             Send a voice update to a client
             </summary>
             <param name="targetId">target client</param>
             <param name="data">new voice data</param>
         </member>
-        <member name="M:GTMPVoice.Server.VoiceServer.SendUpdate(System.Int64,System.String,TSVector,System.Single,System.Boolean)">
+        <member name="M:PureVoice.Server.VoiceServer.SendUpdate(System.Int64,System.String,TSVector,System.Single,System.Boolean)">
             <summary>
              Send a voice update to a client
             </summary>
@@ -89,7 +89,7 @@
             <param name="volumeModifier">vol modifier (-10.0 ... +10.0)</param>
             <param name="positionIsRelative">position is relative to the target client</param>
         </member>
-        <member name="M:GTMPVoice.Server.VoiceServer.ConfigureClient(System.Int64,System.String,System.Boolean)">
+        <member name="M:PureVoice.Server.VoiceServer.ConfigureClient(System.Int64,System.String,System.Boolean)">
             <summary>
             Set client configuration
             </summary>
@@ -97,7 +97,7 @@
             <param name="nickName">new nick name</param>
             <param name="canLeaveIngameChannel">if the client is allowed to leave the ongame channel</param>
         </member>
-        <member name="M:GTMPVoice.Server.VoiceServer.SendCommand(System.Int64,System.String,System.String)">
+        <member name="M:PureVoice.Server.VoiceServer.SendCommand(System.Int64,System.String,System.String)">
             <summary>
             Send a voice command to the client
             </summary>
@@ -105,31 +105,31 @@
             <param name="command">command</param>
             <param name="data">optional command data</param>
         </member>
-        <member name="P:GTMPVoice.VoiceClient.Model.VoicePaketSetup.EnableLipSync">
+        <member name="P:PureVoice.VoiceClient.Model.VoicePaketSetup.EnableLipSync">
             <summary>
             Send callback to Server when Talkstatus changes?
             </summary>
         </member>
-        <member name="P:GTMPVoice.VoiceClient.Model.VoicePaketSetup.AllowedOutGameChannels">
+        <member name="P:PureVoice.VoiceClient.Model.VoicePaketSetup.AllowedOutGameChannels">
             <summary>
             Channels a normal client may be in without being moved back while being In-Game (e.g. Support channels)
             </summary>
         </member>
-        <member name="M:GTMPVoice.VoiceClient.VoiceSerializer.RegisterNestedType``1">
+        <member name="M:PureVoice.VoiceClient.VoiceSerializer.RegisterNestedType``1">
             <summary>
             Register nested property type
             </summary>
             <typeparam name="T">INetSerializable structure</typeparam>
             <returns>True - if register successful, false - if type already registered</returns>
         </member>
-        <member name="M:GTMPVoice.VoiceClient.VoiceSerializer.RegisterNestedType``1(System.Func{``0})">
+        <member name="M:PureVoice.VoiceClient.VoiceSerializer.RegisterNestedType``1(System.Func{``0})">
             <summary>
             Register nested property type
             </summary>
             <typeparam name="T">INetSerializable class</typeparam>
             <returns>True - if register successful, false - if type already registered</returns>
         </member>
-        <member name="M:GTMPVoice.VoiceClient.VoiceSerializer.RegisterNestedType``1(System.Action{LiteNetLib.Utils.NetDataWriter,``0},System.Func{LiteNetLib.Utils.NetDataReader,``0})">
+        <member name="M:PureVoice.VoiceClient.VoiceSerializer.RegisterNestedType``1(System.Action{LiteNetLib.Utils.NetDataWriter,``0},System.Func{LiteNetLib.Utils.NetDataReader,``0})">
             <summary>
             Register nested property type
             </summary>
@@ -137,10 +137,10 @@
             <param name="readDelegate"></param>
             <returns>True - if register successful, false - if type already registered</returns>
         </member>
-        <member name="M:GTMPVoice.VoiceClient.VoiceSerializer.Register``1">
+        <member name="M:PureVoice.VoiceClient.VoiceSerializer.Register``1">
             <exception cref="T:LiteNetLib.Utils.InvalidTypeException"><typeparamref name="T"/>'s fields are not supported, or it has no fields</exception>
         </member>
-        <member name="M:GTMPVoice.VoiceClient.VoiceSerializer.Deserialize``1(LiteNetLib.Utils.NetDataReader)">
+        <member name="M:PureVoice.VoiceClient.VoiceSerializer.Deserialize``1(LiteNetLib.Utils.NetDataReader)">
             <summary>
             Reads packet with known type
             </summary>
@@ -148,7 +148,7 @@
             <returns>Returns packet if packet in reader is matched type</returns>
             <exception cref="T:LiteNetLib.Utils.InvalidTypeException"><typeparamref name="T"/>'s fields are not supported, or it has no fields</exception>
         </member>
-        <member name="M:GTMPVoice.VoiceClient.VoiceSerializer.Deserialize``1(LiteNetLib.Utils.NetDataReader,``0)">
+        <member name="M:PureVoice.VoiceClient.VoiceSerializer.Deserialize``1(LiteNetLib.Utils.NetDataReader,``0)">
             <summary>
             Reads packet with known type (non alloc variant)
             </summary>
@@ -157,7 +157,7 @@
             <returns>Returns true if packet in reader is matched type</returns>
             <exception cref="T:LiteNetLib.Utils.InvalidTypeException"><typeparamref name="T"/>'s fields are not supported, or it has no fields</exception>
         </member>
-        <member name="M:GTMPVoice.VoiceClient.VoiceSerializer.Serialize``1(LiteNetLib.Utils.NetDataWriter,``0)">
+        <member name="M:PureVoice.VoiceClient.VoiceSerializer.Serialize``1(LiteNetLib.Utils.NetDataWriter,``0)">
             <summary>
             Serialize struct to NetDataWriter (fast)
             </summary>
@@ -165,7 +165,7 @@
             <param name="obj">Object to serialize</param>
             <exception cref="T:LiteNetLib.Utils.InvalidTypeException"><typeparamref name="T"/>'s fields are not supported, or it has no fields</exception>
         </member>
-        <member name="M:GTMPVoice.VoiceClient.VoiceSerializer.Serialize``1(``0)">
+        <member name="M:PureVoice.VoiceClient.VoiceSerializer.Serialize``1(``0)">
             <summary>
             Serialize struct to byte array
             </summary>
@@ -1125,22 +1125,22 @@
         </member>
         <member name="F:TSVector.X">
             <summary>
-            The x-coordinate of this <see cref="!:Vector"/> structure.
+            The x-coordinate of this <see cref="T:TSVector"/> structure.
             </summary>
         </member>
         <member name="F:TSVector.Y">
             <summary>
-            The y-coordinate of this <see cref="!:Vector"/> structure.
+            The y-coordinate of this <see cref="T:TSVector"/> structure.
             </summary>
         </member>
         <member name="F:TSVector.Z">
             <summary>
-            The z-coordinate of this <see cref="!:Vector"/> structure.
+            The z-coordinate of this <see cref="T:TSVector"/> structure.
             </summary>
         </member>
         <member name="M:TSVector.#ctor(System.Single,System.Single,System.Single)">
             <summary>
-            Initializes a new instance of the <see cref="!:Vector"/> structure. 
+            Initializes a new instance of the <see cref="T:TSVector"/> structure. 
             </summary>
             <param name="x">The <see cref="F:TSVector.X"/> value</param>
             <param name="y">The <see cref="F:TSVector.Y"/> value</param>

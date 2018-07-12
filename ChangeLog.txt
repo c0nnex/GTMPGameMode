@@ -1,4 +1,6 @@
 
+1.0.2.0
+* Add support to resolve clientid's by teamspeak id to batchupdate
 
 1.0.1.0
 * Add support for microphone/speaker muting
