@@ -6,7 +6,7 @@
 
   <!-- Assemblies -->
   <assembly ref="NLog.dll" />
-  <assembly ref="GTMPVoiceServer.dll" />
+  <assembly ref="PureVoiceServer.dll" />
   <!-- Client scripts-->
   <script src="clientEvents.js" type="client" lang="javascript" />
   <!--- not yet <script src="Client/clientmode.dll" type="client" lang="compiled" /> -->
