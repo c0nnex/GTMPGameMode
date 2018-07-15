@@ -242,7 +242,7 @@ namespace GTMPGameMode.Server.VoiceSupport
                 foreach (var streamedPlayer in inRangePlayers)
                 {
                     var n = streamedPlayer.GetTeamspeakID();
-                    if (streamedPlayer.IsDead() || (streamedPlayer == player) || !player.IsReady() || !streamedPlayer.IsReady())
+                    if (streamedPlayer.IsDead() || (streamedPlayer == player) || !player.IsReady() || !streamedPlayer.IsReady() || string.IsNullOrEmpty(n))
                     {
                         continue;
                     }
